@@ -1,0 +1,228 @@
+*{
+  margin: 0 auto;
+}
+
+.newFileDiv{
+  display: flex;
+  align-items: center;
+  position: relative;
+  height: 100%;
+  width: 100%;
+  background: url(https://img.freepik.com/premium-photo/pixel-art-style-landscape-with-lake-mountains-background_720722-1148.jpg);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+}
+.newFileDiv::before{
+  content: '';
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  background-color: black;
+  opacity: 0.5;
+}
+
+#newFileStart{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 1;
+  background-color: red;
+  width: 50%;
+  height: 60%;
+  border-radius: 10px;
+  overflow: hidden;
+
+}
+.newFileLogo{
+  height: 70%;
+  width: 100%;
+  background-color: black;
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.newFileLogo > img{
+  aspect-ratio: 1 / 1;
+  height: 100%;
+  width: 40%;
+  margin-left: 50px;
+  scale: 0.8;
+
+}
+
+.newFileLogo > h1{
+  text-align: center;
+  width: 60%;
+  font-size: 4.5em;
+}
+.newFileButton{
+  flex: 2;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  background-color: white;
+  width: 100%;
+}
+.newFileButton > button, #btnSavePredefinition, #btnCreateProject{
+  font-size: 1.1em;
+  background-color: #4fa2fe;
+  border-radius: 8px;
+  border: none;
+  padding: 12px 15px;
+  transition: 0.5s;
+}
+
+.newFileButton > button:hover, #btnSavePredefinition:hover, #btnCreateProject:hover{
+  scale: 1.1;
+  background-color:#00aaff ;
+  
+}
+
+#newFileConfig{
+  z-index: 1;
+  height: 70%;
+  width: 65%;
+  border-radius: 30px;
+  background-color: rgb(224, 224, 224);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.newFileConfigmenu{
+  background: #4fa2fe;
+  width: 100%;
+  display: flex;
+  position: relative;
+  align-items: center;
+  text-align: center;
+  height: 15%;
+
+}
+
+.newFileConfigmenu > h1{
+  font-size: 2em;
+
+
+}
+
+
+
+.newFileConfigmenu > button{
+  position: absolute;
+  right: 0;
+  margin: 5%;
+  aspect-ratio: 1/1;
+  border: none;
+  background: transparent;
+  scale: 1.5;
+  border-radius: 5px;
+
+}
+.newFileConfigmenu > button:hover{
+  background-color: #ffffff40;
+
+
+}
+.configs{
+  flex: 1;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 100%;
+
+}
+.configInputs{
+  flex: 1;
+  display: flex;
+  position: relative;
+  flex-direction: column ;
+  height: 100%;
+  padding-left: 15px;
+  gap: 5px;
+
+}
+.configInputs >  input{
+  padding: 10px 5px;
+  padding-left: 20px;   
+  margin-top: 15px;
+  outline: none;
+  border: none;
+  border-radius: 5px;
+  font-size: 1.6em;
+  width: 90%;
+  height: 20px;
+
+}
+.configInputs >  input:hover, .inputDivs input:hover{
+  box-shadow: inset #4fa2fe 0px 0px 0px 2px ;
+}
+
+.clearInputButton{
+  position: absolute;
+  aspect-ratio: 1 / 1;
+  top: 16px;
+  right: 3%;
+  background-color: transparent;
+  border-color: transparent;
+  outline: none;
+}
+
+.inputDivs{
+  margin-left: 10px;   
+  font-size: 1em;
+  width: 90%;
+  display: flex;
+  gap: 20px;
+  flex-direction: column;
+
+}
+.inputDivs > h1{
+  font-size: 1.5em;
+  margin: 0;
+  width: 90%;
+  color: black;
+
+}
+.inputDivs > div{
+  margin: 0;
+  width: 90%;
+  display: flex;
+  flex-direction: row;
+}
+
+.inputDivs > div > h1{  
+  font-size: 1.5em;
+  margin: 0;
+  width: 10%;
+  color: black;
+}
+.inputDivs input{
+  outline: none;
+  border: none;
+  color: white;
+  border-radius: 5px;
+  width: 15%;
+  height: 30px;
+  margin-left: 25%;
+}
+
+#btnSavePredefinition{
+  margin-left: 0;
+}
+#btnCreateProject{
+  margin-top: 20px;
+}
+
+.configPredefinitions{
+  flex: 1;
+  height: 100%;
+  display: flex;
+  flex-direction: column ;
+  background-color: blue;
+
+}
+
+
