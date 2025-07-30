@@ -70,7 +70,7 @@
   background-color: #4fa2fe;
   border-radius: 8px;
   border: none;
-  padding: 12px 15px;
+  padding: 10px 15px;
   transition: 0.5s;
 }
 
@@ -82,9 +82,9 @@
 
 #newFileConfig{
   z-index: 1;
-  height: 70%;
-  width: 65%;
-  border-radius: 30px;
+  height:65%;
+  width: 55%;
+  border-radius: 15px 15px 5px 5px;
   background-color: rgb(224, 224, 224);
   overflow: hidden;
   display: flex;
@@ -103,7 +103,7 @@
 }
 
 .newFileConfigmenu > h1{
-  font-size: 2em;
+  font-size: 1.5em;
 
 
 }
@@ -128,9 +128,10 @@
 }
 .configs{
   flex: 1;
+  height: 85%;
   display: flex;
   flex-direction: row;
-  align-items: center;
+  /* align-items: center; */
   width: 100%;
 
 }
@@ -144,26 +145,29 @@
   gap: 5px;
 
 }
-.configInputs >  input{
-  padding: 10px 5px;
-  padding-left: 20px;   
-  margin-top: 15px;
+.configInputs > input{
+  padding: 8px 5px;
+  padding-left: 15px;
+  margin-top: 10px;
   outline: none;
   border: none;
   border-radius: 5px;
-  font-size: 1.6em;
+  font-size: 1.2em;
   width: 90%;
   height: 20px;
-
 }
 .configInputs >  input:hover, .inputDivs input:hover{
   box-shadow: inset #4fa2fe 0px 0px 0px 2px ;
 }
+input:hover + .clearInputButton, .clearInputButton:hover {
+  display: block;
+}
 
 .clearInputButton{
+  display: none;
   position: absolute;
   aspect-ratio: 1 / 1;
-  top: 16px;
+  top: 10px;
   right: 3%;
   background-color: transparent;
   border-color: transparent;
@@ -180,7 +184,7 @@
 
 }
 .inputDivs > h1{
-  font-size: 1.5em;
+  font-size: 1.2em;
   margin: 0;
   width: 90%;
   color: black;
@@ -190,11 +194,12 @@
   margin: 0;
   width: 90%;
   display: flex;
+  align-items: center;
   flex-direction: row;
 }
 
 .inputDivs > div > h1{  
-  font-size: 1.5em;
+  font-size: 1.2em;
   margin: 0;
   width: 10%;
   color: black;
@@ -221,8 +226,85 @@
   height: 100%;
   display: flex;
   flex-direction: column ;
-  background-color: blue;
 
+}        
+.configPredefinitions > div:has(+ div){
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 100%;
+  text-align: center;
+  background-color: black;
+
+}
+#btnRemovePredef{
+  position: absolute;
+  right: 5%;
+  background-color: transparent;
+  border: none;
+  outline: none;
+  aspect-ratio: 1/1;
+  border-radius: 5px;
+  transition: 0.5s;
+}      
+#btnRemovePredef:hover{
+  background-color: #ffffff40;
+}      
+
+
+.configPredefinitions > div:has(+ div) >h1{
+  font-size: 1.4em;
+  padding: 8px 0px;
+  width: 100%;
+  text-align: center;
+  color: white;
+  background-color: black;
+
+}
+.PredefinitionDiv{
+  flex: 1;
+  width: 100%;
+  background: #272727;
+  position: relative;
+  display: grid;
+  overflow-y: scroll;
+  flex-wrap: wrap;
+  grid-template-columns: 33.3% 33.4% 33.3% ;
+  align-items: center;
+  justify-items: center;
+
+}
+
+.predef{
+  background-color: #bbbbbb;
+  flex: 1;
+  width: 100%;
+  height: 100px;
+  display: flex;
+  align-items: center;
+}
+.predef:hover{
+  filter: brightness(1.1);
+
+}
+.predefMark{
+  background-color: #4fa2fe;
+
+
+}
+.predef > div{
+  height: 55%;
+  width: 55%;
+  background-color: #fefb4f;
+  display: flex;
+  color: black;
+  border: 2px dashed black;
+  border-radius: 5px;
+  align-items: center;
+  font-weight: 600;
+  box-shadow: 0px 0px 0px 10px #fefb4f;
+  
 }
 
 

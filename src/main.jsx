@@ -5,12 +5,16 @@ import App from './App.jsx'
 import NewFile from './components/NewFile.jsx'
 import './index.css'
 
-const router = createBrowserRouter([
+const router = createBrowserRouter([ 
+  {
+  path: '/',
+  element: <NewFile />
+  },
   {
     path: 'PixelDuck/newFile',
     element: <NewFile />
   },
-  {
+  { 
     path: '/PixelDuck/projeto',
     element: <App />
   }
@@ -22,5 +26,6 @@ createRoot(document.getElementById('root')).render(
   <StrictMode>
 
     <RouterProvider router={router} />
-  </StrictMode>,
+  </StrictMode>
 )
+
