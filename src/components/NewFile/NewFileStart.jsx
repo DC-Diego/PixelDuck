@@ -1,4 +1,4 @@
-import logoPixelDuck from "../assets/logoPixelDuck.png";
+import logoPixelDuck from "../../assets/logoPixelDuck.png";
 
 
 export default function NewFileStart({btnNewFile_click, configVisible,btnOpenFile_click}){

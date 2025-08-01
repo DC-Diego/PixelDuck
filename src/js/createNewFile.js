@@ -2,6 +2,10 @@
 import File from '../js/File';
 let fileInfo = new File();
 
+if(localStorage.getItem("fileData")){
+  fileInfo.loadData(JSON.parse(localStorage.getItem("fileData")))
+
+}
 
 
 //status: 

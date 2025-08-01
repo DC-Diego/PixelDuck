@@ -9,6 +9,7 @@ class File{
   }
 
   loadData(data){
+    this.status = 2;
     this.name = data.name;
     this.width = data.width;
     this.height = data.height;
@@ -18,10 +19,10 @@ class File{
   }
 
   process(){
-    if(this.status == null){
-
+    if(this.status == null || this.status == undefined){
       return false;
     }
+  
     switch(this.status){
       case 0:
         
