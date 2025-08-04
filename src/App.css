@@ -115,8 +115,6 @@
 /* CANVAS - DIV */
 #canvasBaseDiv{
   position: absolute;
-  /* aspect-ratio: 1/1; */
-  height: 80%;
   background-color: white;
   display: flex;
 
@@ -162,8 +160,53 @@
   filter: brightness(1.5);
 
 }
+/*    layer    */
+.layerBox{
+  position: absolute;
+  width: 15%;
+  height: auto;
+  min-height: 150px;
+  background-color: greenyellow;
+  z-index: 12312;
+  right: 2% ;
+  transition: 0.5s ease-out;
+  display: flex;
+  flex-direction: column;
+  
+}
+.LayerControl{
+  width: 100%;
+  background-color: aqua;
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  height: 25px;
 
 
+}
+.layerDiv{
+  display: flex;
+  flex-direction: row;
+  background-color: red;
+  height: 50px;
+  width: 100%;
+  align-items: center;
+
+}
+.layerDiv > img{
+  background-color: white;
+}
+
+.layerDiv > button{
+  height: 100%;
+}
+
+.layerDiv > h1{
+  flex: 3;
+
+  font-size: 1em;
+
+}
 /*js - props*/
 
 .jsHidden{

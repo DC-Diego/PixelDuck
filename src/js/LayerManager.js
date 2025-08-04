@@ -1,34 +1,67 @@
 
-import { fileInfo } from "./createNewFile";
+import { fileInfo } from "./main";
 
-class LayerManager{
-  constructor(){
-    this.canvasList = [];
-  }
-
-  pushLayer(id){
-    // const id = Math.floor(Math.random()*100000000).toString(16)+Math.floor(Math.random()*100000000).toString(16)+Math.floor(Math.random()*100000000).toString(16)+Math.floor(Math.random()*100000000).toString(16);
-
+class Layer {
+  constructor(id, name, zindex){
     const canvas = document.createElement("canvas");
     canvas.width = fileInfo.width;
     canvas.height = fileInfo.height;
     canvas.style.imageRendering = "pixelated";
     const context = canvas.getContext("2d");
-    const newLayer = {
-      id: id,
-      name: "layer "+Math.floor(Math.random()*100).toString(32),
-      canvas: canvas ,
-      context: context, 
-      alpha: 1,
-      zindex: this.getHighestZ()+1,
-      locked: false
-    }
-    this.canvasList.push(newLayer);
+    this.id= id;
+    this.name= name;
+    this.canvas= canvas;
+    this.context= context; 
+    this.alpha= 1;
+    this.zindex= zindex;
+    this.locked= false;
 
+    this.attachEvents();
   }
 
+  attachEvents(){
+    this.canvas.addEventListener("click", this.click)
+
+  }
+  click = (event)=>{
+    console.log(event)
+  }
+
+  setZindex(z){
+    this.zindex = z;
+  }
+  renameLayer(name){
+    this.name = name;
+  }
+  
+  lockLayer(){
+    this.locked = !this.locked; 
+  }
+
+  getImage(){
+    return this.canvas.toDataURL();
+  }
+  setAlpha(alpha){
+    this.alpha = alpha;
+  }
+}
+
+class LayerManager{
+  constructor(canvasList){
+    this.canvasList = canvasList || [];
+    this.layerIncrementer = 0;
+  }
+  addLayer(id){
+    const name = "layer "+this.layerIncrementer+1;
+    const zindex = this.getHighestZ()+1; 
+    const layer = new Layer(id, name, zindex);
+
+    this.canvasList.push(layer);
+    this.layerIncrementer +=1; 
+
+  }
   getPositionOfId(id){
-    let i;
+    let i = -1;
     this.canvasList.forEach((e,j)=>{
       if(e.id===id){
         i = j;
@@ -36,33 +69,16 @@ class LayerManager{
     });
     return i;
   }
-  
-  renameLayer(id, name){
-    const e = this.canvasList[this.getPositionOfId(id)];
-    e.name = name;
-  }
   removeLayer(id){
     this.canvasList.splice(this.getPositionOfId(id),1);
   }
-  lockLayer(id){
-    const e = this.canvasList[this.getPositionOfId(id)];
-    e.locked = !e.locked; 
-  }
-
   getOrderedLayers(){
-    return this.canvasList.sort((a, b) => a.zindex - b.zindex);
-
+    return [...this.canvasList].sort((a, b) => a.zindex - b.zindex);
   }
-
-  setAlpha(id, alpha){
-    const layer = this.canvasList[this.getPositionOfId(id)];
-    layer.alpha = alpha;
-  }
-
   getHighestZ(){
-    return Math.max([...this.canvasList.map(layer => layer.zindex)]);
+    return Math.max(0, ...this.canvasList.map(layer => layer.zindex)) ;
   }
-
+  
   reorder(id, z){
     const layer = this.canvasList[this.getPositionOfId(id)];
     this.canvasList.forEach((e,i)=>{
@@ -74,7 +90,4 @@ class LayerManager{
 
   }
 }
-
 export default LayerManager;
-
-// git commit -m "Criação dos componentes da página de desenho: Toolbar, topbar, timeline, canvaslayout, canvasBase e Classe  "

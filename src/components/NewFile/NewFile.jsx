@@ -2,7 +2,7 @@ import { useState } from 'react';
 import '../../NewFile.css';
 import NewFileConfig from './NewFileConfig';
 import NewFileStart from './newFileStart';
-import { fileInfo} from '../../js/createNewFile';
+import { fileInfo} from '../../js/main';
 import { useNavigate } from 'react-router-dom';
 
 

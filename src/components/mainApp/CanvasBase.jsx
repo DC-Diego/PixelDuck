@@ -1,17 +1,34 @@
+import { useEffect } from "react";
+import { useRef } from "react";
+import { fileInfo, layerManager } from "../../js/main";
 import Canvas from "./Canvas";
 
+
+
 function CanvasBase({width, height}){
-  const aspectRatio = width/height;
+  
+  const RefCanvasBase = useRef(null);
+  useEffect(()=>{
+    if(RefCanvasBase.current ){
+      layerManager.canvasList.forEach((layer)=>{
+        RefCanvasBase.current.appendChild(layer.canvas);
+      });
+    }
+  }, []);
+
+  const setDivResponse = ()=>{
+    const aspectRatio = width/height;
+    if(aspectRatio > 1)
+      return {width: "60%", aspectRatio: aspectRatio};
+    else
+      return {height: "80%", aspectRatio: aspectRatio};
+  }
+
   return (
-    <div id="canvasBaseDiv" style={{aspectRatio: aspectRatio}} >
-      <Canvas width={width} height={height} />
-
-
+    <div id="canvasBaseDiv" ref={RefCanvasBase} style={setDivResponse()} onLoad={(e)=>teste(e)} >
 
     </div>
-
-
-);
+  );
 
 
 

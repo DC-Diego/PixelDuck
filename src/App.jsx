@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import Topbar from "./components/mainApp/Topbar";
-import { fileInfo } from "./js/createNewFile";
+import { fileInfo } from "./js/main";
 import "./App.css"
 import CanvasLayout from "./components/mainApp/Canvaslayout";
 import Timeline from "./components/mainApp/Timeline";
