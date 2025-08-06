@@ -1,9 +1,9 @@
 class File{
   constructor(status,name,width,height,data, file){
     this.status = status;
-    this.name =name;
-    this.width =width;
-    this.height =height;
+    this.name = name;
+    this.width = width;
+    this.height = height;
     this.data = data;
     this.file = file;
   }
@@ -15,7 +15,7 @@ class File{
     this.height = data.height;
     this.data = data.data;
 
-
+    
   }
 
   process(){
@@ -25,6 +25,7 @@ class File{
   
     switch(this.status){
       case 0:
+        this.data 
         
         break;
       case 1:

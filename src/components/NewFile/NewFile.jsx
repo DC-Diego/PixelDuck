@@ -24,7 +24,6 @@ export default function NewFile(){
   function openFile(){
     const inp = document.createElement("input");
     inp.type="file";
-  
     inp.addEventListener("change", ()=>{
       const fileData = inp.files[0];
       const extension = fileData.type;

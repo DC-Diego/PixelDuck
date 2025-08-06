@@ -124,7 +124,7 @@
   background-color: transparent;
   width: 100%;
   height: 100%;
-
+  /* background: red; */
 
 }
 
@@ -148,6 +148,7 @@
   text-align: center;
   position: absolute;
   bottom: 0%;
+  z-index: 1329032132132132132132132132123131321321321321321321321321321321321;
 }
 #btnHideTimeline{
   position: absolute;
@@ -161,11 +162,65 @@
 
 }
 /*    layer    */
+
+
+.layerDiv{
+  display: flex;
+  flex-direction: row;
+  background-color: rgb(109, 0, 0);
+  height: 50px;
+  width: 100%;
+  align-items: center;
+  transition: 0.25s;
+}
+.layerDiv:hover{
+  filter: brightness(1.5);
+
+}
+.activeLayer{
+  background-color: rgb(28, 255, 187);
+  
+}
+.layerDiv  img{
+  margin-left: 5px;
+  background-color: white;
+}
+.layerDiv > div{
+  display: flex;
+  flex-direction: row;
+  width: 100% ;
+  align-items: center;
+  height: 50px;
+
+}
+.layerDiv > button{
+  height: 100%;
+  border-radius: 0; 
+  border: none;
+  transition: 0.5s;
+}
+.layerDiv > button:hover{
+  filter: brightness(1.3);
+}
+.layerDiv  input{
+  width: 60%;
+  padding: 10px 5px;
+  border: none;
+
+}
+.layerDiv  h1 {
+  flex: 3;
+
+  font-size: 1em;
+
+}
+
 .layerBox{
   position: absolute;
-  width: 15%;
+  width: 18%;
   height: auto;
-  min-height: 150px;
+  min-height: 35%;
+  max-height: 80%;
   background-color: greenyellow;
   z-index: 12312;
   right: 2% ;
@@ -179,33 +234,46 @@
   background-color: aqua;
   position: relative;
   display: flex;
-  flex-direction: row;
-  height: 25px;
-
-
+  flex-direction: column;
+  height: 60px;
 }
-.layerDiv{
+.layerControlSection{
   display: flex;
   flex-direction: row;
-  background-color: red;
-  height: 50px;
+  height: 30px;
   width: 100%;
   align-items: center;
+  gap: 10px;
+  padding: 0px 5px;
 
 }
-.layerDiv > img{
-  background-color: white;
+.layerControlSection > * {
+  margin: 0;
+
+
 }
+.layerControlSection > button{
+  height: 90%;
+  aspect-ratio: 1 / 1;
 
-.layerDiv > button{
-  height: 100%;
 }
-
-.layerDiv > h1{
-  flex: 3;
-
+.layerControlSection > h1{
   font-size: 1em;
+  width: 15%;
+}
+.layerControlSection > input{
+  width: 40%;
+  margin-left: 10px;
 
+
+}
+.layersContainer{
+  height: 100%;
+  width: 100%;
+  position: relative;
+  overflow-y: scroll;
+  display: flex;
+  flex-direction: column-reverse;
 }
 /*js - props*/
 

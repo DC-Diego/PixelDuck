@@ -14,7 +14,7 @@ function CanvasBase({width, height}){
         RefCanvasBase.current.appendChild(layer.canvas);
       });
     }
-  }, []);
+  }, [layerManager.canvasList.length]);
 
   const setDivResponse = ()=>{
     const aspectRatio = width/height;
@@ -29,8 +29,6 @@ function CanvasBase({width, height}){
 
     </div>
   );
-
-
 
 }
 
