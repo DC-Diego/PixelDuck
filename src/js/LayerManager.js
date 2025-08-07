@@ -1,20 +1,110 @@
 
 import { fileInfo } from "./main";
+import { history } from "./main";
+
+let activeContext;
 
 class CanvasMng{
   constructor(canvas, context){
     this.canvas = canvas;
     this.context = context;
+    this.locked= false;
+    this.isDrawing = false;
+    this.lastPos = {x:null,y:null}
     this.attachEvents();
   }
+  lockLayer(){
+    this.locked = !this.locked; 
+    this.canvas.style.pointerEvents = (this.locked)?"none":"auto";
+  }
+  draw(x,y, c){
+    activeContext.beginPath();
+    activeContext.rect(x,y,1,1);
+    activeContext.fillStyle=c;
+    activeContext.fill();
+    this.lastPos.x=x;
+    this.lastPos.y=y;
+    // this.context.closePath();
+    console.log()
+  }
+
+  connectDraw(x, y){
+    const dx = x-this.lastPos.x;
+    const dy = y-this.lastPos.y;
+    
+    const ease = Math.max(Math.abs(dx),Math.abs(dy));
+
+    for(let i =0;i<ease;i++){
+      const px = Math.round(this.lastPos.x+dx*i/ease);
+      const py = Math.round(this.lastPos.y+dy*i/ease);
+
+      activeContext.rect(px, py, 1 ,1);
+      activeContext.fill();
+    }
+    
+    this.lastPos.x=x
+    this.lastPos.y=y
+
+  }
+
 
   attachEvents(){
-    this.canvas.addEventListener("click", this.click)
+    this.canvas.addEventListener("mousedown", this.mousedown);
+    this.canvas.addEventListener("mousemove", this.mousemove);
+    this.canvas.addEventListener("mouseup", this.mouseup);
 
   }
-  click = (event)=>{
-    console.log(event)
+
+  mousedown = (event)=>{
+    switch(event.button){
+      case 0:
+        if(!this.locked){
+          console.log(this.canvas)
+          const x = Math.floor(fileInfo.width*event.offsetX/this.canvas.clientWidth);
+          const y = Math.floor(fileInfo.height*event.offsetY/this.canvas.clientHeight);
+          this.isDrawing = true;
+          this.draw(x, y, history.activeColor);
+        }
+        break;
+      case 2:
+        console.log("DIREITO")
+        break;
+
+    }
+    
+
   }
+
+  mousemove = (event)=>{
+    switch(event.button){
+      case 0:
+        if(this.isDrawing){
+          const x = Math.floor(fileInfo.width*event.offsetX/this.canvas.clientWidth);
+          const y = Math.floor(fileInfo.height*event.offsetY/this.canvas.clientHeight);
+          this.connectDraw(x, y);
+        }
+        break;
+      case 2:
+        console.log("DIREITO")
+        break;
+
+    }
+  }
+
+  mouseup = (event)=>{
+    switch(event.button){
+      case 0:
+        this.isDrawing = false;
+        activeContext.closePath();
+
+        break;
+      case 2:
+        console.log("DIREITO")
+        break;
+
+    }
+  }
+
 
 
 }
@@ -29,12 +119,10 @@ class Layer extends CanvasMng{
     canvas.style.imageRendering = "pixelated";
     this.id= id;
     this.name= name;
-    // this.canvas= canvas;
-    // this.context= context; 
     this.alpha= 1;
     this.zindex= zindex;
     canvas.style.zIndex=zindex
-    this.locked= false;
+ 
     this.hidden = false;
     this.renderable = true;
 
@@ -54,9 +142,7 @@ class Layer extends CanvasMng{
     this.name = name;
   }
   
-  lockLayer(){
-    this.locked = !this.locked; 
-  }
+  
 
   getImage(){
     return this.canvas.toDataURL();
@@ -82,7 +168,7 @@ class LayerManager{
   }
   setActiveLayer = ()=>{
     this.activeLayer = this.getPositionOfId(this.activeID);
-
+    activeContext = this.getActiveLayer().context;
   }
 
   setActiveID = (id)=>{

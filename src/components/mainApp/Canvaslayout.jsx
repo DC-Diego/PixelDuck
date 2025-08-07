@@ -11,25 +11,34 @@ function CanvasLayout({timelineHidden, width, height}){
   let [showLayerBox, setShowLayerBox] = useState(false);
   let [renderLayers, setRenderLayers] = useState([...layerManager.canvasList])
   
-  let [renderCtrl, setRenderCtrl] = useState(false);
+  let [alphaLayer, setAlphaLayer] = useState("");
 
 
-  // const externLock = (f)=>{
-  //   layerToLock.current = f;
-  // }
-  const lockLayer = ()=>{
-    layerManager.getActiveLayer().lockLayer();
+  const lockLayer = (id = null)=>{
+    if(id)
+      layerManager.getLayerFromId(id).lockLayer();
+    else
+      layerManager.getActiveLayer().lockLayer();
     setRenderLayers([...layerManager.canvasList])
   }
   const newLayer = ()=>{
     const id = getRandomId();
     layerManager.addLayer(id);
     history.newFrameData(id);
-    // console.log("EEEGEE "+id)
     setRenderLayers([...layerManager.canvasList])
 
 
   }
+
+
+
+  const selectLayer = (id)=>{
+    layerManager.setActiveID(id);
+    setRenderLayers([...layerManager.canvasList]);
+    setAlphaLayer(layerManager.getActiveLayer().alpha*100);
+
+  }
+
 
 
   
@@ -47,7 +56,14 @@ function CanvasLayout({timelineHidden, width, height}){
         </div>
         <div className="layerControlSection">
           <h1>alpha</h1>
-          <input id=""/>
+          <input id="txtAlpha" value={alphaLayer} maxLength={3} onChange={(e)=>{
+            if(Number(e.target.value==""?0:e.target.value)+1){
+              let v = Number(e.target.value||0);
+              v = (v>100)?100:v;
+              setAlphaLayer(v);
+              layerManager.getActiveLayer().setAlpha(v/100)
+            }
+          }}/>
         </div>
         
         {/*  Botoes criar layer, duplicar, deletar, props etc  */}
@@ -55,7 +71,7 @@ function CanvasLayout({timelineHidden, width, height}){
       <div className="layersContainer">
         {renderLayers.map((e, i) => {
           // console.log(e)
-          return <FloatLayers key={e.id} layerName={e.name} img={e.getImage()} lock={e.locked} alpha={e.alpha} id={e.id} />
+          return <FloatLayers key={e.id} selectLayer={selectLayer} layerName={e.name} img={e.getImage()} lock={e.locked} alpha={e.alpha} id={e.id} lockLayer={lockLayer} />
         })}
       </div>
     </div>

@@ -3,13 +3,13 @@ import { useRef, useState } from "react";
 import { fileInfo } from "../../js/main";
 import { layerManager } from "../../js/main";
 
-function FloatLayers({layerName, img, lock, alpha, id}){
+function FloatLayers({layerName, img, lock, id, selectLayer, lockLayer}){
   const layer = layerManager.getLayerFromId(id);
   let [renameLayer, setRenameLayer] = useState(false);
   let [layerNameState, setLayerNameState] = useState(layerName);
   let [displayName, setDisplayName] = useState(layerName);
   let [hidden, setHidden] = useState(false);
- 
+  const btnLock = useRef(null);
 
   function confirmRename(name){
     const layer = layerManager.getLayerFromId(id);
@@ -42,7 +42,7 @@ function FloatLayers({layerName, img, lock, alpha, id}){
 
   }
 
-  return(<div className={`layerDiv JS${id}`} >
+  return(<div className={`layerDiv ${layerManager.activeID===id?"activeLayer":""}`} >
     <button className="siconTopBarBtn" onClick={()=>{
       hideLayer();
     }}>
@@ -50,14 +50,11 @@ function FloatLayers({layerName, img, lock, alpha, id}){
       <EyeOff className={!hidden?"jsHidden":""}/>
     </button>
     <div onClick={()=>{
-        layerManager.setActiveID(id);
+        selectLayer(id);
       }}>
       <img src={img} style={setDivResponse()} />
-      <h1 onDoubleClick={(e)=>{
+      <h1 onDoubleClick={()=>{
         setRenameLayer(!renameLayer);
-        const inp = e.target.parentElement.querySelector("input");
-        inp.select();
-
       }} className={renameLayer?"jsHidden":""} >{displayName}</h1>
       <input className={!renameLayer?"jsHidden":""} type="text" value={layerNameState} onChange={(e)=>{setLayerNameState(e.target.value)}} onKeyDown={(e)=>{
         console.log(e.key)
@@ -78,9 +75,7 @@ function FloatLayers({layerName, img, lock, alpha, id}){
 
       }} />
     </div>
-    <button className={`siconTopBarBtn ${(lock?"":"jsHidden")}`} onClick={()=>{
-      lockLayer();
-    }}>
+    <button ref={btnLock} className={`siconTopBarBtn ${(lock?"":"jsHidden")}`} onClick={()=>{lockLayer()}}>
       <Lock />
     </button>
     

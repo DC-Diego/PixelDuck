@@ -5,10 +5,13 @@ class History{
     this.action = [];
     this.actionHistory = [];
     this.projectFrameData = projectFrameData;
-    // console.log(this.projectFrameData)
     this.historyMemo = historyMemo;
     this.historyStep = 0;
     this.qtdFrames = 1;
+    this.activeColor = "#000000";
+    this.activeTool = "pencil";
+
+
   } 
 
   Undo(){
