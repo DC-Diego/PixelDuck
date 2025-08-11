@@ -10,34 +10,48 @@ if(localStorage.getItem("fileData")){
 
 }
 
-const history = new History(undefined, 10);
 
-let layerManager = new LayerManager();
 
-const id = getRandomId();
-layerManager.addLayer(id);
-history.newFrameData(id);
-// layerManager.addLayer(getRandomId());
-// layerManager.addLayer(getRandomId());
-// layerManager.addLayer(getRandomId());
-// layerManager.addLayer(getRandomId());
-// layerManager.addLayer(getRandomId());
-// layerManager.addLayer(getRandomId());
-// layerManager.addLayer(getRandomId());
-// layerManager.addLayer(getRandomId());
-// layerManager.addLayer(getRandomId());
-// layerManager.addLayer(getRandomId());
-// layerManager.addLayer(getRandomId());
-// layerManager.addLayer(getRandomId());
-// layerManager.addLayer(getRandomId());
-// layerManager.addLayer(getRandomId());
-// layerManager.addLayer(getRandomId());
+let history; 
+
+let layerManager;
 
 
 
 
+function startProject(){
+  history = new History(undefined, 10);
+  layerManager = new LayerManager();
+  const id = getRandomId();
+  layerManager.addLayer(id);
+  history.newFrameData(id);
 
-console.log(layerManager.getActiveLayer())
+}
+
+
+
+
+// layerManager.addLayer(getRandomId());
+// layerManager.addLayer(getRandomId());
+// layerManager.addLayer(getRandomId());
+// layerManager.addLayer(getRandomId());
+// layerManager.addLayer(getRandomId());
+// layerManager.addLayer(getRandomId());
+// layerManager.addLayer(getRandomId());
+// layerManager.addLayer(getRandomId());
+// layerManager.addLayer(getRandomId());
+// layerManager.addLayer(getRandomId());
+// layerManager.addLayer(getRandomId());
+// layerManager.addLayer(getRandomId());
+// layerManager.addLayer(getRandomId());
+// layerManager.addLayer(getRandomId());
+// layerManager.addLayer(getRandomId());
+
+
+
+
+
+// console.log(layerManager.getActiveLayer())
 
 //status: 
 // 0 - Create new file
@@ -47,4 +61,4 @@ console.log(layerManager.getActiveLayer())
 // fileData:
 // null - Sem arquivo 
 
-export {fileInfo, layerManager, history}
+export {fileInfo, layerManager, history, startProject}

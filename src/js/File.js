@@ -19,6 +19,8 @@ class File{
   }
 
   process(){
+    console.log("PROCESS RODADO")
+    console.log(this.status)
     if(this.status == null || this.status == undefined){
       return false;
     }
@@ -26,7 +28,7 @@ class File{
     switch(this.status){
       case 0:
         this.data 
-        
+        console.log("rodou o 0")
         break;
       case 1:
         this.loadData(JSON.parse(this.file))

@@ -1,24 +1,32 @@
 import { useNavigate } from "react-router-dom";
 import Topbar from "./components/mainApp/Topbar";
-import { fileInfo } from "./js/main";
+import { fileInfo, history, layerManager, startProject } from "./js/main";
 import "./App.css"
 import CanvasLayout from "./components/mainApp/Canvaslayout";
 import Timeline from "./components/mainApp/Timeline";
 import { useState } from "react";
+import { getRandomId } from "./js/utils";
 
 
 function App(){
   const navigate = useNavigate();
   let [timelineHidden, setTimelineHidden] = useState(true);
   
+  
+
+
   const fileProject = fileInfo;
- 
+  console.log(fileProject)
   if(!fileInfo.process()){
     navigate('/PixelDuck/newFile');
     alert("Não foi possivel abrir ou criar o arquivo");
     return
   }else{
     localStorage.setItem("fileData", JSON.stringify(fileProject));
+    if([0, 2].includes(fileInfo.status)){
+      startProject();
+    }
+
   }
 
   return (<div className="greater">

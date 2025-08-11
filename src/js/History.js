@@ -10,37 +10,37 @@ class History{
     this.qtdFrames = 1;
     this.activeColor = "#000000";
     this.activeTool = "pencil";
-
+ 
 
   } 
 
-  Undo(){
+  undo(){
     if(this.historyStep > 0){
       this.historyStep-=1;
     }
   }
-  Redo(){
+  redo(){
     if(this.historyStep < this.actionHistory.length-1){
       this.historyStep+=1;
     }
   }
-  RenderHistory(){
+  renderHistory(){
     return JSON.parse(JSON.stringify(this.actionHistory.slice(0, this.historyStep)))
   }
-  AppendAction(action){
+  appendAction(action){
     this.action.push(action)
   }
-  DeleteRedo(){
+  deleteRedo(){
     while(this.actionHistory.length > this.historyStep)
       this.actionHistory.pop();
   }
 
-  AppendHistoryAction(){
+  appendHistoryAction(){
     if(actionHistory.length < this.historyMemo){
       this.actionHistory.push(this.action.splice(0, this.action.length));
       this.historyStep++;
     }else{
-      this.AppendFrameData(this.actionHistory.splice(0,1))
+      this.appendFrameData(this.actionHistory.splice(0,1))
       this.actionHistory.push(this.action.splice(0, this.action.length));
     
     }
@@ -59,7 +59,7 @@ class History{
     console.log(this.projectFrameData);
   }
 
-  AppendFrameData(action){
+  appendFrameData(action){
     //fazer algo com frameData
   }
 

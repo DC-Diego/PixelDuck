@@ -2,8 +2,6 @@
 import { fileInfo } from "./main";
 import { history } from "./main";
 
-let activeContext;
-
 class CanvasMng{
   constructor(canvas, context){
     this.canvas = canvas;
@@ -18,13 +16,17 @@ class CanvasMng{
     this.canvas.style.pointerEvents = (this.locked)?"none":"auto";
   }
   draw(x,y, c){
-    activeContext.beginPath();
-    activeContext.rect(x,y,1,1);
-    activeContext.fillStyle=c;
-    activeContext.fill();
+    this.context.beginPath();
+    if(history.activeTool=="pencil"){
+      this.context.rect(x,y,1,1);
+      this.context.fillStyle=c;
+      this.context.fill();
+    }else{
+      this.context.clearRect(x,y,1,1);
+    }
+
     this.lastPos.x=x;
     this.lastPos.y=y;
-    // this.context.closePath();
     console.log()
   }
 
@@ -38,8 +40,12 @@ class CanvasMng{
       const px = Math.round(this.lastPos.x+dx*i/ease);
       const py = Math.round(this.lastPos.y+dy*i/ease);
 
-      activeContext.rect(px, py, 1 ,1);
-      activeContext.fill();
+      if(history.activeTool=="pencil"){
+        this.context.rect(px,py,1,1);
+        this.context.fill();
+      }else{
+        this.context.clearRect(px,py,1,1);
+      }
     }
     
     this.lastPos.x=x
@@ -95,7 +101,7 @@ class CanvasMng{
     switch(event.button){
       case 0:
         this.isDrawing = false;
-        activeContext.closePath();
+        this.context.closePath();
 
         break;
       case 2:
@@ -162,13 +168,12 @@ class LayerManager{
     this.activeLayer = 0;
     
   }
-
   getActiveLayer(){
     return this.canvasList[this.activeLayer];
   }
   setActiveLayer = ()=>{
     this.activeLayer = this.getPositionOfId(this.activeID);
-    activeContext = this.getActiveLayer().context;
+
   }
 
   setActiveID = (id)=>{

@@ -1,8 +1,15 @@
 import { useState } from "react";
 import { ChevronLeft, ChevronRight, Eraser, Pencil } from "lucide-react";
+import { history } from "../../js/main";
 function Toolbar(){
 
   let [hiddenToolbar, setHiddenToolbar] = useState(false);
+
+  const setActiveTool=(element, toolName)=>{
+    history.activeTool=toolName
+
+
+  }
 
   const hideToolbar=()=>{
     const toolbar = document.querySelector(".toolbar");
@@ -16,13 +23,21 @@ function Toolbar(){
       <ChevronLeft className={hiddenToolbar?"jsHidden":""} />
       <ChevronRight className={!hiddenToolbar?"jsHidden":""} />
     </button>
-    <button>
+    <button onClick={(e)=>{
+      setActiveTool(e,"pencil");
+
+    }}>
       <Pencil/>
     </button>
-    <button>
+    <button onClick={(e)=>{
+      setActiveTool(e,"eraser");
+
+    }}>
       <Eraser/>
     </button>
-    <input type="color"/>
+    <input type="color" onChange={(e)=>{
+      history.activeColor = e.target.value;
+    }}/>
 
 
     </div>)
