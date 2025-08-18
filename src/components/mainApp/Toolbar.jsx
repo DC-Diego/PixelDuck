@@ -23,10 +23,7 @@ function Toolbar(){
       <ChevronLeft className={hiddenToolbar?"jsHidden":""} />
       <ChevronRight className={!hiddenToolbar?"jsHidden":""} />
     </button>
-    <button onClick={(e)=>{
-      setActiveTool(e,"pencil");
-
-    }}>
+    <button onClick={(e)=>{setActiveTool(e,"pencil");}}>
       <Pencil/>
     </button>
     <button onClick={(e)=>{

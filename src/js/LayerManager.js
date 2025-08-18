@@ -33,10 +33,8 @@ class CanvasMng{
   connectDraw(x, y){
     const dx = x-this.lastPos.x;
     const dy = y-this.lastPos.y;
-    
     const ease = Math.max(Math.abs(dx),Math.abs(dy));
-
-    for(let i =0;i<ease;i++){
+    for(let i =0;i<=ease;i++){
       const px = Math.round(this.lastPos.x+dx*i/ease);
       const py = Math.round(this.lastPos.y+dy*i/ease);
 
@@ -48,8 +46,8 @@ class CanvasMng{
       }
     }
     
-    this.lastPos.x=x
-    this.lastPos.y=y
+    this.lastPos.x=x;
+    this.lastPos.y=y;
 
   }
 
@@ -173,12 +171,14 @@ class LayerManager{
   }
   setActiveLayer = ()=>{
     this.activeLayer = this.getPositionOfId(this.activeID);
-
   }
 
   setActiveID = (id)=>{
     this.activeID = id;
     this.setActiveLayer();
+    document.querySelector(".activeCanvas")?.classList.remove("activeCanvas");
+    this.getActiveLayer().canvas.classList.add("activeCanvas");
+
   }
   addLayer(id){
     const name = "layer "+(this.layerIncrementer+1);
