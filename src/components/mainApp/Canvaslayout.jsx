@@ -1,5 +1,6 @@
 import { Layers } from "lucide-react";
 import { useRef, useState } from "react";
+import History from "../../js/History";
 import {fileInfo, history, layerManager} from "../../js/main";
 import { getRandomId } from "../../js/utils";
 
@@ -9,7 +10,7 @@ import Toolbar from "./Toolbar";
 
 function CanvasLayout({timelineHidden, width, height}){
   let [showLayerBox, setShowLayerBox] = useState(false);
-  let [renderLayers, setRenderLayers] = useState([...layerManager.canvasList])
+  let [renderLayers, setRenderLayers] = useState([...layerManager.getOrderedLayers()])
   
   let [alphaLayer, setAlphaLayer] = useState("");
 
@@ -19,40 +20,58 @@ function CanvasLayout({timelineHidden, width, height}){
       layerManager.getLayerFromId(id).lockLayer();
     else
       layerManager.getActiveLayer().lockLayer();
-    setRenderLayers([...layerManager.canvasList])
+    setRenderLayers([...layerManager.getOrderedLayers()]);
   }
+
+  const removeLayer = ()=>{
+    const id = layerManager.getActiveLayer().id;
+    history.removeFrameData(id);
+    layerManager.removeLayer(id);
+    setRenderLayers([...layerManager.getOrderedLayers()]);
+  }
+
   const newLayer = ()=>{
     const id = getRandomId();
     layerManager.addLayer(id);
     history.newFrameData(id);
-    setRenderLayers([...layerManager.canvasList])
-
-
+    setRenderLayers([...layerManager.getOrderedLayers()])
   }
-
+  const duplicateLayer = ()=>{
+    const id = layerManager.getActiveLayer().id;
+    const newId = getRandomId();
+    layerManager.duplicateLayer(id, newId);
+    history.duplicateFrameData(id, newId);
+    setRenderLayers([...layerManager.getOrderedLayers()])
+  }
 
 
   const selectLayer = (id)=>{
     layerManager.setActiveID(id);
-    setRenderLayers([...layerManager.canvasList]);
+    setRenderLayers([...layerManager.getOrderedLayers()]);
     setAlphaLayer(layerManager.getActiveLayer().alpha*100);
 
   }
-
+  const reoderLayer = (op)=>{
+    const id = layerManager.getActiveLayer().id;
+    layerManager.reorder(id, op);
+    setRenderLayers([...layerManager.getOrderedLayers()]);
+  }
 
 
   
   return(<div className="centerlayoutDiv">
     <Toolbar />
-    <CanvasBase width={width} height={height}/>
+    <CanvasBase width={width} height={height} />
     <button id="btnLayer" onClick={()=>setShowLayerBox(!showLayerBox)}  style={{bottom: !timelineHidden?"22%":"2%"}}><Layers/></button>
     <div className={`layerBox ${showLayerBox?"":"jsHidden"}`} style={{bottom: !timelineHidden?"30%":"10%"}}>
       <div className="LayerControl">
         <div className="layerControlSection">
           <button onClick={()=>{newLayer()}}>n</button>
-          <button>d</button>
-          <button>x</button>
+          <button onClick={()=>{duplicateLayer()}}>d</button>
+          <button onClick={()=>{removeLayer()}}>x</button>
           <button onClick={()=>{lockLayer()}}>l</button>
+          <button onClick={()=>{reoderLayer(1)}}>↑</button>
+          <button onClick={()=>{reoderLayer(-1)}}>↓</button>
         </div>
         <div className="layerControlSection">
           <h1>alpha</h1>

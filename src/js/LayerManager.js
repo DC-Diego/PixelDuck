@@ -137,17 +137,14 @@ class Layer extends CanvasMng{
     this.canvas.style.visibility=hidden?"hidden":"visible";
   }
 
- 
-
   setZindex(z){
     this.zindex = z;
+    this.canvas.style.zIndex=z;
   }
   renameLayer(name){
     this.name = name;
   }
-  
-  
-
+    
   getImage(){
     return this.canvas.toDataURL();
   }
@@ -180,13 +177,13 @@ class LayerManager{
     this.getActiveLayer().canvas.classList.add("activeCanvas");
 
   }
-  addLayer(id){
+  addLayer(id, increment = true){
     const name = "layer "+(this.layerIncrementer+1);
     const zindex = this.getHighestZ()+1; 
     const layer = new Layer(id, name, zindex);
 
     this.canvasList.push(layer);
-    this.layerIncrementer +=1; 
+    this.layerIncrementer +=(increment)?1:0; 
     this.setActiveID(id);
     // console.log(this.canvasList)
 
@@ -197,13 +194,13 @@ class LayerManager{
   }
 
   getPositionOfId(id){
-    let i = -1;
-    this.canvasList.forEach((e,j)=>{
-      if(e.id===id){
-        i = j;
-      }
-    });
-    return i;
+    for (let i = 0; i < this.canvasList.length; i++) {
+      const e = this.canvasList[i];
+      if(e.id===id)
+        return i;
+    }
+  
+    return -1;
   }
   removeLayer(id){
     this.canvasList.splice(this.getPositionOfId(id),1);
@@ -215,14 +212,38 @@ class LayerManager{
     return Math.max(0, ...this.canvasList.map(layer => layer.zindex)) ;
   }
   
-  reorder(id, z){
+  duplicateLayer(id, newId){
+    console.log("\n\n\n\na")
+    this.zindexUpdate(this.getActiveLayer().zindex+1, 1);
+    this.addLayer(newId, false);
+    const e = this.canvasList[this.getPositionOfId(id)];
+    this.getActiveLayer().renameLayer(e.name+" (copy)");
+    this.getActiveLayer().setZindex(e.zindex+1);
+
+  }
+
+  zindexUpdate(start, sum){
+    const orderedLayers = this.getOrderedLayers();
+    for (let i = start-1; i < orderedLayers.length; i++) {
+      const e = orderedLayers[i];
+      e.setZindex(e.zindex+sum);
+    }
+
+
+  }
+
+  reorder(id, op){console.log("GE");
     const layer = this.canvasList[this.getPositionOfId(id)];
-    this.canvasList.forEach((e,i)=>{
-      if(e.zindex===z){
-        this.canvasList[i].zindex = layer.zindex;
-        layer.zindex = z;
-      }
-    });
+     if(layer.zindex+op>= 0 && layer.zindex+op <= this.canvasList.length){
+      const orderedLayers = this.getOrderedLayers();
+      orderedLayers.forEach((e,i)=>{
+        if(e.id==id){
+          const z = e.zindex;
+          e.setZindex(orderedLayers[i+op].zindex);
+          orderedLayers[i+op].setZindex(z);
+        }
+      });
+    }
 
   }
 }

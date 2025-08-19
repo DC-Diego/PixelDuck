@@ -24,17 +24,37 @@ class History{
       this.historyStep+=1;
     }
   }
+  deleteRedo(){
+    while(this.actionHistory.length > this.historyStep)
+      this.actionHistory.pop();
+  }
+
   renderHistory(){
     return JSON.parse(JSON.stringify(this.actionHistory.slice(0, this.historyStep)))
   }
   appendAction(action){
     this.action.push(action)
   }
-  deleteRedo(){
-    while(this.actionHistory.length > this.historyStep)
-      this.actionHistory.pop();
-  }
 
+  duplicateFrameData(id, id2){
+    const e = this.getFrameDataFromId(id);
+    if(e){
+      const newFrameData = {
+        layerId: id2,
+        frameData: JSON.parse(JSON.stringify(e.frameData))+" HAHA copy of"+id
+      }
+      this.projectFrameData.push(newFrameData);
+    }
+    console.log(this.projectFrameData);
+  }
+  getFrameDataFromId(id){
+    for (let i = 0;i < this.projectFrameData.length; i++) {
+      const e = this.projectFrameData[i];
+      if(e.layerId===id)
+        return e;      
+    }
+    return null;
+  }
   appendHistoryAction(){
     if(actionHistory.length < this.historyMemo){
       this.actionHistory.push(this.action.splice(0, this.action.length));
@@ -42,10 +62,10 @@ class History{
     }else{
       this.appendFrameData(this.actionHistory.splice(0,1))
       this.actionHistory.push(this.action.splice(0, this.action.length));
-    
     }
-
-
+  }
+  removeFrameData(id){
+    this.projectFrameData = this.projectFrameData.filter(a=>a.layerId!==id)
   }
   newFrameData(id){
     const newFrameData = {
@@ -56,7 +76,6 @@ class History{
       newFrameData.frameData.push(`#nullX${fileInfo.width*fileInfo.height}`);
     }
     this.projectFrameData.push(newFrameData);
-    console.log(this.projectFrameData);
   }
 
   appendFrameData(action){

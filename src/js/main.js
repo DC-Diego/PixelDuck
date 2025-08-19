@@ -30,7 +30,6 @@ function startProject(){
 
 
 
-
 // layerManager.addLayer(getRandomId());
 // layerManager.addLayer(getRandomId());
 // layerManager.addLayer(getRandomId());

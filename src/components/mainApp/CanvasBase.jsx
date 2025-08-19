@@ -10,6 +10,13 @@ function CanvasBase({width, height}){
   const RefCanvasBase = useRef(null);
   useEffect(()=>{
     if(RefCanvasBase.current ){
+
+      for(let i = RefCanvasBase.current.children.length-1; i >= 0;i--){
+        const e = RefCanvasBase.current.children[i];
+        if(!layerManager.canvasList.includes(e))
+          e.remove();
+      }
+
       layerManager.canvasList.forEach((layer)=>{
         RefCanvasBase.current.appendChild(layer.canvas);
       });

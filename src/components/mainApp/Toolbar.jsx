@@ -12,7 +12,6 @@ function Toolbar(){
   }
 
   const hideToolbar=()=>{
-    const toolbar = document.querySelector(".toolbar");
     setHiddenToolbar(!hiddenToolbar);
 
 
