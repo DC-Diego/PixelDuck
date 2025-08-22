@@ -12,9 +12,9 @@ function CanvasLayout({timelineHidden, width, height}){
   let [showLayerBox, setShowLayerBox] = useState(false);
   let [renderLayers, setRenderLayers] = useState([...layerManager.getOrderedLayers()])
   
-  let [alphaLayer, setAlphaLayer] = useState("");
+  let [alphaLayer, setAlphaLayer] = useState(layerManager.getActiveLayer().alpha*100);
 
-
+  // setAlphaLayer(layerManager.getActiveLayer().alpha*100);
   const lockLayer = (id = null)=>{
     if(id)
       layerManager.getLayerFromId(id).lockLayer();
@@ -41,12 +41,14 @@ function CanvasLayout({timelineHidden, width, height}){
     const newId = getRandomId();
     layerManager.duplicateLayer(id, newId);
     history.duplicateFrameData(id, newId);
-    setRenderLayers([...layerManager.getOrderedLayers()])
+    setRenderLayers([...layerManager.getOrderedLayers()]);
+    selectLayer(newId);
   }
 
 
   const selectLayer = (id)=>{
     layerManager.setActiveID(id);
+    history.activeLayer = id;
     setRenderLayers([...layerManager.getOrderedLayers()]);
     setAlphaLayer(layerManager.getActiveLayer().alpha*100);
 

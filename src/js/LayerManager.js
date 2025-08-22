@@ -2,6 +2,16 @@
 import { fileInfo } from "./main";
 import { history } from "./main";
 
+/*
+tool: 'eraser' ,
+toolprop: {
+  x: 
+  y: 
+  color: 
+
+}
+
+*/
 class CanvasMng{
   constructor(canvas, context){
     this.canvas = canvas;
@@ -67,7 +77,28 @@ class CanvasMng{
           const x = Math.floor(fileInfo.width*event.offsetX/this.canvas.clientWidth);
           const y = Math.floor(fileInfo.height*event.offsetY/this.canvas.clientHeight);
           this.isDrawing = true;
+
+     
+
+          const action = {
+            tool: history.activeTool,
+            frame: history.activeFrame,
+            layer: history.activelayer,
+            toolprop: {
+              x: x, 
+              y: y,
+              color: history.activeTool==='eraser'?null:history.activeColor
+            }
+          }
+          history.appendAction(action);
+
           this.draw(x, y, history.activeColor);
+         
+
+
+
+
+
         }
         break;
       case 2:
@@ -85,6 +116,20 @@ class CanvasMng{
         if(this.isDrawing){
           const x = Math.floor(fileInfo.width*event.offsetX/this.canvas.clientWidth);
           const y = Math.floor(fileInfo.height*event.offsetY/this.canvas.clientHeight);
+
+          
+
+          const action = {
+            tool: history.activeTool,
+            frame: history.activeFrame,
+            layer: history.activelayer,
+            toolprop: {
+              x: x, 
+              y: y,
+              color: history.activeTool==='eraser'?null:history.activeColor 
+            }
+          }
+          history.appendAction(action);
           this.connectDraw(x, y);
         }
         break;
@@ -100,7 +145,7 @@ class CanvasMng{
       case 0:
         this.isDrawing = false;
         this.context.closePath();
-
+        history.appendHistoryAction();
         break;
       case 2:
         console.log("DIREITO")
@@ -232,7 +277,7 @@ class LayerManager{
 
   }
 
-  reorder(id, op){console.log("GE");
+  reorder(id, op){
     const layer = this.canvasList[this.getPositionOfId(id)];
      if(layer.zindex+op>= 0 && layer.zindex+op <= this.canvasList.length){
       const orderedLayers = this.getOrderedLayers();

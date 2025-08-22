@@ -13,15 +13,15 @@ if(localStorage.getItem("fileData")){
 
 
 let history; 
-
 let layerManager;
 
 
 
 
 function startProject(){
-  history = new History(undefined, 10);
+  history = new History(undefined, 1);
   layerManager = new LayerManager();
+  
   const id = getRandomId();
   layerManager.addLayer(id);
   history.newFrameData(id);

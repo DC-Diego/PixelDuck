@@ -31,17 +31,10 @@ function FloatLayers({layerName, img, lock, id, selectLayer, lockLayer}){
     else
       return {height: "80%", aspectRatio: aspectRatio, marginLeft: "15px"};
   }
-
-  function lockLayer(){
-    layer.lockLayer();
-  }
-
   function hideLayer(){
     layer.setHidden(!hidden);
     setHidden(!hidden);
-
   }
-
   return(<div className={`layerDiv ${layerManager.activeID===id?"activeLayer":""}`} >
     <button className="siconTopBarBtn" onClick={()=>{
       hideLayer();
@@ -68,14 +61,10 @@ function FloatLayers({layerName, img, lock, id, selectLayer, lockLayer}){
             else
               cancelRename();
             break;
-
-
         }
-
-
       }} />
     </div>
-    <button ref={btnLock} className={`siconTopBarBtn ${(lock?"":"jsHidden")}`} onClick={()=>{lockLayer()}}>
+    <button ref={btnLock} className={`siconTopBarBtn ${(lock?"":"jsHidden")}`} onClick={()=>{lockLayer();}}>
       <Lock />
     </button>
     
