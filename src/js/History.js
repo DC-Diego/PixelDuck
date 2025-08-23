@@ -102,9 +102,6 @@ class History{
     this.activeLayer = id;
     console.log(this.activeLayer)
   }
-// #ffffffX80#ff0000X13#00ff00X42
-// ffffffX80 ff0000X13  00ff00X42
-// ffffff 80
 
   encodeFrame(decode){
     const w = fileInfo.width;
@@ -141,50 +138,82 @@ class History{
 
   }
 
-
-  appendFrameData(action){
-    const layer = this.projectFrameData.find(e=>e.layerId===this.activeLayer);
-    console.log(layer)
-    const decodedFrame = this.decodeFrame(layer.frameData[this.activeFrame]);
-    const w = fileInfo.width;
-    action.forEach((e)=>{
-      const {color, x,y} =  e.toolprop; 
-      decodedFrame[y*w+x] = color;
-    });
-
-    console.log(decodedFrame);
-    layer.frameData[this.activeFrame] = this.encodeFrame(decodedFrame);
-    // console.log();
+  getActiveDataFrame(){
+    return this.projectFrameData.find(e=>e.layerId===this.activeLayer);
   }
 
-  newAppender(action){
-    const layer = this.projectFrameData.find(e=>e.layerId===this.activeLayer);
-    const frame = layer.frameData[this.activeFrame];
-    const w = fileInfo.width;
-    
-    action.forEach((e)=>{
-      const {color, x,y} =  e.toolprop; 
-      let i = y*w+x;
-      const splitColors = frame.split("#").filter(Boolean);
-      let rebuildString = "";
-      for (let j = 0; j < splitColors.length; j++) {
-        const f = splitColors[j];
-        const [colorSplit, times] = f.split("X");
-        // i = i-Number(f.split("X")[1]); 
-        if(i+1 <= Number(times) && colorSplit !== color){
-          const newString = "#"+colorSplit+"X"+i+"#"+color+"X1"+"#"+colorSplit+"X"+(times-i-1);
-          rebuildString += newString;
-          // break;
-        }else{
-          rebuildString += "#"+f;
-          i = i-Number(times);
-        }     
+  createRay(){
+    let myRay = this.getActiveDataFrame().frameData[this.activeFrame]; 
+    for(const e of this.actionHistory){
+      console.log();
+      if(e[0].frame==this.activeFrame && e[0].layer==this.activeLayer){
+
+        myRay = this.createRLE(myRay, e);
       }
-    });
+
+    }
+    return myRay;
+  }
 
 
 
+  appendFrameData(action){
+    const layer = this.getActiveDataFrame();
+    layer.frameData[this.activeFrame] = this.createRLE(layer.frameData[this.activeFrame], action);
+   
+  }
 
+  createRLE(RLEbase ,actionList){
+    const RLE = {RLE: RLEbase}
+    const w = fileInfo.width;
+    const verifiedPos = new Set();
+  
+    for (const e of actionList) {
+      let {color, x, y} = e.toolprop;
+      color +="";
+      const i = y*w+x;
+      if (verifiedPos.has(i))continue;
+      verifiedPos.add(i);
+  
+      let frame = RLE.RLE;
+      let splitColors = frame.split("#").filter(Boolean);
+  
+      let cursor = 0;
+      for (let j = 0; j < splitColors.length; j++) {
+        let [c, t] = splitColors[j].split("X");
+        t = Number(t);
+  
+        if (i >= cursor && i < cursor + t) {
+          const offset = i - cursor;
+  
+          const newParts = [];
+          if (offset > 0) newParts.push(`${c}X${offset}`);
+          newParts.push(`${color.replace("#", "")}X1`);
+          if (t - offset - 1 > 0) newParts.push(`${c}X${t - offset - 1}`);
+  
+          splitColors.splice(j, 1, ...newParts);
+          break;
+        }
+        cursor += t;
+      }
+  
+      const merged = [];
+      for (const seg of splitColors) {
+        if (!seg) continue;
+        if (merged.length) {
+          const [lastColor, LastTimes] = merged[merged.length-1].split("X");
+          const [color, times] = seg.split("X");
+          if (lastColor === color) {
+            merged[merged.length-1] = `${lastColor}X${Number(LastTimes)+Number(times)}`;
+            continue;
+          }
+        }
+        merged.push(seg);
+      }
+  
+      RLE.RLE = "#" + merged.join("#");
+    }
+    return RLE.RLE;
   }
 
 

@@ -19,7 +19,7 @@ let layerManager;
 
 
 function startProject(){
-  history = new History(undefined, 1);
+  history = new History(undefined, 10);
   layerManager = new LayerManager();
   
   const id = getRandomId();

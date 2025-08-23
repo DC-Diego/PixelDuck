@@ -83,7 +83,7 @@ class CanvasMng{
           const action = {
             tool: history.activeTool,
             frame: history.activeFrame,
-            layer: history.activelayer,
+            layer: history.activeLayer,
             toolprop: {
               x: x, 
               y: y,
@@ -102,7 +102,7 @@ class CanvasMng{
         }
         break;
       case 2:
-        console.log("DIREITO")
+        console.log("DIREITO");console.log(history.createRay());
         break;
 
     }
@@ -122,7 +122,7 @@ class CanvasMng{
           const action = {
             tool: history.activeTool,
             frame: history.activeFrame,
-            layer: history.activelayer,
+            layer: history.activeLayer,
             toolprop: {
               x: x, 
               y: y,
@@ -149,6 +149,7 @@ class CanvasMng{
         break;
       case 2:
         console.log("DIREITO")
+        
         break;
 
     }
