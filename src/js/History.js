@@ -145,7 +145,6 @@ class History{
   createRay(){
     let myRay = this.getActiveDataFrame().frameData[this.activeFrame]; 
     for(const e of this.actionHistory){
-      console.log();
       if(e[0].frame==this.activeFrame && e[0].layer==this.activeLayer){
 
         myRay = this.createRLE(myRay, e);

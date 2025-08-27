@@ -61,6 +61,44 @@ class CanvasMng{
 
   }
 
+// #corXtimes#corXtimes....#corXtimes
+  drawFromRLE(RLE){
+    this.context.clearRect(0,0,fileInfo.width, fileInfo.height);
+
+    const splitRLE = RLE.replace("#","").split("#");
+
+    let start = 0;
+    let w = fileInfo.width;
+    splitRLE.forEach(e=>{
+      let [color,times] = e.split("X");
+      times = Number(times);
+      do {
+        const variant = (w-start%w <= times)?(w-start%w):times; 
+        times = times - variant;
+        // console.log(start+" "+variant+" "+color+" W "+w+" v"+times);
+        if(color != "null"){
+          const y = Math.floor(start/w);
+          console.log("FILL "+start+" "+y+ " "+(variant)+" "+1)+" C:"+color;
+          this.context.beginPath();
+          this.context.rect(start%w, Math.floor(start/w),variant,1);
+          this.context.fillStyle="#"+color;
+          this.context.fill();
+          this.context.closePath();
+        }
+        start = start + variant;
+
+      } while (times > 0);
+
+
+
+
+
+    });
+
+   
+
+
+  }
 
   attachEvents(){
     this.canvas.addEventListener("mousedown", this.mousedown);
@@ -103,6 +141,8 @@ class CanvasMng{
         break;
       case 2:
         console.log("DIREITO");console.log(history.createRay());
+        this.drawFromRLE(history.createRay());
+        // console.log("DIREITO");console.log(history.createRay().replace("#",""));
         break;
 
     }
