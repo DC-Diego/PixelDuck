@@ -1,6 +1,6 @@
 import {ChevronLeft, Clipboard, Copy, Expand, Fullscreen, Redo, ScissorsIcon, Square, Undo, ZoomIn, ZoomOut} from "lucide-react"
 import logoPixelDuck from "../../assets/logoPixelDuck.png"
-function Topbar(){
+function Topbar({undo, redo}){
 
   return (<div className="topBar"> 
     {/* <div className="contentTopBar">
@@ -14,8 +14,8 @@ function Topbar(){
 
     </div>
     <div className="contentTopBar">
-      <button className="iconTopBarBtn"> <Undo/></button>
-      <button className="iconTopBarBtn"> <Redo/></button>
+      <button className="iconTopBarBtn" onClick={()=>{undo()}}> <Undo/></button>
+      <button className="iconTopBarBtn" onClick={()=>{redo()}}> <Redo/></button>
       <button className="iconTopBarBtn"> <ScissorsIcon/></button>
       <button className="iconTopBarBtn"> <Copy/></button>
       <button className="iconTopBarBtn"> <Clipboard/></button>

@@ -1,6 +1,5 @@
 import { Layers } from "lucide-react";
 import { useRef, useState } from "react";
-import History from "../../js/History";
 import {fileInfo, history, layerManager} from "../../js/main";
 import { getRandomId } from "../../js/utils";
 
@@ -13,6 +12,8 @@ function CanvasLayout({timelineHidden, width, height}){
   let [renderLayers, setRenderLayers] = useState([...layerManager.getOrderedLayers()])
   
   let [alphaLayer, setAlphaLayer] = useState(layerManager.getActiveLayer().alpha*100);
+
+ 
 
   // setAlphaLayer(layerManager.getActiveLayer().alpha*100);
   const lockLayer = (id = null)=>{

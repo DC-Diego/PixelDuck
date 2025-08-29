@@ -44,10 +44,16 @@ class CanvasMng{
     const dx = x-this.lastPos.x;
     const dy = y-this.lastPos.y;
     const ease = Math.max(Math.abs(dx),Math.abs(dy));
-    for(let i =0;i<=ease;i++){
+    for(let i =1;i<=ease;i++){
       const px = Math.round(this.lastPos.x+dx*i/ease);
       const py = Math.round(this.lastPos.y+dy*i/ease);
 
+      const action =  {
+        x: px, 
+        y: py,
+        color: history.activeTool==='eraser'?null:history.activeColor 
+      }
+      history.appendAction(action);
       if(history.activeTool=="pencil"){
         this.context.rect(px,py,1,1);
         this.context.fill();
@@ -78,7 +84,7 @@ class CanvasMng{
         // console.log(start+" "+variant+" "+color+" W "+w+" v"+times);
         if(color != "null"){
           const y = Math.floor(start/w);
-          console.log("FILL "+start+" "+y+ " "+(variant)+" "+1)+" C:"+color;
+          // console.log("FILL "+start+" "+y+ " "+(variant)+" "+1)+" C:"+color;
           this.context.beginPath();
           this.context.rect(start%w, Math.floor(start/w),variant,1);
           this.context.fillStyle="#"+color;
@@ -116,18 +122,13 @@ class CanvasMng{
           const y = Math.floor(fileInfo.height*event.offsetY/this.canvas.clientHeight);
           this.isDrawing = true;
 
-     
 
           const action = {
-            tool: history.activeTool,
-            frame: history.activeFrame,
-            layer: history.activeLayer,
-            toolprop: {
-              x: x, 
-              y: y,
-              color: history.activeTool==='eraser'?null:history.activeColor
-            }
+            x: x, 
+            y: y,
+            color: history.activeTool==='eraser'?null:history.activeColor
           }
+          
           history.appendAction(action);
 
           this.draw(x, y, history.activeColor);
@@ -160,15 +161,11 @@ class CanvasMng{
           
 
           const action = {
-            tool: history.activeTool,
-            frame: history.activeFrame,
-            layer: history.activeLayer,
-            toolprop: {
-              x: x, 
-              y: y,
-              color: history.activeTool==='eraser'?null:history.activeColor 
-            }
+            x: x, 
+            y: y,
+            color: history.activeTool==='eraser'?null:history.activeColor 
           }
+          
           history.appendAction(action);
           this.connectDraw(x, y);
         }

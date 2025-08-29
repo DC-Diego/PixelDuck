@@ -12,7 +12,16 @@ function App(){
   const navigate = useNavigate();
   let [timelineHidden, setTimelineHidden] = useState(true);
   
-  
+  const undo = ()=>{
+    history.undo();
+    layerManager.getActiveLayer().drawFromRLE(history.createRay());
+    
+  }
+  const redo = ()=>{
+    history.redo();
+    layerManager.getActiveLayer().drawFromRLE(history.createRay());
+    
+  }
 
 
   const fileProject = fileInfo;
@@ -28,9 +37,9 @@ function App(){
     }
 
   }
-
+  
   return (<div className="greater">
-    <Topbar />
+    <Topbar undo={undo} redo={redo}/>
     <CanvasLayout width={fileProject.width} height={fileProject.height} timelineHidden={timelineHidden} />
     <Timeline timelineHidden={timelineHidden} setTimelineHidden={setTimelineHidden}/>
 

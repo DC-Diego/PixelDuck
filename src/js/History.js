@@ -25,17 +25,20 @@ class History{
     return this.activeColor;
   }
 
-  undo(){
+  undo = ()=>{
+    console.log(this.historyStep)
     if(this.historyStep > 0){
       this.historyStep-=1;
     }
   }
-  redo(){
-    if(this.historyStep < this.actionHistory.length-1){
+  redo=()=>{
+    console.log(this.historyStep+" "+(this.actionHistory.length-1));
+    if(this.historyStep < this.actionHistory.length){
       this.historyStep+=1;
     }
   }
   deleteRedo(){
+    console.log("RODOU")
     while(this.actionHistory.length > this.historyStep)
       this.actionHistory.pop();
   }
@@ -45,15 +48,16 @@ class History{
   }
   appendAction(action){
     const newAction = {
-      tool: history.activeTool,
-      frame: history.activeFrame,
-      layer: history.activelayer,
-
+      tool: this.activeTool,
+      frame: this.activeFrame,
+      layer: this.activeLayer,
+      toolprop: action
 
     }
 
 
-    this.action.push(action)
+    this.action.push(newAction);
+    this.deleteRedo();
   }
 
   duplicateFrameData(id, id2){
@@ -143,8 +147,10 @@ class History{
   }
 
   createRay(){
+    console.log(this.historyStep);
     let myRay = this.getActiveDataFrame().frameData[this.activeFrame]; 
-    for(const e of this.actionHistory){
+    for(let i = 0; i < this.historyStep;i++){
+      const e = this.actionHistory[i];
       if(e[0].frame==this.activeFrame && e[0].layer==this.activeLayer){
 
         myRay = this.createRLE(myRay, e);
