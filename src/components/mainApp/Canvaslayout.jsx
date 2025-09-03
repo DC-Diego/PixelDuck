@@ -11,7 +11,7 @@ function CanvasLayout({timelineHidden, width, height}){
   let [showLayerBox, setShowLayerBox] = useState(false);
   let [renderLayers, setRenderLayers] = useState([...layerManager.getOrderedLayers()])
   
-  let [alphaLayer, setAlphaLayer] = useState(layerManager.getActiveLayer().alpha*100);
+  let [alphaLayer, setAlphaLayer] = useState(layerManager.getActiveLayer()?.alpha*100);
 
  
 

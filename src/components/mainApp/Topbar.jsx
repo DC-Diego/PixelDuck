@@ -1,6 +1,18 @@
 import {ChevronLeft, Clipboard, Copy, Expand, Fullscreen, Redo, ScissorsIcon, Square, Undo, ZoomIn, ZoomOut} from "lucide-react"
+import { useState } from "react";
 import logoPixelDuck from "../../assets/logoPixelDuck.png"
 function Topbar({undo, redo}){
+  let [zoomSize, setZoomSize] = useState(100);
+
+  const Zoom = (op)=>{
+    const canvasBaseDiv = document.getElementById("canvasBaseDiv");
+    let calc = Math.floor(zoomSize*Math.pow(1.1, op));
+    calc=calc>1000?1000:(calc<25)?25:calc;
+    setZoomSize(calc);
+    canvasBaseDiv.style.scale=calc/100;
+
+
+  }
 
   return (<div className="topBar"> 
     {/* <div className="contentTopBar">
@@ -22,6 +34,7 @@ function Topbar({undo, redo}){
     </div>
     <div className="contentTopBar">
       <h1>Zoom:</h1>
+      <h1>{zoomSize}</h1>
       <select defaultValue={"100%"}>
         <option value="50%">50%</option>
         <option value="100%">100%</option>
@@ -34,8 +47,8 @@ function Topbar({undo, redo}){
       </select>
 
 
-      <button className="iconTopBarBtn"> <ZoomIn/></button>
-      <button className="iconTopBarBtn"> <ZoomOut/></button>
+      <button className="iconTopBarBtn" onClick={()=>Zoom(1)}> <ZoomIn/></button>
+      <button className="iconTopBarBtn" onClick={()=>Zoom(-1)}> <ZoomOut/></button>
       <button className="iconTopBarBtn"> <Fullscreen/></button>
       <button className="iconTopBarBtn"> <Expand/></button>
     </div>
