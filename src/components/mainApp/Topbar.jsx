@@ -4,9 +4,26 @@ import logoPixelDuck from "../../assets/logoPixelDuck.png"
 function Topbar({undo, redo}){
   let [zoomSize, setZoomSize] = useState(100);
 
-  const Zoom = (op)=>{
+  const fullScreen = ()=>{
+    if(document.fullscreenElement)
+    document.exitFullscreen();
+    else{
+      const root = document.getElementById("root");
+      root.requestFullscreen();
+    }
+
+
+  }
+
+  const resetZoom = ()=>{
+    setZoomSize(100);
+    document.getElementById("canvasBaseDiv").style.scale=1;
+
+  }
+
+  const zoom = (op)=>{
     const canvasBaseDiv = document.getElementById("canvasBaseDiv");
-    let calc = Math.floor(zoomSize*Math.pow(1.1, op));
+    let calc = Math.floor(zoomSize*Math.pow(1.3, op));
     calc=calc>1000?1000:(calc<25)?25:calc;
     setZoomSize(calc);
     canvasBaseDiv.style.scale=calc/100;
@@ -34,8 +51,11 @@ function Topbar({undo, redo}){
     </div>
     <div className="contentTopBar">
       <h1>Zoom:</h1>
-      <h1>{zoomSize}</h1>
-      <select defaultValue={"100%"}>
+      <h1 style={{padding: '5px',
+    backgroundColor: '#00000080',
+    borderRadius: '5px',
+    textAlign: 'center',  }}>{zoomSize}</h1>
+      {/* <select defaultValue={"100%"}>
         <option value="50%">50%</option>
         <option value="100%">100%</option>
         <option value="200%">200%</option>
@@ -44,13 +64,13 @@ function Topbar({undo, redo}){
         <option value="500%">500%</option>
 
 
-      </select>
+      </select> */}
 
 
-      <button className="iconTopBarBtn" onClick={()=>Zoom(1)}> <ZoomIn/></button>
-      <button className="iconTopBarBtn" onClick={()=>Zoom(-1)}> <ZoomOut/></button>
-      <button className="iconTopBarBtn"> <Fullscreen/></button>
-      <button className="iconTopBarBtn"> <Expand/></button>
+      <button className="iconTopBarBtn" onClick={()=>zoom(1)}> <ZoomIn/></button>
+      <button className="iconTopBarBtn" onClick={()=>zoom(-1)}> <ZoomOut/></button>
+      <button className="iconTopBarBtn" onClick={()=>fullScreen()}> <Fullscreen/></button>
+      <button className="iconTopBarBtn" onClick={()=>resetZoom()}> <Expand/></button>
     </div>
 
 
