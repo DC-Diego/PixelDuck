@@ -1,0 +1,22 @@
+#newFile{
+  background: url(https://img.freepik.com/premium-photo/pixel-art-style-landscape-with-lake-mountains-background_720722-1148.jpg);
+  height: 100%;
+  width: 100%;
+  background-position: center;
+  background-size: cover;
+  position: relative;
+}
+#newFile::before{
+  content: '';
+  position: absolute;
+  top: 0;
+  height: 100%;
+  width: 100%;
+  background-color: black;
+  opacity: 0.4;
+}
+#newFile > *{
+  position: relative;
+  z-index: 1;
+
+}

@@ -1,0 +1,57 @@
+.confirmDialog{
+  position: absolute;
+  min-height: 150px;
+  min-width: 300px;
+  max-width: 300px;
+  background-color: #0f0f0f;
+  z-index: 100;
+  align-self: anchor-center;
+  display: flex;
+  flex-direction: column;
+  border-radius: 10px;
+  padding: 5px;
+}
+.confirmDialog > h1{ /* Titulo */
+  text-align: center;
+  color: #ffffff;
+  
+}
+
+.confirmDialog > p{ /* descrição */
+  width: 95%;
+  display: flex;
+  flex-wrap: wrap;
+  word-break: break-all;
+  color: #ffffff;
+
+}
+.confirmDialog > div{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
+  padding-top: 15px;
+
+}
+.confirmDialog > div > button{
+  padding: 6px 15px;
+  border-radius: 5px;
+  border: none;
+  text-align: center;
+  font-size: 14px;
+  transition: 0.2s;
+}
+.confirmDialog > div > button:hover{
+  scale: 1.1;
+
+}
+.confirmDialog > div > .cancel-btn:hover{
+  background-color: #ff3838;
+}
+
+.confirmDialog > div > .confirm-btn:hover{
+  background-color: #68f868;
+}
+
+
+
