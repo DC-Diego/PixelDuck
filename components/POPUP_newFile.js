@@ -9,6 +9,7 @@ function newFile(){
   `;
   const ar = Math.random();
   const div = document.createElement('div');
+  div.classList.add("newFilePopUp");
   div.innerHTML = comps;
   div.querySelector("h1").addEventListener("click", ()=>{
     console.log("Clicado! "+ar);

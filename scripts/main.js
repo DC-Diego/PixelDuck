@@ -2,9 +2,6 @@ import {newFile} from '../components/POPUP_newFile.js';
 import {confirmDialog} from '../components/POPUP_confirm.js';
 
 
-console.log("Hello, world!");
-
-// document.getElementById("newFile").appendChild(newFile());
 
 function renderComponent(parent, child){
   parent.appendChild(child);
@@ -12,7 +9,6 @@ function renderComponent(parent, child){
 }
 
 let i = 0;
-
 
 const confirmar = ()=>{
   i++;
@@ -26,3 +22,4 @@ const cancelar = ()=>{
 
 renderComponent(document.body, confirmDialog('Titulo lindo', 'Descrição Descrição Descrição Descrição', confirmar, cancelar));
 
+renderComponent(document.body, newFile('Titulo lindo', 'Descrição Descrição Descrição Descrição', confirmar, cancelar));

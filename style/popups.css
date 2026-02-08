@@ -53,5 +53,20 @@
   background-color: #68f868;
 }
 
+/**/
+
+.newFilePopUp{
+  position: absolute;
+  min-height: 150px;
+  min-width: 300px;
+  max-width: 300px;
+  background-color: #0f0f0f;
+  z-index: 5;
+  align-self: anchor-center;
+  display: flex;
+  flex-direction: column;
+  border-radius: 10px;
+  padding: 5px;
+}
 
 
