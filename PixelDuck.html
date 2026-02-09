@@ -11,17 +11,66 @@
 <body>
 
   <div class="newFilePopUp">
+    <div class="popup-header">
+      <h1>Novo arquivo</h1>
 
-    Pop up de criação de arquivo
+      
+      <svg class="SVG-closePopup" viewBox="0 0 250 250">
+        <line class="lineSVG" x1="75" y1="75" x2="175" y2="175"></line>
+        <line class="lineSVG" x1="175" y1="75" x2="75" y2="175"></line>
+      </svg>
+    </div>
+    <div class="newfile-partition-area">
+      <div class="newfile-partition" style="flex: 5;">
+
+        <div class="input-label-div" style="margin-top: 15px;">
+          <h1> Nome do arquivo:</h1>
+          <input value="Nome do arquivo">
+        </div>
+
+
+        <div class="dsdwqd">
+          <div class="input-label-div">
+            <h1> height:</h1>
+            <input type="text" style="width: 50px;"/>
+          </div>
+          <svg class="SVG-closePopup" viewBox="0 0 250 250" style="background-color: red;">
+            <rect class="lineSVG" width="100px" height="70" x="15" y="90" rx="12px"/>
+            <rect class="lineSVG" width="100px" height="70" x="135" y="90" rx="12px" />
+            <line class="lineSVG" x1="90" y1="125" x2="160" y2="125"></line>
+          </svg>
+
+          <div class="input-label-div">
+            <h1> width:</h1>
+            <input type="text" style="width: 50px;"/>
+          </div>
+
+
+        </div>
+
+      </div>
+      <div class="newfile-partition" style="flex: 7; border-left: 2px solid #ffffff;">
+
+
+
+
+      </div>
+
+    </div>
+    <!-- Pop up de criação de arquivo
     esquerda:
       Titulo
       height
       width
       link-height-width/aspect-ratio-lock
       criar arquivo
-      salvar predefinição
+
+
     direita:
-      predefinições
+    Preview em "tempo-reativo", reaje as modificações de height ou width
+    
+    
+     -->
 
 
   </div>

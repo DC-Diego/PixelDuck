@@ -15,6 +15,7 @@ function confirmDialog(title, description, confirm = ()=>{}, cancel = ()=>{}){
     div.remove();
   }
 
+  div.querySelector("div").classList.add("popup-header");
   div.querySelector("h1").innerText = title;
   div.querySelector("p").innerText = description;
   div.querySelector(".cancel-btn").addEventListener('click', ()=>{

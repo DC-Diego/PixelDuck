@@ -26,13 +26,21 @@
 
 }
 .confirmDialog > div{
+  
+  padding-top: 15px;
+
+}
+
+.popup-header{
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   width: 100%;
-  padding-top: 15px;
 
+  
 }
+
+
 .confirmDialog > div > button{
   padding: 6px 15px;
   border-radius: 5px;
@@ -58,8 +66,8 @@
 .newFilePopUp{
   position: absolute;
   min-height: 150px;
-  min-width: 300px;
-  max-width: 300px;
+  min-width: 550px;
+  max-width: 550px;
   background-color: #0f0f0f;
   z-index: 5;
   align-self: anchor-center;
@@ -68,5 +76,82 @@
   border-radius: 10px;
   padding: 5px;
 }
+
+.SVG-closePopup{
+  aspect-ratio: 1;
+  width: 25px;
+}
+
+.lineSVG{
+  fill: none;
+  stroke:white; 
+  stroke-width: 20px;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.newfile-partition-area{
+  width: 100%;
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  height: 300px;
+  background-color: #ff3838;
+
+
+}
+.newfile-partition{
+  /* background: #0f0f0f; */
+  /* border: #0f0f0f solid 1px; */
+  flex: 1;
+  position: relative;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+
+}
+
+.dsdwqd{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  margin-top: 15px;
+
+}
+
+.input-label-div{
+  height: 30px;
+  width: auto;
+  padding: 5px;
+  border-radius: 5px;
+  border: solid 2px #ffffff;
+  position: relative;
+
+}
+.input-label-div > h1{
+  font-size: 14px;
+  width: fit-content;
+  color: #ffffff;
+  margin-top: -16px;
+  min-width: 0;
+  padding-right: 5px;
+  padding-left: 5px;
+  margin-left: 0;
+  background: #0f0f0f;
+}
+.input-label-div > input{
+  font-size: 14px;
+  width: fit-content;
+  min-width: 0;
+  color: #ffffff;
+  padding-right: 5px;
+  padding-left: 5px;
+  margin-left: 0;
+  background: #0f0f0f;
+}
+
 
 
