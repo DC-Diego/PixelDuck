@@ -12,7 +12,7 @@
 
   <div class="newFilePopUp">
     <div class="popup-header">
-      <h1>Novo arquivo</h1>
+      <h1 style="color: white;font-size: 25px;">Novo arquivo</h1>
 
       
       <svg class="SVG-closePopup" viewBox="0 0 250 250">
@@ -23,18 +23,18 @@
     <div class="newfile-partition-area">
       <div class="newfile-partition" style="flex: 5;">
 
-        <div class="input-label-div" style="margin-top: 15px;">
+        <div class="input-label-div" style="margin-top: 15px; width: 85%;">
           <h1> Nome do arquivo:</h1>
-          <input value="Nome do arquivo">
+          <input placeholder="Nome do arquivo">
         </div>
 
 
         <div class="dsdwqd">
           <div class="input-label-div">
             <h1> height:</h1>
-            <input type="text" style="width: 50px;"/>
+            <input type="number" style="width: 72px;" min="1" value="1" onkeypress="return event.charCode >= 48 && event.charCode <= 57" max="100000">
           </div>
-          <svg class="SVG-closePopup" viewBox="0 0 250 250" style="background-color: red;">
+          <svg class="SVG-link SVG-link-active" viewBox="0 0 250 250" >
             <rect class="lineSVG" width="100px" height="70" x="15" y="90" rx="12px"/>
             <rect class="lineSVG" width="100px" height="70" x="135" y="90" rx="12px" />
             <line class="lineSVG" x1="90" y1="125" x2="160" y2="125"></line>
@@ -42,16 +42,17 @@
 
           <div class="input-label-div">
             <h1> width:</h1>
-            <input type="text" style="width: 50px;"/>
+            <input type="number" style="width: 72px;" min="1" value="1" onkeypress="return event.charCode >= 48 && event.charCode <= 57" max="100000">
           </div>
 
 
         </div>
+        <button class="btnCreateFile" >Criar arquivo</button>
 
       </div>
       <div class="newfile-partition" style="flex: 7; border-left: 2px solid #ffffff;">
 
-
+        Preview
 
 
       </div>
@@ -78,7 +79,7 @@
 
 
   <div id="newFile">
-    <h1 style="background-color: red;">Welcome</h1>
+    <h1 style="background-color: red;">PixelDuck</h1>
 
 
   </div>

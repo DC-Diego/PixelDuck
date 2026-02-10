@@ -36,12 +36,12 @@
   flex-direction: row;
   justify-content: space-between;
   width: 100%;
-
+  padding-bottom: 5px;
   
 }
 
 
-.confirmDialog > div > button{
+.confirmDialog > div > button, .newFilePopUp button{
   padding: 6px 15px;
   border-radius: 5px;
   border: none;
@@ -66,8 +66,8 @@
 .newFilePopUp{
   position: absolute;
   min-height: 150px;
-  min-width: 550px;
-  max-width: 550px;
+  min-width: 650px;
+  max-width: 650px;
   background-color: #0f0f0f;
   z-index: 5;
   align-self: anchor-center;
@@ -76,11 +76,27 @@
   border-radius: 10px;
   padding: 5px;
 }
-
-.SVG-closePopup{
+.SVG-closePopup:hover{ scale: 1.1; background-color: #ffffff40; border-radius: 5px;}
+.SVG-closePopup, .SVG-link{
   aspect-ratio: 1;
   width: 25px;
+  margin: auto 0;
+  margin-right: 5px; transition: 0.2s;
 }
+
+.SVG-link{
+  border-radius: 5px;
+  padding: 1px;
+  margin-right: 0;
+  transition: 0.2s;
+  background-color: #2b2b2b;
+}
+.SVG-link:hover{
+  background-color: #ffffff40;
+  scale: 1.05;
+}
+.SVG-link-active{background-color: #3f8fdc;}
+.SVG-link-active:hover{background-color: #8bc7ff;}
 
 .lineSVG{
   fill: none;
@@ -97,7 +113,10 @@
   flex-direction: row;
   align-items: center;
   height: 300px;
-  background-color: #ff3838;
+  background-color: #1b1b1b; 
+  border-radius: 5px;
+  padding-bottom: 5px;
+  padding-top: 5px;
 
 
 }
@@ -117,18 +136,22 @@
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  width: 100%;
+  width: 95%;
   margin-top: 15px;
 
 }
 
 .input-label-div{
   height: 30px;
+  min-width: 80px;
   width: auto;
   padding: 5px;
   border-radius: 5px;
-  border: solid 2px #ffffff;
+  border: solid 2px #d0d0d0;
   position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 
 }
 .input-label-div > h1{
@@ -140,18 +163,29 @@
   padding-right: 5px;
   padding-left: 5px;
   margin-left: 0;
-  background: #0f0f0f;
+  background: #1b1b1b;
 }
 .input-label-div > input{
   font-size: 14px;
-  width: fit-content;
   min-width: 0;
   color: #ffffff;
   padding-right: 5px;
   padding-left: 5px;
-  margin-left: 0;
-  background: #0f0f0f;
+  background: transparent;
+  border: none;
+  border-bottom: solid 2px #d0d0d0;
+  margin-left: 0px;
+  width: 90%;
 }
+.input-label-div > input::placeholder{
+  color: #dddddd;
 
-
-
+}
+.btnCreateFile{
+  margin-top: auto;
+  margin-bottom: 10px;
+  background-color: #1e90ff;
+}.btnCreateFile:hover{
+  background-color: #5bb5ff;
+  scale: 1.1;
+}
