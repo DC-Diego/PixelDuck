@@ -22,5 +22,5 @@ const cancelar = ()=>{
 /*
 renderComponent(document.body, confirmDialog('Titulo lindo', 'Descrição Descrição Descrição Descrição', confirmar, cancelar));
 
-renderComponent(document.body, newFile('Titulo lindo', 'Descrição Descrição Descrição Descrição', confirmar, cancelar));
 */
+renderComponent(document.body, newFile());
