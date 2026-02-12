@@ -121,8 +121,6 @@
 
 }
 .newfile-partition{
-  /* background: #0f0f0f; */
-  /* border: #0f0f0f solid 1px; */
   flex: 1;
   position: relative;
   height: 100%;

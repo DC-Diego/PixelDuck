@@ -1,5 +1,5 @@
 
-function newFile(){
+function newFile(cancel = ()=>{}, confirm = ()=>{}){
   const comps = `
   <div class="popup-header">
     <h1 style="color: white;font-size: 25px;">Novo arquivo</h1>
@@ -39,7 +39,7 @@ function newFile(){
     </div>
     <div class="newfile-partition" style="flex: 7; border-left: 2px solid #ffffff; background-color: black;">
 
-      <div class="preview" style="background: white; width: 50%; height: 50%; display: flex;align-items:center;justify-content: center;">
+      <div class="preview" style="background: white; width: 50%; aspect-ratio: 1/1;display: flex;align-items:center;justify-content: center;">
         Preview
       </div>
     </div>
@@ -67,12 +67,21 @@ function newFile(){
 
   const closePopup = ()=>{
     div.remove();
+    
   }
 
   const previewResponsiveness = ()=>{
-    aspectRatio = height/width;
-    console.log("")
-    preview.style.width = `calc(50% * ${aspectRatio})`;
+    aspectRatio = height/width; 
+    if(aspectRatio >= 1){ 
+      preview.style.height = `50%`;
+      preview.style.width = ``;
+      
+    }else{
+      preview.style.width = `50%`;
+      preview.style.height = ``;
+    }
+    preview.style.aspectRatio = `${width}/${height}`;
+
   };
 
   const linkWidthHeight = (isHeight)=>{
@@ -107,11 +116,11 @@ function newFile(){
   });
   btnClose.addEventListener("click", ()=>{
     closePopup();
-
+    cancel()
   });
   btnCreateNewFile.addEventListener("click", ()=>{
     closePopup();
-
+    confirm();
   });
 
 

@@ -1,5 +1,6 @@
-import {newFile} from '../components/POPUP_newFile.js';
+
 import {confirmDialog} from '../components/POPUP_confirm.js';
+import  '../scripts/splashScreen.js';
 
 
 
@@ -23,4 +24,4 @@ const cancelar = ()=>{
 renderComponent(document.body, confirmDialog('Titulo lindo', 'Descrição Descrição Descrição Descrição', confirmar, cancelar));
 
 */
-renderComponent(document.body, newFile());
+// renderComponent(document.body, newFile());
