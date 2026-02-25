@@ -8,7 +8,18 @@ function renderComponent(parent, child){
 
 }
 
-setActivePage('NewFilePage');
+
+
+
+
+
+
+
+
+
+
+// setActivePage('NewFilePage');
+setActivePage('WorkSpacePage');
 
 splashScreen();
 /*
