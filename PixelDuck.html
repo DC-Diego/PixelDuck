@@ -41,28 +41,67 @@
   </div>
 
   <div id="workSpace" class="page">
-    <div class="menuBar">  </div>
+    <div class="menuBar">  
+      <img id="logo" src="./sources/logo.png" alt="Logo PixelDuck">
+      <div class="buttons-menuBar">
+        <h1>File</h1>
+      </div>  
+      <div class="buttons-menuBar">
+        <h1>Edit</h1>
+      </div>
+      <div class="buttons-menuBar">
+        <h1>Select</h1>
+      </div>
+      <div class="buttons-menuBar">
+        <h1>Image</h1>
+      </div>
+      <div class="buttons-menuBar">
+        <h1>Preferences</h1>
+      </div>
+
+    </div>
     <div class="centerArea"> 
-      Workspace - Duck Studio! 
+      <div id="toolbar">
+        move, brush, eraser, select, flood, dropper, crop, zoom etc.
+
+        <div id="toggleToolbar">
+          <svg class="toggle-icon" viewBox="0 0 24 24">
+            <line x1="16" y1="12" x2="8" y2="5" />
+            <line x1="16" y1="12" x2="8" y2="19" />
+          </svg>
+        </div>
+      </div>
+      <div class="viewport">
+        <!-- Workspace - Duck Studio!  -->
+        <div id="canvasArea"> 
+        </div>
+      </div>
+
+      <div id="propertiesPanel">
+        <div class="splitter v">
+          <svg class="splitter-icon" viewBox="0 0 24 24">
+            <circle cx="3" cy="12" r="2"/>
+            <circle cx="12" cy="12" r="2"/>
+            <circle cx="21" cy="12" r="2"/>
+          </svg>
+        </div>
+
+      </div>
+
+
+
+
     </div>
     <div class="timeline"> 
-      
       <div class="splitter h">
         <svg class="splitter-icon" viewBox="0 0 24 24">
           <circle cx="3" cy="12" r="2"/>
           <circle cx="12" cy="12" r="2"/>
           <circle cx="21" cy="12" r="2"/>
         </svg>
-
       </div>
-      
-
-    </div>
-    
-
+    </div>  
   </div>
-
-
 
   <script type="module" src="./scripts/main.js"></script>
 </body>
