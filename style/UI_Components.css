@@ -65,3 +65,11 @@
   transform: rotateZ(0deg);
 
 }
+.activeTool{
+  background-color: #2b21b6;
+  
+}
+.activeTool:hover{
+  background-color: #5f6bdb;
+
+}

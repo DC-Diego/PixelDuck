@@ -40,6 +40,7 @@ body{
   width: 100%;
   background-color: #303030;
   display: flex;
+  padding-bottom: 5px;
   flex-direction: row;
   align-items: center;
   position: relative;  
@@ -91,12 +92,37 @@ body{
   background-color: #303030;
   margin: 0px;
   position: relative;
-  /* display: flex; */
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
   transition: 0.2s;
 }
 #toolbar.hidden{
-  width: 0px;
+  margin-left: -40px;
 }
+
+.tool{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  aspect-ratio: 1/1;
+  width: 30px;
+  background-color: #171717;
+  border-radius: 5px;
+  cursor: pointer;
+  user-select: none;
+  transition: 0.2s;
+  text-align: center;
+  font-size: 14px;
+}
+.tool:hover{
+  background-color: #202020;
+  font-size: 16px;
+}
+
+
+
 
 .viewport{
   position: relative;

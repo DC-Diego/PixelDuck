@@ -9,7 +9,11 @@ function renderComponent(parent, child){
 
 }
 
-
+document.querySelectorAll(".tool").forEach((e)=>{
+  e.addEventListener('click',()=>{
+    document.querySelector('.activeTool')?.classList.remove('activeTool');
+    e.classList.add('activeTool');
+})});
 
 
 document.getElementById("toggleToolbar").addEventListener('click', ()=>{
