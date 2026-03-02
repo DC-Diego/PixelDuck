@@ -7,7 +7,6 @@ function renderComponent(parent, child){
 
 function splashScreen(){
   const btnNewFile = document.getElementById("btnNewFile");
-  const PAGEnewFile = document.getElementById("newFile");
   
 
   btnNewFile.addEventListener("click", ()=>{

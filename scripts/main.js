@@ -32,6 +32,20 @@ const propertiesSplitter = new Splitter (
     document.getElementById("propertiesPanel"), 'v');
 
 
+/*
+  const btnStarterFrame =  document.getElementById("timeline-btn-starter-frame");
+  const btnPreviousSecond =  document.getElementById("timeline-btn-previous-second");
+  const btnPreviousFrame =  document.getElementById("timeline-btn-previous-frame");
+
+  const btnPlayBackward =  document.getElementById("timeline-btn-play-backward");
+  const btnPause =  document.getElementById("timeline-btn-pause");
+  const btnPlayForward =  document.getElementById("timeline-btn-play-forward");
+
+  const btnNextFrame =  document.getElementById("timeline-btn-next-frame");
+  const btnNextSecond =  document.getElementById("timeline-btn-next-second");
+  const btnEndingFrame =  document.getElementById("timeline-btn-ending-frame");
+    
+*/
 
 
 

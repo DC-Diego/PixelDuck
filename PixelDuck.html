@@ -6,6 +6,7 @@
   <link href="./style/style.css" rel="stylesheet">
   <link href="./style/newFile.css" rel="stylesheet">
   <link href="./style/popups.css" rel="stylesheet">
+  <link href="./style/timeline.css" rel="stylesheet">
   <link href="./style/UI_Components.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" integrity="sha384-tViUnnbYAV00FLIhhi3v/dWt3Jxw4gZQcNoSCxCIFNJVCx7/D55/wXsrNIRANwdD" crossorigin="anonymous">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -78,14 +79,15 @@
 
 
 
+        
+      </div>
+      <div class="viewport">
         <div id="toggleToolbar">
           <svg class="toggle-icon" viewBox="0 0 24 24">
             <line x1="16" y1="12" x2="8" y2="5" />
             <line x1="16" y1="12" x2="8" y2="19" />
           </svg>
         </div>
-      </div>
-      <div class="viewport">
         <!-- Workspace - Duck Studio!  -->
         <div id="canvasArea"> 
         </div>
@@ -114,6 +116,31 @@
           <circle cx="21" cy="12" r="2"/>
         </svg>
       </div>
+
+      <div class="timeline-header">
+        <div id="settings"></div>
+        <div id="controls">
+          <button id="timeline-btn-starter-frame" class="icon-buttons rotate" title="Jump to starter frame" aria-label="Jump to starter frame"><svg viewBox="0 0 16 16" class="SVG-icon"> <use  href="./sources/svg/endFrame.svg#end-frame"></use></svg></button>
+          <button id="timeline-btn-previous-second" class="icon-buttons rotate" title="Jump to previous second"  aria-label="Jump to previous second"><svg viewBox="0 0 16 16" class="SVG-icon"> <use  href="./sources/svg/nextSecond.svg#next-second" ></use></svg></button>
+          <button id="timeline-btn-previous-frame" class="icon-buttons rotate" title="Jump to previous frame"  aria-label="Jump to previous frame"><svg viewBox="0 0 16 16" class="SVG-icon"> <use  href="./sources/svg/nextFrame.svg#next-frame" ></use></svg></button>
+          <div class="play-pause">
+            <button id="timeline-btn-play-backward" class="icon-buttons rotate" title="Play animation backward" aria-label="Play animation backward"><svg viewBox="0 0 16 16" class="SVG-icon"> <use  href="./sources/svg/play.svg#play" ></use></svg></button>
+            <button id="timeline-btn-pause" class="icon-buttons" title="Pause animation" aria-label="Pause animation"><svg viewBox="0 0 16 16" class="SVG-icon"> <use  href="./sources/svg/pause.svg#pause" ></use></svg></button>
+            <button id="timeline-btn-play-forward" class="icon-buttons" title="Play animation forward"  aria-label="Play animation forward"><svg viewBox="0 0 16 16" class="SVG-icon"> <use  href="./sources/svg/play.svg#play" ></use></svg></button>
+          </div>
+          <button id="timeline-btn-next-frame" class="icon-buttons" title="Jump to next frame" aria-label="Jump to next frame"><svg viewBox="0 0 16 16" class="SVG-icon"> <use  href="./sources/svg/nextFrame.svg#next-frame" ></use></svg></button>
+          <button id="timeline-btn-next-second" class="icon-buttons" title="Jump to next second" aria-label="Jump to next Second"><svg viewBox="0 0 16 16" class="SVG-icon"> <use  href="./sources/svg/nextSecond.svg#next-second" ></use></svg></button>
+          <button id="timeline-btn-ending-frame" class="icon-buttons" title="Jump to ending frame" aria-label="Jump to ending frame"><svg viewBox="0 0 16 16" class="SVG-icon"> <use  href="./sources/svg/endFrame.svg#end-frame" ></use></svg></button>
+
+        </div>
+        <div id="status"></div>
+
+      </div>
+
+
+
+
+
     </div>  
   </div>
 
