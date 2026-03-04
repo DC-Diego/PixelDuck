@@ -133,7 +133,47 @@
           <button id="timeline-btn-ending-frame" class="icon-buttons" title="Jump to ending frame" aria-label="Jump to ending frame"><svg viewBox="0 0 16 16" class="SVG-icon"> <use  href="./sources/svg/endFrame.svg#end-frame" ></use></svg></button>
 
         </div>
-        <div id="status"></div>
+        <div id="status">
+
+          <div class="group-label-input" id="currentFrame"  title="current frame">
+            <button class="icon-buttons input-ctrl step-down-js" aria-label="Decrement"><svg class="toggle-icon" viewBox="0 0 24 24"><line x1="16" y1="12" x2="8" y2="5" />
+                <line x1="16" y1="12" x2="8" y2="19" /></svg>
+            </button>
+            <input class="input-stepper-js" type="number" min="0" max="10000" value="0">
+            <button class="icon-buttons input-ctrl step-up-js" aria-label="Increment"><svg class="toggle-icon rotate" viewBox="0 0 24 24"><line x1="16" y1="12" x2="8" y2="5" />
+              <line x1="16" y1="12" x2="8" y2="19" /></svg>
+            </button>
+          </div>
+
+          <div class="group-label-input" id="starterFrame"  title="Starter frame">
+            <h1>Start</h1>
+            <button class="icon-buttons input-ctrl step-down-js h" aria-label="Decrement"><svg class="toggle-icon" viewBox="0 0 24 24"><line x1="16" y1="12" x2="8" y2="5" />
+              <line x1="16" y1="12" x2="8" y2="19" /></svg>
+            </button>
+            <input class="input-stepper-js " type="number"min="0" max="10000" value="0" style="width: 30px;">
+            <button class="icon-buttons input-ctrl step-up-js h" aria-label="Increment"><svg class="toggle-icon rotate" viewBox="0 0 24 24"><line x1="16" y1="12" x2="8" y2="5" />
+              <line x1="16" y1="12" x2="8" y2="19" /></svg>
+            </button>
+
+
+          </div>
+          <div class="group-label-input" id="endingFrame" title="Ending frame">
+            <h1>End</h1>
+            <button class="icon-buttons input-ctrl step-down-js h" aria-label="Decrement"><svg class="toggle-icon" viewBox="0 0 24 24"><line x1="16" y1="12" x2="8" y2="5" />
+              <line x1="16" y1="12" x2="8" y2="19" /></svg>
+            </button>
+            <input class="input-stepper-js " type="number" min="0" max="10000" value="0" style="width: 30px;">
+            <button class="icon-buttons input-ctrl step-up-js h" aria-label="Increment"><svg class="toggle-icon rotate" viewBox="0 0 24 24"><line x1="16" y1="12" x2="8" y2="5" />
+              <line x1="16" y1="12" x2="8" y2="19" /></svg>
+            </button>
+
+          </div>
+
+
+
+
+
+        </div>
 
       </div>
 

@@ -81,3 +81,60 @@
 
 
 }
+
+.group-label-input{
+  background-color: #3d3d3d;
+  height: 90% ;
+  width: fit-content;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 0px 5px;
+  border-radius: 5px;
+  overflow: hidden;
+
+}
+
+.group-label-input > h1, 
+.group-label-input > input{
+  font-size: 14px;
+  text-align: center;
+  color: #dddddd;
+  width: 60px;
+  background-color: transparent;
+  border: none;
+}
+.group-label-input > h1{
+  width: auto;
+  margin-right: 2px;
+}
+
+.group-label-input > input[type=number]::-webkit-inner-spin-button,
+.group-label-input > input[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.input-ctrl{
+  width: 20px;
+  height: 100%;
+  margin: 0;
+  border-radius: 0;
+  background: transparent;
+}
+.input-ctrl > svg{
+  scale: 1.5 2;
+}
+
+.input-stepper-js.r{ text-align: right; }
+.input-stepper-js.l{ text-align: left; }
+
+.input-ctrl.h{
+  opacity: 0;
+  transition: 0.2s;
+}
+.group-label-input:hover .input-ctrl.h{
+  opacity: 1;
+
+}
+

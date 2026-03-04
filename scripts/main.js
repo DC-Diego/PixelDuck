@@ -1,7 +1,8 @@
 
 import {confirmDialog} from '../components/POPUP_confirm.js';
 import {splashScreen} from  '../scripts/splashScreen.js';
-import {Splitter} from  '../components/Splitter.js';
+import {Splitter} from  '../UI/Splitter.js';
+import {Stepper} from  '../UI/Stepper.js';
 import {setActivePage, getActivePage, getActivePageName} from './navigate.js';
 
 function renderComponent(parent, child){
@@ -31,6 +32,12 @@ const propertiesSplitter = new Splitter (
     document.getElementById("propertiesPanel").querySelector(".splitter"),
     document.getElementById("propertiesPanel"), 'v');
 
+
+const stepCurrent = new Stepper(document.getElementById("currentFrame"));
+const stepStart= new Stepper(document.getElementById("starterFrame"));
+const stepEnd= new Stepper(document.getElementById("endingFrame"));
+
+console.log(stepCurrent)
 
 /*
   const btnStarterFrame =  document.getElementById("timeline-btn-starter-frame");
