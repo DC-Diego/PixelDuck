@@ -14,6 +14,7 @@
 </head>
 <body>
 
+  <!-- TDKY  -->
 
   <div id="newFile" class="page">
     <!-- <h1 style="background-color: red;">PixelDuck</h1> -->
@@ -118,7 +119,26 @@
       </div>
 
       <div class="timeline-header">
-        <div id="settings"></div>
+        <div id="settings">
+
+          <div class="group-label-input div-toggle-reveal" id="onionSkin" title="Onion skin">
+            <button class="icon-buttons toggle-reveal-js" aria-label="Decrement">
+              <svg class="toggle-icon rotate" viewBox="0 0 300 300">
+                <use  href="./sources/svg/onionSkin.svg#onionSkin" ></use>
+
+            </svg>
+            </button>
+            <div class="reveal-container-js">
+              <button class="icon-buttons input-ctrl step-up-js h" aria-label="Increment"><svg class="toggle-icon rotate" viewBox="0 0 24 24"><line x1="16" y1="12" x2="8" y2="5" />
+                <line x1="16" y1="12" x2="8" y2="19" /></svg>
+              </button>
+
+
+            </div>
+          </div>
+
+
+        </div>
         <div id="controls">
           <button id="timeline-btn-starter-frame" class="icon-buttons rotate" title="Jump to starter frame" aria-label="Jump to starter frame"><svg viewBox="0 0 16 16" class="SVG-icon"> <use  href="./sources/svg/endFrame.svg#end-frame"></use></svg></button>
           <button id="timeline-btn-previous-second" class="icon-buttons rotate" title="Jump to previous second"  aria-label="Jump to previous second"><svg viewBox="0 0 16 16" class="SVG-icon"> <use  href="./sources/svg/nextSecond.svg#next-second" ></use></svg></button>
@@ -146,10 +166,10 @@
           </div>
 
           <div class="group-label-input" id="starterFrame"  title="Starter frame">
-            <h1>Start</h1>
             <button class="icon-buttons input-ctrl step-down-js h" aria-label="Decrement"><svg class="toggle-icon" viewBox="0 0 24 24"><line x1="16" y1="12" x2="8" y2="5" />
               <line x1="16" y1="12" x2="8" y2="19" /></svg>
             </button>
+            <h1>Start</h1>
             <input class="input-stepper-js " type="number"min="0" max="10000" value="0" style="width: 30px;">
             <button class="icon-buttons input-ctrl step-up-js h" aria-label="Increment"><svg class="toggle-icon rotate" viewBox="0 0 24 24"><line x1="16" y1="12" x2="8" y2="5" />
               <line x1="16" y1="12" x2="8" y2="19" /></svg>
@@ -158,10 +178,10 @@
 
           </div>
           <div class="group-label-input" id="endingFrame" title="Ending frame">
-            <h1>End</h1>
             <button class="icon-buttons input-ctrl step-down-js h" aria-label="Decrement"><svg class="toggle-icon" viewBox="0 0 24 24"><line x1="16" y1="12" x2="8" y2="5" />
               <line x1="16" y1="12" x2="8" y2="19" /></svg>
             </button>
+            <h1>End</h1>
             <input class="input-stepper-js " type="number" min="0" max="10000" value="0" style="width: 30px;">
             <button class="icon-buttons input-ctrl step-up-js h" aria-label="Increment"><svg class="toggle-icon rotate" viewBox="0 0 24 24"><line x1="16" y1="12" x2="8" y2="5" />
               <line x1="16" y1="12" x2="8" y2="19" /></svg>

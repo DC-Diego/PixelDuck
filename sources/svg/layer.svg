@@ -1,0 +1,8 @@
+<svg width="300" height="300" viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg">
+  <symbol id="layer">
+    <path d="M50 180 V50 H180" fill="none" stroke="#ffffff" stroke-width="20" stroke-linecap="round" stroke-linejoin="round"></path>
+    <path d="M100 220 V100 H220" fill="none" stroke="#ffffff" stroke-width="20" stroke-linecap="round" stroke-linejoin="round"></path>
+    <rect x="140" y="140" width="120" height="120" rx="15" fill="#ffffff"></rect>
+  </symbol>
+
+</svg>

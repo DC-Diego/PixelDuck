@@ -71,5 +71,56 @@
 }
 .activeTool:hover{
   background-color: #5f6bdb;
+  
+}
+
+.div-toggle-reveal{
+  transform-origin: left;
+  display: flex;
+  flex-direction: row;
 
 }
+
+.toggle-reveal-js{
+  width: 28px;
+  padding-left: 0px;
+  padding: 0px;
+  height: 28px;
+}
+/* .toggle-reveal-js.active{ background-color: #2b21b6; }
+.toggle-reveal-js.active:hover{ background-color: #5f6bdb; } */
+
+.reveal-container-js{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  visibility: hidden;
+  height: 90%;
+  width: 0px;
+  transform-origin: left;
+  transition: 0.2s;
+  margin-left: 0px;
+
+}
+
+button{
+  border: none;
+  border-radius: 5px;
+  background: transparent;
+  height: 90%;
+  color: #dddddd;
+  transition: 0.2s;
+}
+button:hover{
+  background: #505050;
+  color: #ffffff;
+
+}
+
+.reveal-container-js.active{ 
+  width: 10px;  
+  margin-left: 5px;
+  flex-direction: row;
+  visibility: visible;
+}
+
