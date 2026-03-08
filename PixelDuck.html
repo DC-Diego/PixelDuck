@@ -109,7 +109,7 @@
 
 
     </div>
-    <div class="timeline"> 
+    <div class="timeline" id="timeline"> 
       <div class="splitter h">
         <svg class="splitter-icon" viewBox="0 0 24 24">
           <circle cx="3" cy="12" r="2"/>
@@ -121,7 +121,7 @@
       <div class="timeline-header">
         <div id="settings">
 
-          <div class="group-label-input div-toggle-reveal" id="onionSkin" title="Onion skin">
+          <div class="div-toggle-reveal" id="onionSkin" title="Onion skin">
             <button class="icon-buttons toggle-reveal-js" aria-label="Decrement">
               <svg class="toggle-icon rotate" viewBox="0 0 300 300">
                 <use  href="./sources/svg/onionSkin.svg#onionSkin" ></use>
@@ -129,8 +129,13 @@
             </svg>
             </button>
             <div class="reveal-container-js">
-              <button class="icon-buttons input-ctrl step-up-js h" aria-label="Increment"><svg class="toggle-icon rotate" viewBox="0 0 24 24"><line x1="16" y1="12" x2="8" y2="5" />
-                <line x1="16" y1="12" x2="8" y2="19" /></svg>
+              <button class="icon-buttons input-ctrl" id="onionSkinAdvancedOptions" aria-label="onionSkin" style="width:18px;height: 30px;"><svg class="SVG-icon" viewBox="0 0 150 300" style="width:20px;">
+                <circle cx="75" cy="50" r="25" fill="#ffffff"  />
+                <circle cx="75" cy="150" r="25" fill="#ffffff"  />
+                <circle cx="75" cy="250" r="25" fill="#ffffff"  />
+
+
+              </svg>
               </button>
 
 

@@ -1,42 +1,37 @@
- class Splitter{
+import { UI_Component } from "./UI_Component.js";
 
-  constructor (handle, container, type){
-    this.handle = handle;
-    this.container = container;
+ class Splitter extends UI_Component{
+
+  constructor (root, type){
+    super(root);
+    this.handle = this.root.querySelector('.splitter');
+
     this.type = type;
-    this.init();
-  }
+    this.isHolding = false;
 
-  init(){
-    let start;
-    let isHolding = false;
-    this.handle.addEventListener('pointerdown', ()=>{
-      start = {x: this.container.clientWidth,y:this.container.clientHeight};
-      isHolding = true;
-    });
-
-    document.addEventListener('pointermove', (e)=>{
-      if(isHolding){
-        if(this.type == 'h'){
-          const height = document.body.clientHeight;
-          this.container.style.height = `${(height-e.y)}px`;
-        }else{
-          const width = document.body.clientWidth;
-          this.container.style.width = `${width-(e.x)}px`;
-          
-        }
-      }
-    })
-    document.addEventListener('pointerup', ()=>{
-      isHolding = false;
-    });
+    this.on(this.handle, 'pointerdown', ()=>{this.isHolding = true});
+    this.on(document, 'pointerup', ()=>{this.isHolding = false});
+    
+    if(this.type=='h'){
+      this.on(document, 'pointermove', (e)=>{this.horizontalSplit(e)});
+    }else{
+      this.on(document, 'pointermove', (e)=>{this.verticalSplit(e)});
+    }
 
   }
 
-
-
-
-
+  verticalSplit = (e)=>{
+    if(this.isHolding){
+      const width = document.body.clientWidth;
+      this.root.style.width = `${width-(e.x)}px`;
+    }
+  }
+  horizontalSplit = (e)=>{
+    if(this.isHolding){
+      const height = document.body.clientHeight;
+      this.root.style.height = `${(height-e.y)}px`;
+    }
+  }
 
 
 

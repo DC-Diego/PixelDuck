@@ -25,13 +25,18 @@ document.getElementById("toggleToolbar").addEventListener('click', ()=>{
   toolbar.classList.toggle("hidden");
 });
 
-const timelineSplitter = new Splitter (
-  document.querySelector(".timeline").querySelector(".splitter"),
-  document.querySelector(".timeline"), 'h');
 
-const propertiesSplitter = new Splitter (
-    document.getElementById("propertiesPanel").querySelector(".splitter"),
-    document.getElementById("propertiesPanel"), 'v');
+
+const timelineSplitter = new Splitter (document.getElementById("timeline"), 'h');
+const propertiesSplitter = new Splitter (document.getElementById("propertiesPanel"), 'v');
+
+// const timelineSplitter = new Splitter (
+//   document.querySelector(".timeline").querySelector(".splitter"),
+//   document.querySelector(".timeline"), 'h');
+
+// const propertiesSplitter = new Splitter (
+//     document.getElementById("propertiesPanel").querySelector(".splitter"),
+//     document.getElementById("propertiesPanel"), 'v');
 
 
 const stepCurrent = new Stepper(document.getElementById("currentFrame"));
@@ -39,7 +44,12 @@ const stepStart= new Stepper(document.getElementById("starterFrame"));
 const stepEnd= new Stepper(document.getElementById("endingFrame"));
 
 const toggleReveal = new ToggleReveal(document.getElementById("onionSkin"));
-console.log(stepCurrent)
+const onionSkinOptions = document.getElementById('onionSkinAdvancedOptions');
+onionSkinOptions.addEventListener('pointerdown', ()=>{
+  renderComponent(document.body, confirmDialog('Onion Skin', 'Advanced options'));  
+})
+
+
 
 /*
   const btnStarterFrame =  document.getElementById("timeline-btn-starter-frame");

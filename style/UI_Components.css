@@ -78,30 +78,24 @@
   transform-origin: left;
   display: flex;
   flex-direction: row;
+  align-items: center;
+  background-color: #3d3d3d;
+  border-radius: 5px;
 
 }
 
 .toggle-reveal-js{
   width: 28px;
   padding-left: 0px;
+  margin-left: 2px;
+  margin-right: 2px;
+  background-color: transparent;
   padding: 0px;
   height: 28px;
 }
 /* .toggle-reveal-js.active{ background-color: #2b21b6; }
 .toggle-reveal-js.active:hover{ background-color: #5f6bdb; } */
 
-.reveal-container-js{
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  visibility: hidden;
-  height: 90%;
-  width: 0px;
-  transform-origin: left;
-  transition: 0.2s;
-  margin-left: 0px;
-
-}
 
 button{
   border: none;
@@ -114,13 +108,35 @@ button{
 button:hover{
   background: #505050;
   color: #ffffff;
-
+  
 }
 
+.reveal-container-js{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  visibility: hidden;
+  overflow: hidden;
+  height: 90%;
+  width: 0px;
+  transform-origin: left;
+  transition: 0.2s;
+  margin-left: 0px;
+
+}
 .reveal-container-js.active{ 
-  width: 10px;  
-  margin-left: 5px;
+  width: auto;  
+  margin-left: 1px;
+  position: relative;
   flex-direction: row;
   visibility: visible;
 }
 
+.reveal-container-js.active::before{
+  content: '';
+  position: absolute;
+  height: 85%;
+  border-left: 1px solid #dddddd ;
+
+
+}
