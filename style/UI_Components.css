@@ -63,8 +63,10 @@
 }
 .toggle-icon.rotate{
   transform: rotateZ(0deg);
-
+  
 }
+.r90 .toggle-icon { transform: rotateZ(90deg) }
+
 .activeTool{
   background-color: #2b21b6;
   
@@ -81,6 +83,7 @@
   align-items: center;
   background-color: #3d3d3d;
   border-radius: 5px;
+  height: 30px;
 
 }
 
@@ -93,9 +96,13 @@
   padding: 0px;
   height: 28px;
 }
-/* .toggle-reveal-js.active{ background-color: #2b21b6; }
-.toggle-reveal-js.active:hover{ background-color: #5f6bdb; } */
+.toggle-reveal-js.active{ background-color: #2b21b6; }
+.toggle-reveal-js.active:hover{ background-color: #5f6bdb; }
 
+.div-toggle-reveal h1{
+  font-size: 14px;
+
+}
 
 button{
   border: none;
@@ -139,4 +146,39 @@ button:hover{
   border-left: 1px solid #dddddd ;
 
 
+}
+.combo-js{ position:relative; padding: 0px 0px 0px 5px; }
+
+.combo-js input, .combo-js h1, .combo-js span{
+  width: 100px;
+  font-size: 14px;
+  border: none;
+  border-radius: 5px;
+  background-color: transparent;
+  text-align: left;
+  color: #dddddd;
+}
+
+
+.submenu-combo-js{
+  position: absolute;
+  background-color: inherit;
+  height: auto;
+  width: inherit;
+  top: 100%;
+  /* padding: 0px 0px 0px 5px; */
+  left: 5px;
+  display: none;
+  border-radius: 0px 0px 5px 5px;
+  
+}
+.submenu-combo-js.active{ display: flex; flex-direction: column; gap: 2px;}
+
+.submenu-combo-js span{ padding-left:5px; border-radius: 0px;}
+.submenu-combo-js span:hover{ background-color: #303030;}
+
+.combo-js > input[type=number]::-webkit-inner-spin-button,
+.combo-js> input[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
 }

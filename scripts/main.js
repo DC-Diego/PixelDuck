@@ -1,6 +1,8 @@
 
 import {confirmDialog} from '../components/POPUP_confirm.js';
 import {splashScreen} from  '../scripts/splashScreen.js';
+import { ComboBox } from '../UI/ComboBox.js';
+import { PresetInput } from '../UI/PresetInput.js';
 import {Splitter} from  '../UI/Splitter.js';
 import {Stepper} from  '../UI/Stepper.js';
 import { ToggleReveal } from '../UI/ToggleReveal.js';
@@ -49,6 +51,9 @@ onionSkinOptions.addEventListener('pointerdown', ()=>{
   renderComponent(document.body, confirmDialog('Onion Skin', 'Advanced options'));  
 })
 
+
+const loopCombo = new ComboBox(document.getElementById("loopingMode"), ["Play once", "Playback", "Ping-Pong"]);
+const FPS = new PresetInput(document.getElementById("FPSset"), ["24", "48", "60", "120"]);
 
 
 /*

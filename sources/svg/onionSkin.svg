@@ -1,9 +1,9 @@
 <svg width="300" height="300" viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg">
   <symbol id="onionSkin">
-    <circle cx="80" cy="150" r="55" fill="#202020" stroke="#ffffff" stroke-dasharray="25 30" stroke-width="20" stroke-linecap="round" stroke-linejoin="round" />
-    <circle cx="220"  cy="150" r="55" fill="#202020" stroke="#ffffff" stroke-dasharray="25 30" stroke-width="20" stroke-linecap="round" stroke-linejoin="round"/>
-    <circle cx="150"  cy="150" r="65" fill="#202020" stroke="#202020" stroke-width="50" stroke-linecap="round" stroke-linejoin="round"/>
-    <circle cx="150"  cy="150" r="65" fill="#202020" stroke="#ffffff" stroke-width="20" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="80" cy="150" r="55" fill="transparent" stroke="#ffffff" stroke-dasharray="25 30" stroke-width="20" stroke-linecap="round" stroke-linejoin="round" />
+    <circle cx="220"  cy="150" r="55" fill="transparent" stroke="#ffffff" stroke-dasharray="25 30" stroke-width="20" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="150"  cy="150" r="65" fill="transparent" stroke="#202020" stroke-width="50" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="150"  cy="150" r="65" fill="#ffffff" stroke="#ffffff" stroke-width="20" stroke-linecap="round" stroke-linejoin="round"/>
 
 
   </symbol>
