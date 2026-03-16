@@ -1,0 +1,13 @@
+<svg width="300" height="300" viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg">
+  <symbol id="clock">
+    <circle cx="150"  cy="150" r="110" fill="transparent" stroke="#ffffff" stroke-width="25" stroke-linecap="round" stroke-linejoin="round"/>
+    <line x1="150" x2="150" y1="80" y2="150"  stroke="#ffffff" stroke-width="25" stroke-linecap="round" stroke-linejoin="round"/>
+    <line x1="150" x2="200" y1="150" y2="150"  stroke="#ffffff" stroke-width="25" stroke-linecap="round" stroke-linejoin="round"/>
+
+    <line x1="75" x2="35" y1="35" y2="75"  stroke="#ffffff" stroke-width="25" stroke-linecap="round" stroke-linejoin="round"/>
+    <line x1="225" x2="265" y1="35" y2="75"  stroke="#ffffff" stroke-width="25" stroke-linecap="round" stroke-linejoin="round"/>
+    <line x1="125" x2="175" y1="20" y2="20"  stroke="#ffffff" stroke-width="50" stroke-linecap="round" stroke-linejoin="round"/>
+
+  </symbol>
+
+</svg>

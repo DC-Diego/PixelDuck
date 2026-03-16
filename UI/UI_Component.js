@@ -9,7 +9,7 @@ class UI_Component{
   on(target, event, handler, options){
     target.addEventListener(event, handler, options);
     this._listeners.push({target, event, handler, options});
-    console.log(target)
+    // console.log(target)
   }
 
 

@@ -25,6 +25,8 @@
 }
 
 .timeline .icon-buttons:hover{ background-color: #2b2b2b;}
+.timeline .icon-buttons.b:hover{ background-color: transparent ;}
+
 
 .icon-buttons > .SVG-icon{
   height: 90%;
