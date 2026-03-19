@@ -139,4 +139,43 @@
   opacity: 1;
 
 }
+.timeline-viewport{
+  background-color: #aaa;
+  height: 120px;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  position: relative;
+  overflow-x: auto;
+  justify-content: center;
+}
+.Frame{
+  background-color: white;
+  height: 70px;
+  width: 120px;
+  min-width: 120px;
+  margin: 3px;
+  transition: 0.1s;
 
+  border: solid #00000000 3px;
+}
+.Frame.active{
+  position: relative;
+  border: solid #0e9fe7 3px;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+}
+.Frame.active::after{  
+  content: '';
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  bottom: 60px;
+  border-radius: 50%;
+  background: radial-gradient(#ffffff 40%, #0e9fe7 40%);
+}
+
+.Frame.active:hover{  border: solid #0e9fe7 3px; margin: 0; scale: 1;  }
+.Frame:hover{ border: solid #ff4c4c 3px; scale: 1 1.15;}
