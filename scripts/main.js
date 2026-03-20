@@ -7,6 +7,7 @@ import {Splitter} from  '../UI/Splitter.js';
 import {Stepper} from  '../UI/Stepper.js';
 import { ToggleReveal } from '../UI/ToggleReveal.js';
 import {setActivePage, getActivePage, getActivePageName} from './navigate.js';
+import {Timeline} from '../components/Timeline.js';
 
 function renderComponent(parent, child){
   parent.appendChild(child);
@@ -47,6 +48,8 @@ const loopCombo = new ComboBox(document.getElementById("loopingMode"), ["Play on
 const FPS = new PresetInput(document.getElementById("FPSset"), ["24", "48", "60", "120"]);
 
 
+const timeline = new Timeline(document.getElementById("frameArea"));
+
 /*
   const btnStarterFrame =  document.getElementById("timeline-btn-starter-frame");
   const btnPreviousSecond =  document.getElementById("timeline-btn-previous-second");
@@ -64,7 +67,7 @@ const FPS = new PresetInput(document.getElementById("FPSset"), ["24", "48", "60"
 
 
 
-
+Timeline.console("Hello");
 
 // setActivePage('NewFilePage');
 setActivePage('WorkSpacePage');

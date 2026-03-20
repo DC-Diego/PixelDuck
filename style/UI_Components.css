@@ -172,7 +172,7 @@ button:hover{
   border-radius: 0px 0px 5px 5px;
   
 }
-.submenu-combo-js.active{ display: flex; flex-direction: column; gap: 2px;}
+.submenu-combo-js.active{ display: flex; flex-direction: column; gap: 2px; z-index: 5;}
 
 .submenu-combo-js span{ padding-left:5px; border-radius: 0px;}
 .submenu-combo-js span:hover{ background-color: #303030;}

@@ -148,7 +148,7 @@
   align-items: center;
   position: relative;
   overflow-x: auto;
-  justify-content: center;
+  /* justify-content: center; */
 }
 .Frame{
   background-color: white;
