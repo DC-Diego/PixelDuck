@@ -47,6 +47,12 @@ class Stepper extends UI_Component{
     if(this.#displayBar) this.#progressbar(Number(this.#input.value));
   }
 
+
+  setMaxInput = (max)=>{
+    this.#input.max = max;
+    this.#infos.max = max;
+  }
+
   #increment = (steps)=>{
     this.#input.stepUp(steps);
     if(this.#displayBar) this.#progressbar(Number(this.#input.value));

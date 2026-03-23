@@ -33,22 +33,26 @@ document.getElementById("toggleToolbar").addEventListener('click', ()=>{
 const timelineSplitter = new Splitter (document.getElementById("timeline"), 'h');
 const propertiesSplitter = new Splitter (document.getElementById("propertiesPanel"), 'v');
 
-const stepCurrent = new Stepper(document.getElementById("currentFrame"),1 ,1, true);
-const stepStart= new Stepper(document.getElementById("starterFrame"), 1,1);
-const stepEnd= new Stepper(document.getElementById("endingFrame"), 1,1);
 
-const toggleReveal = new ToggleReveal(document.getElementById("onionSkin"));
+const currentFrame = new Stepper(document.getElementById("currentFrame"),1 ,1, true);
+const startingFrame = new Stepper(document.getElementById("starterFrame"), 1,1);
+const endingFrame= new Stepper(document.getElementById("endingFrame"), 1,1);
+const onionSkin = new ToggleReveal(document.getElementById("onionSkin"));
+
 const onionSkinOptions = document.getElementById('onionSkinAdvancedOptions');
-onionSkinOptions.addEventListener('pointerdown', ()=>{
+onionSkinOptions.addEventListener('pointerdown', ()=>{ 
   renderComponent(document.body, confirmDialog('Onion Skin', 'Advanced options'));  
 })
 
 const playSpeed= new Stepper(document.getElementById("playSpeed"), 1, 0.85, false);
 const loopCombo = new ComboBox(document.getElementById("loopingMode"), ["Play once", "Playback", "Ping-Pong"]);
-const FPS = new PresetInput(document.getElementById("FPSset"), ["24", "48", "60", "120"]);
+const FPSinput = new PresetInput(document.getElementById("FPSset"), ["24", "48", "60", "120"]);
 
 
-const timeline = new Timeline(document.getElementById("frameArea"));
+const timeline = new Timeline(document.getElementById("timeline-viewport") , document.getElementById("frameArea"));
+
+
+timeline.setComponents({ currentFrame, startingFrame , endingFrame, onionSkin, onionSkinOptions , playSpeed ,loopCombo , FPSinput });
 
 /*
   const btnStarterFrame =  document.getElementById("timeline-btn-starter-frame");

@@ -150,13 +150,21 @@
   overflow-x: auto;
   /* justify-content: center; */
 }
+#frameArea{
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  position: relative;
+}
+
+
 .Frame{
   background-color: white;
   height: 70px;
   width: 120px;
   min-width: 120px;
   margin: 3px;
-  transition: 0.1s;
 
   border: solid #00000000 3px;
 }
@@ -177,5 +185,5 @@
   background: radial-gradient(#ffffff 40%, #0e9fe7 40%);
 }
 
-.Frame.active:hover{  border: solid #0e9fe7 3px; margin: 0; scale: 1;  }
-.Frame:hover{ border: solid #ff4c4c 3px; scale: 1 1.15;}
+.Frame.active:hover{  border: solid #0e9fe7 3px; margin: 0; scale: 1; transition: 0.1s; }
+.Frame:hover{ border: solid #ff4c4c 3px; scale: 1 1.15; transition: 0.1s;}
