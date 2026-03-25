@@ -8,6 +8,11 @@ import {Stepper} from  '../UI/Stepper.js';
 import { ToggleReveal } from '../UI/ToggleReveal.js';
 import {setActivePage, getActivePage, getActivePageName} from './navigate.js';
 import {Timeline} from '../components/Timeline.js';
+import {StateManager} from '../core/stateManager.js';
+import {Orchestrator} from '../core/orchestrator.js';
+
+const stateManager = new StateManager();
+const orchestrator = new Orchestrator(stateManager);
 
 function renderComponent(parent, child){
   parent.appendChild(child);
@@ -34,9 +39,20 @@ const timelineSplitter = new Splitter (document.getElementById("timeline"), 'h')
 const propertiesSplitter = new Splitter (document.getElementById("propertiesPanel"), 'v');
 
 
-const currentFrame = new Stepper(document.getElementById("currentFrame"),1 ,1, true);
-const startingFrame = new Stepper(document.getElementById("starterFrame"), 1,1);
-const endingFrame= new Stepper(document.getElementById("endingFrame"), 1,1);
+
+
+
+
+
+
+
+
+const currentFrame = new Stepper(document.getElementById("currentFrame"),1 ,1, true,
+  orchestrator.updateCurrentFrame );
+
+const startingFrame = new Stepper(document.getElementById("starterFrame"), 1,1, false, orchestrator.updateStartFrame );
+
+const endingFrame= new Stepper(document.getElementById("endingFrame"), 1,1, false, orchestrator.updateEndFrame);
 const onionSkin = new ToggleReveal(document.getElementById("onionSkin"));
 
 const onionSkinOptions = document.getElementById('onionSkinAdvancedOptions');
@@ -49,10 +65,39 @@ const loopCombo = new ComboBox(document.getElementById("loopingMode"), ["Play on
 const FPSinput = new PresetInput(document.getElementById("FPSset"), ["24", "48", "60", "120"]);
 
 
+//updateMaxFrameControllers
+stateManager.subscribe((s)=>{
+  currentFrame.setMaxInput(s.totalFrames);
+  startingFrame.setMaxInput(s.totalFrames);
+  endingFrame.setMaxInput(s.totalFrames);
+
+});
+
+//updateFrameControllers
+stateManager.subscribe((s)=>{
+  currentFrame.setValue(s.currentFrame);
+  startingFrame.setValue(s.startFrame);
+  endingFrame.setValue(s.endFrame);
+
+});
+
+//updateFrameControllers
+// stateManager.subscribe((s)=>{
+//   const { currentFrame, startFrame, endFrame } = s;
+  
+//   currentFrame.
+//   startingFrame 
+//   endingFrame
+
+// });
+
+// orchestrator.updateStartFrame();
+
+
 const timeline = new Timeline(document.getElementById("timeline-viewport") , document.getElementById("frameArea"));
 
 
-timeline.setComponents({ currentFrame, startingFrame , endingFrame, onionSkin, onionSkinOptions , playSpeed ,loopCombo , FPSinput });
+// timeline.setComponents({ currentFrame, startingFrame , endingFrame, onionSkin, onionSkinOptions , playSpeed ,loopCombo , FPSinput });
 
 /*
   const btnStarterFrame =  document.getElementById("timeline-btn-starter-frame");

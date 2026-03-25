@@ -1,14 +1,15 @@
 import {UI_Component} from './UI_Component.js';
 
 class Stepper extends UI_Component{
-  #input; #incrementer; #decrementer; #infos; #displayBar;
-  constructor(root, step = 1, sensitivy,displayBar = false){
+  #input; #incrementer; #decrementer; #infos; #displayBar; #changeFN;
+ 
+  constructor(root, step = 1, sensitivy,displayBar = false, onChange = ()=>{}){
     super(root);
     this.#input = root.querySelector('.input-stepper-js');
     this.#incrementer = root.querySelector('.step-up-js');
     this.#decrementer = root.querySelector('.step-down-js');
     this.#displayBar = displayBar;
-
+    this.#changeFN=onChange;
 
 
     this.#infos = {
@@ -23,6 +24,7 @@ class Stepper extends UI_Component{
     this.on(this.#decrementer, 'pointerdown',()=>this.#decrement(this.#infos.step))
     this.on(this.#input, 'keydown', this.#filterInput );
     this.on(this.#input, 'blur', this.#fixInput );
+    this.on(this.#input, 'change', this.#change);
     
     let isPressing = false;
 
@@ -47,6 +49,14 @@ class Stepper extends UI_Component{
     if(this.#displayBar) this.#progressbar(Number(this.#input.value));
   }
 
+  #change=()=>{
+    this.#changeFN(Number(this.#input.value));
+  }
+
+  setValue = (v)=>{
+    this.#input.value = v;
+    this.#fixInput(v);
+  } 
 
   setMaxInput = (max)=>{
     this.#input.max = max;
@@ -56,10 +66,12 @@ class Stepper extends UI_Component{
   #increment = (steps)=>{
     this.#input.stepUp(steps);
     if(this.#displayBar) this.#progressbar(Number(this.#input.value));
+    this.#change();
   }
   #decrement =(steps)=>{
     this.#input.stepDown(steps);
     if(this.#displayBar) this.#progressbar(Number(this.#input.value));
+    this.#change();
   }
 
   #filterInput = (e)=>{

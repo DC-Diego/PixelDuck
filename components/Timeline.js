@@ -1,9 +1,4 @@
-import {confirmDialog} from '../components/POPUP_confirm.js';
-import { ComboBox } from '../UI/ComboBox.js';
-import { PresetInput } from '../UI/PresetInput.js';
-import {Splitter} from  '../UI/Splitter.js';
-import {Stepper} from  '../UI/Stepper.js';
-import { ToggleReveal } from '../UI/ToggleReveal.js';
+
 import { UI_Component } from '../UI/UI_Component.js';
 
 class Timeline extends UI_Component{
@@ -11,7 +6,7 @@ class Timeline extends UI_Component{
   
   #Properties; #framesContent = []; #framesDom = [];#totalFrames;
 
-  #components={};
+
   constructor(root, f){
     super(root)
     this.#Properties = {
@@ -32,33 +27,6 @@ class Timeline extends UI_Component{
    
     this.createFrames();
     this.#setFrameContainerWidth();
-  }
-
-  setTotalFrames = (total)=>{
-    this.#totalFrames = total
-    this.#components.currentFrame.setMaxInput(total);
-    this.#components.startingFrame.setMaxInput(total);
-    this.#components.endingFrame.setMaxInput(total);
-
-
-  }
-
-  setComponents = (comps)=>{
-    this.#components = comps;
-    this.#initComponents();
-  }
-
-  newComponent = (name, comp)=>{
-    this.#components[name] = comp;
-
-  }
-  destroyComponent = (name)=>{
-    this.#components[name].destroy();
-    this.#components[name] = null;
-  }
-  #initComponents = ()=>{
-    this.setTotalFrames(this.#totalFrames);
-
   }
 
   #setFrameContainerWidth = ()=>{

@@ -1,3 +1,48 @@
+
+class Orchestrator {
+
+  constructor(stateManager) {
+    this.stateManager = stateManager;
+    
+  
+  }
+
+
+  updateTotalFrames = (v)=>{
+    this.stateManager.setState({totalFrames: v});
+  }
+
+  updateCurrentFrame = (v)=>{
+    this.stateManager.setState({currentFrame: v});
+  }
+
+  updateStartFrame = (v)=>{
+    const e = this.stateManager.getState().endFrame;
+    if(v > e){
+      this.stateManager.setState({startFrame: v, endFrame: v});
+    }
+    this.stateManager.setState({startFrame: v});
+  }
+  updateEndFrame = (v)=>{
+    const s = this.stateManager.getState().startFrame;
+    if(v < s){
+      this.stateManager.setState({startFrame: v, endFrame: v});
+    }
+    this.stateManager.setState({endFrame: v});
+  }
+
+
+
+
+
+
+}
+
+
+export {Orchestrator}
+
+
+
 /*
 EU DECIDO O QUE ALTERAR, QUANDO ALGO ALTERA, EU SOU CHAMADO, REALIZO AS OPERAÇÔES NECESSARIAS DE MUDANÇAS E INFORMO O STATEMANAGER:
 

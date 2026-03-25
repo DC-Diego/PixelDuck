@@ -164,6 +164,7 @@
   height: 70px;
   width: 120px;
   min-width: 120px;
+  user-select: none;
   margin: 3px;
 
   border: solid #00000000 3px;
