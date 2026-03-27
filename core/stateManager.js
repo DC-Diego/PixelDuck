@@ -5,9 +5,11 @@ class StateManager {
     this.state = {
       currentFrame: 0,
       startFrame: 0,
-      endFrame: 0,
+      endFrame: 59,
       totalFrames: 60,
-
+      loopingType: 0,
+      speed: 1,
+      fps: 24,
     }
     this.#listeners = [];
 
@@ -35,41 +37,3 @@ class StateManager {
 
 export {StateManager}
 
-
-/*
-FONTE DA VERDADE DO PROGRAMA, O QUE É ALTERADO E TUDO O QUE ACONTECE FICA EM MIM, GUARDO O ESTADO ATUAL DO PROGRAMA
-
-🔹 StateManager
-guarda o estado
-
-dispara notify
-
-
-EX:
-
-
-class StateManager {
-  constructor() {
-    this.state = {
-      currentFrame: 0,
-      startFrame: 0,
-      endFrame: 100
-    }
-
-    this.listeners = []
-  }
-
-  subscribe(fn) {
-    this.listeners.push(fn)
-  }
-
-  setState(partial) {
-    this.state = { ...this.state, ...partial }
-    this.listeners.forEach(fn => fn(this.state))
-  }
-
-  getState() {
-    return this.state
-  }
-}
-*/

@@ -2,9 +2,9 @@ import { UI_Component } from "./UI_Component.js";
 
 class ComboBox extends UI_Component{
   
-  #text; #button; #submenu; #items; #activeId;
+  #text; #button; #submenu; #items; #activeId; #UPDATER;
   
-  constructor(root, items = null){
+  constructor(root, items = null, updater = ()=>{}){
     super(root);
 
     if(items == null){
@@ -19,6 +19,7 @@ class ComboBox extends UI_Component{
     this.#submenu = document.createElement("div");
     this.#items = [];
     this.#activeId = 0;
+    this.#UPDATER = updater;
     
     this.root.appendChild(this.#submenu);
     this.#submenu.classList.add("submenu-combo-js");
@@ -46,6 +47,10 @@ class ComboBox extends UI_Component{
 
   }
 
+  getActiveText = ()=>{
+    return this.getItems(this.#activeId).innerText;
+
+  }
 
   setActiveText = (i)=>{
     this.#text.innerText=`${this.getItems(i).innerText}`;
@@ -58,10 +63,9 @@ class ComboBox extends UI_Component{
 
 
   #itemClick = (i)=>{
-    this.#activeId = i;
-    this.setActiveText(i);
+    this.setActiveId(i)
     this.#toggleSubmenu();
-
+    this.#UPDATER(i);
   }
 
   setActiveId = (i)=>{

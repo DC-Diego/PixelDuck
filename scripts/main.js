@@ -40,13 +40,6 @@ const propertiesSplitter = new Splitter (document.getElementById("propertiesPane
 
 
 
-
-
-
-
-
-
-
 const currentFrame = new Stepper(document.getElementById("currentFrame"),1 ,1, true,
   orchestrator.updateCurrentFrame );
 
@@ -60,16 +53,17 @@ onionSkinOptions.addEventListener('pointerdown', ()=>{
   renderComponent(document.body, confirmDialog('Onion Skin', 'Advanced options'));  
 })
 
-const playSpeed= new Stepper(document.getElementById("playSpeed"), 1, 0.85, false);
-const loopCombo = new ComboBox(document.getElementById("loopingMode"), ["Play once", "Playback", "Ping-Pong"]);
-const FPSinput = new PresetInput(document.getElementById("FPSset"), ["24", "48", "60", "120"]);
+const playSpeed= new Stepper(document.getElementById("playSpeed"), 1, 0.85, false, orchestrator.updateSpeed);
+const loopCombo = new ComboBox(document.getElementById("loopingMode"), ["Play once", "Playback", "Ping-Pong"], orchestrator.updateLoopingType);
+const FPSinput = new PresetInput(document.getElementById("FPSset"), ["24", "48", "60", "120"], orchestrator.updateFPS);
 
+playSpeed.setValue(1);
 
 //updateMaxFrameControllers
 stateManager.subscribe((s)=>{
-  currentFrame.setMaxInput(s.totalFrames);
-  startingFrame.setMaxInput(s.totalFrames);
-  endingFrame.setMaxInput(s.totalFrames);
+  currentFrame.setMaxInput(s.totalFrames-1);
+  startingFrame.setMaxInput(s.totalFrames-1);
+  endingFrame.setMaxInput(s.totalFrames-1);
 
 });
 
@@ -78,45 +72,56 @@ stateManager.subscribe((s)=>{
   currentFrame.setValue(s.currentFrame);
   startingFrame.setValue(s.startFrame);
   endingFrame.setValue(s.endFrame);
+  timeline.setStartFrame(s.startFrame);
+  timeline.setEndFrame(s.endFrame);
 
 });
 
-//updateFrameControllers
-// stateManager.subscribe((s)=>{
-//   const { currentFrame, startFrame, endFrame } = s;
-  
-//   currentFrame.
-//   startingFrame 
-//   endingFrame
+//loopingType
+stateManager.subscribe((s)=>{
+  timeline.setLoopingType(s.loopingType);
+  playSpeed.setValue(s.speed)
 
-// });
-
-// orchestrator.updateStartFrame();
+});
 
 
-const timeline = new Timeline(document.getElementById("timeline-viewport") , document.getElementById("frameArea"));
+const timeline = new Timeline(document.getElementById("timeline-viewport") , document.getElementById("frameArea"), { updateCurrentFrame: orchestrator.updateCurrentFrame  });
 
 
-// timeline.setComponents({ currentFrame, startingFrame , endingFrame, onionSkin, onionSkinOptions , playSpeed ,loopCombo , FPSinput });
-
-/*
-  const btnStarterFrame =  document.getElementById("timeline-btn-starter-frame");
-  const btnPreviousSecond =  document.getElementById("timeline-btn-previous-second");
-  const btnPreviousFrame =  document.getElementById("timeline-btn-previous-frame");
-
-  const btnPlayBackward =  document.getElementById("timeline-btn-play-backward");
-  const btnPause =  document.getElementById("timeline-btn-pause");
-  const btnPlayForward =  document.getElementById("timeline-btn-play-forward");
-
-  const btnNextFrame =  document.getElementById("timeline-btn-next-frame");
-  const btnNextSecond =  document.getElementById("timeline-btn-next-second");
-  const btnEndingFrame =  document.getElementById("timeline-btn-ending-frame");
-    
-*/
+stateManager.subscribe((s)=>{
+  timeline.setFrameById(s.currentFrame);
+  const canvas = document.getElementById("canvasArea");
+  canvas.innerText = timeline.getRenderContent(s.currentFrame);
 
 
+});
+stateManager.notify();
 
-Timeline.console("Hello");
+/// TEMPORARY ANIMATION CALLER
+let intervalId = null;
+window.addEventListener('keydown', (e)=>{
+  const fps = FPSinput.getActiveValue();
+  switch(e.key){
+    case ' ': //iniciar
+      // console.log(fps);  
+      if(intervalId == null){
+
+        intervalId = setInterval(() => {
+          timeline.animation();
+        }, 1000/(fps*playSpeed.getValue()));
+      }else{
+        clearInterval(intervalId);
+        intervalId = null;
+      }
+      break;
+  }
+  // console.log(e.key)
+
+})
+
+/// TEMPORARY ANIMATION CALLER
+
+
 
 // setActivePage('NewFilePage');
 setActivePage('WorkSpacePage');

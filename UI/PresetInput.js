@@ -3,8 +3,10 @@ import { UI_Component } from "./UI_Component.js";
 class PresetInput extends UI_Component{
   
   #input; #button; #submenu; #items; #activeId;
+
+  #UPDATER;
   
-  constructor(root, items = null){
+  constructor(root, items = null, updater = ()=>{}){
     super(root);
 
     if(items == null){
@@ -18,6 +20,7 @@ class PresetInput extends UI_Component{
     this.#submenu = document.createElement("div");
     this.#items = [];
     this.#activeId = 0;
+    this.#UPDATER = updater;
 
     
     this.root.appendChild(this.#submenu);
@@ -28,6 +31,7 @@ class PresetInput extends UI_Component{
 
     this.on(this.#button, 'pointerdown', this.#toggleSubmenu);
     this.on(this.#input, 'keydown', this.#filterInput );
+    this.on(this.#input, 'input',()=>{this.#UPDATER(this.getActiveValue()) });
   }
 
 
@@ -46,6 +50,10 @@ class PresetInput extends UI_Component{
     return this.#items[i];
   }
 
+  getActiveValue =()=>{
+    return Number(this.#input.value);
+
+  }
 
   setActiveValue = (i)=>{
     this.#input.value= Number(this.getItems(i).innerText);
@@ -58,9 +66,9 @@ class PresetInput extends UI_Component{
 
 
   #itemClick = (i)=>{
-    this.#activeId = i;
-    this.setActiveValue(i);
+    this.setActiveId(i);
     this.#toggleSubmenu();
+    this.#UPDATER(this.getActiveValue());
 
   }
 
@@ -72,10 +80,10 @@ class PresetInput extends UI_Component{
   getActiveId = ()=>{
     return this.#activeId;
   }
-  
   #filterInput = (e)=>{
-    if( e.key < '0' ||  e.key > '9' ) e.preventDefault()
-  }
+    if((e.key < '0' ||  e.key > '9') && e.code!="Backspace" && e.code != "ArrowLeft" && e.code != "ArrowRight")   e.preventDefault();
+    
+  } 
 
 }
 

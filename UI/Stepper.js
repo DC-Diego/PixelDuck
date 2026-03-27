@@ -1,7 +1,7 @@
 import {UI_Component} from './UI_Component.js';
 
 class Stepper extends UI_Component{
-  #input; #incrementer; #decrementer; #infos; #displayBar; #changeFN;
+  #input; #incrementer; #decrementer; #infos; #displayBar; #UPDATER; #value;
  
   constructor(root, step = 1, sensitivy,displayBar = false, onChange = ()=>{}){
     super(root);
@@ -9,7 +9,8 @@ class Stepper extends UI_Component{
     this.#incrementer = root.querySelector('.step-up-js');
     this.#decrementer = root.querySelector('.step-down-js');
     this.#displayBar = displayBar;
-    this.#changeFN=onChange;
+    this.#UPDATER=onChange;
+    this.#value=0;
 
 
     this.#infos = {
@@ -50,13 +51,19 @@ class Stepper extends UI_Component{
   }
 
   #change=()=>{
-    this.#changeFN(Number(this.#input.value));
+    this.#UPDATER(Number(this.#input.value));
   }
 
   setValue = (v)=>{
     this.#input.value = v;
+    this.#value = v;
+    if(this.#displayBar) this.#progressbar(Number(this.#input.value));
     this.#fixInput(v);
   } 
+
+  getValue = ()=>{
+    return this.#value;
+  }
 
   setMaxInput = (max)=>{
     this.#input.max = max;
@@ -65,17 +72,19 @@ class Stepper extends UI_Component{
 
   #increment = (steps)=>{
     this.#input.stepUp(steps);
+    this.#value = Number(this.#input.value);
     if(this.#displayBar) this.#progressbar(Number(this.#input.value));
     this.#change();
   }
   #decrement =(steps)=>{
     this.#input.stepDown(steps);
+    this.#value = Number(this.#input.value);
     if(this.#displayBar) this.#progressbar(Number(this.#input.value));
     this.#change();
   }
 
   #filterInput = (e)=>{
-    if((e.key < '0' ||  e.key > '9') && e.code!="Backspace") e.preventDefault();
+    if((e.key < '0' ||  e.key > '9') && e.code!="Backspace" && e.code != "ArrowLeft" && e.code != "ArrowRight") e.preventDefault();
   } 
   #fixInput = (e)=>{
     let value = Number(this.#input.value);
