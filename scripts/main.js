@@ -87,11 +87,14 @@ stateManager.subscribe((s)=>{
 
 const timeline = new Timeline(document.getElementById("timeline-viewport") , document.getElementById("frameArea"), { updateCurrentFrame: orchestrator.updateCurrentFrame  });
 
-
+// Render + infos
 stateManager.subscribe((s)=>{
   timeline.setFrameById(s.currentFrame);
   const canvas = document.getElementById("canvasArea");
   canvas.innerText = timeline.getRenderContent(s.currentFrame);
+
+  document.getElementById("info-qtdFrames-js").innerText=`Quantidade de frames: ${s.totalFrames}`;
+  document.getElementById("info-duracao-js").innerText=`Duração: ${Math.floor(s.totalFrames/s.fps*100)/100}s`;
 
 
 });

@@ -140,6 +140,7 @@
             </div>
           </div>
 
+      
 
      
           <div class="group-label-input" id="playSpeed" title="Play Speed">
@@ -163,7 +164,7 @@
          
 
           <div class="div-toggle-reveal combo-js" id="loopingMode" title="Looping">
-            <h1 class="combo-text-js"></h1>
+            <h1 class="combo-text-js" style="width: 85px;"></h1>
             <!-- <input> -->
             <button class="icon-buttons input-ctrl combo-button-js"  aria-label="Looping">
               <svg class="toggle-icon " viewBox="0 0 24 24"><line x1="16" y1="12" x2="8" y2="5" />
@@ -172,7 +173,7 @@
           </div>
 
           <div class="div-toggle-reveal combo-js" id="FPSset" title="FPS (Frames Per Second)">
-            <input class="combo-input-js" type="number" min="0" >
+            <input class="combo-input-js" type="number" min="0" style="width: 60px;" >
             <button class="icon-buttons input-ctrl combo-button-js"  aria-label="Looping">
               <svg class="toggle-icon " viewBox="0 0 24 24"><line x1="16" y1="12" x2="8" y2="5" />
                 <line x1="16" y1="12" x2="8" y2="19" /></svg>
@@ -182,8 +183,8 @@
 
         </div>
         <div id="controls">
-          <button id="timeline-btn-starter-frame" class="icon-buttons rotate" title="Jump to starter frame" aria-label="Jump to starter frame"><svg viewBox="0 0 16 16" class="SVG-icon"> <use  href="./sources/svg/endFrame.svg#end-frame"></use></svg></button>
-          <button id="timeline-btn-previous-second" class="icon-buttons rotate" title="Jump to previous second"  aria-label="Jump to previous second"><svg viewBox="0 0 16 16" class="SVG-icon"> <use  href="./sources/svg/nextSecond.svg#next-second" ></use></svg></button>
+          <!-- <button id="timeline-btn-starter-frame" class="icon-buttons rotate" title="Jump to starter frame" aria-label="Jump to starter frame"><svg viewBox="0 0 16 16" class="SVG-icon"> <use  href="./sources/svg/endFrame.svg#end-frame"></use></svg></button>
+          <button id="timeline-btn-previous-second" class="icon-buttons rotate" title="Jump to previous second"  aria-label="Jump to previous second"><svg viewBox="0 0 16 16" class="SVG-icon"> <use  href="./sources/svg/nextSecond.svg#next-second" ></use></svg></button> -->
           <button id="timeline-btn-previous-frame" class="icon-buttons rotate" title="Jump to previous frame"  aria-label="Jump to previous frame"><svg viewBox="0 0 16 16" class="SVG-icon"> <use  href="./sources/svg/nextFrame.svg#next-frame" ></use></svg></button>
           <div class="play-pause">
             <button id="timeline-btn-play-backward" class="icon-buttons rotate" title="Play animation backward" aria-label="Play animation backward"><svg viewBox="0 0 16 16" class="SVG-icon"> <use  href="./sources/svg/play.svg#play" ></use></svg></button>
@@ -191,11 +192,21 @@
             <button id="timeline-btn-play-forward" class="icon-buttons" title="Play animation forward"  aria-label="Play animation forward"><svg viewBox="0 0 16 16" class="SVG-icon"> <use  href="./sources/svg/play.svg#play" ></use></svg></button>
           </div>
           <button id="timeline-btn-next-frame" class="icon-buttons" title="Jump to next frame" aria-label="Jump to next frame"><svg viewBox="0 0 16 16" class="SVG-icon"> <use  href="./sources/svg/nextFrame.svg#next-frame" ></use></svg></button>
-          <button id="timeline-btn-next-second" class="icon-buttons" title="Jump to next second" aria-label="Jump to next Second"><svg viewBox="0 0 16 16" class="SVG-icon"> <use  href="./sources/svg/nextSecond.svg#next-second" ></use></svg></button>
-          <button id="timeline-btn-ending-frame" class="icon-buttons" title="Jump to ending frame" aria-label="Jump to ending frame"><svg viewBox="0 0 16 16" class="SVG-icon"> <use  href="./sources/svg/endFrame.svg#end-frame" ></use></svg></button>
+          <!-- <button id="timeline-btn-next-second" class="icon-buttons" title="Jump to next second" aria-label="Jump to next Second"><svg viewBox="0 0 16 16" class="SVG-icon"> <use  href="./sources/svg/nextSecond.svg#next-second" ></use></svg></button>
+          <button id="timeline-btn-ending-frame" class="icon-buttons" title="Jump to ending frame" aria-label="Jump to ending frame"><svg viewBox="0 0 16 16" class="SVG-icon"> <use  href="./sources/svg/endFrame.svg#end-frame" ></use></svg></button> -->
 
         </div>
         <div id="status">
+
+          <div class="group-js">
+            <button id="btn-insert-frame-before" class="icon-buttons rotate" title="Insert new Frame before" aria-label="Insert new Frame before"><svg viewBox="0 0 128 128" style="scale: 1.5 1.4;" class="SVG-icon"> <use  href="./sources/svg/insertFrameBefore.svg#insert-frame-before"></use></svg></button>
+
+            <button id="btn-insert-frame-after" class="icon-buttons rotate" title="Insert new Frame after" aria-label="Insert new Frame after"><svg viewBox="0 0 128 128" style="scale: 1.5 1.4;" class="SVG-icon"> <use  href="./sources/svg/insertFrame.svg#insert-frame"></use></svg></button>
+
+            <button id="btn-duplicate-frame" class="icon-buttons" title="Duplicate Frame" aria-label="Duplicate Frame"><svg viewBox="0 0 120 120" style="scale: 1.5;" class="SVG-icon"> <use  href="./sources/svg/duplicateFrame.svg#duplicate-frame"></use></svg></button>
+
+            <button id="btn-remove-frame" class="icon-buttons rotate" title="Remove Frame" aria-label="Remove Frame"><svg viewBox="0 0 128 128" style="scale: 1.5 1.4;" class="SVG-icon"> <use  href="./sources/svg/removeFrame.svg#remove-frame"></use></svg></button>
+          </div>
 
           <div class="group-label-input" id="currentFrame"  title="current frame">
             <button class="icon-buttons input-ctrl step-down-js" aria-label="Decrement"><svg class="toggle-icon" viewBox="0 0 24 24"><line x1="16" y1="12" x2="8" y2="5" />
@@ -219,6 +230,7 @@
 
 
           </div>
+
           <div class="group-label-input" id="endingFrame" title="Ending frame">
             <button class="icon-buttons input-ctrl step-down-js h" aria-label="Decrement"><svg class="toggle-icon" viewBox="0 0 24 24"><line x1="16" y1="12" x2="8" y2="5" />
               <line x1="16" y1="12" x2="8" y2="19" /></svg>
@@ -231,6 +243,13 @@
 
           </div>
 
+          <!-- <div class="div-toggle-reveal combo-js" id="frameMarkers" title="Frame Markers">
+            <h1 class="combo-text-js"></h1>
+            <button class="icon-buttons input-ctrl combo-button-js"  aria-label="Frame Markers">
+              <svg class="toggle-icon " viewBox="0 0 24 24"><line x1="16" y1="12" x2="8" y2="5" />
+                <line x1="16" y1="12" x2="8" y2="19" /></svg>
+            </button>
+          </div> -->
 
 
 
@@ -238,23 +257,33 @@
         </div>
 
       </div>
-      <div class="timeline-viewport" id="timeline-viewport" >
-        <div id="frameArea">
-
-
+      
+      
+        
+        <div class="timeline-viewport" id="timeline-viewport" >
+          <div id="frameArea">
+  
+  
+          </div>
+          <!-- <div class="Frame"></div>
+          <div class="Frame"></div>
+          <div class="Frame"></div>
+          <div class="Frame"></div>
+          <div class="Frame"></div>
+          <div class="Frame"></div>
+          <div class="Frame active"></div> -->
+  
+  
         </div>
-        <!-- <div class="Frame"></div>
-        <div class="Frame"></div>
-        <div class="Frame"></div>
-        <div class="Frame"></div>
-        <div class="Frame"></div>
-        <div class="Frame"></div>
-        <div class="Frame active"></div> -->
 
-
-      </div>
-
-
+        <div class="timeline-info">
+          <span id="info-qtdFrames-js">60 frames</span>
+          <!-- Total frames - V -->
+          <span id="info-duracao-js"> 2.5 segundos</span>
+          <!-- • Duração total (em segundos) - V -->
+         
+            
+        </div>
 
 
     </div>  

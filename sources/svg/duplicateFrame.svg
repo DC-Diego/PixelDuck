@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="120" height="120" fill="currentColor" class="bi bi-skip-forward-fill" viewBox="0 0 120 120">
+  <symbol id="duplicate-frame">
+  
+  <rect x='40' y='05' width='80' height='80' rx='10' stroke="#171717" stroke-width="10" />
+  
+  <rect x='10' y='35' width='80' height='80' rx='10' stroke="#171717" stroke-width="10" />
+
+  <line x1='30' x2='70' y1='75' y2='75' stroke="#171717" stroke-width="10"/>
+  <line x1='50' x2='50' y1='50' y2='100' stroke="#171717" stroke-width="10"/>
+
+
+  </symbol>
+</svg>

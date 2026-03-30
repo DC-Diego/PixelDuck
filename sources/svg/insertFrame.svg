@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" fill="currentColor" class="bi bi-skip-forward-fill" viewBox="0 0 128 128">
+  <symbol id="insert-frame" >
+
+  <polygon points="75,0 120,64 75,128 30,64"
+           fill="#ffffff"  />
+
+  <line x1='100' x2='50' y1='64' y2='64' stroke="#000000" stroke-width="8" stroke-linecap="round"/>
+  
+  <line x1='75' x2='75' y1='30' y2='90' stroke="#000000" stroke-width="6" stroke-linecap="round"/>
+
+
+  <line x1='50' x2='5' y1='0' y2='64' stroke="#ffffff" stroke-width="10"/>
+  
+  <line x1='50' x2='5' y1='128' y2='64' stroke="#ffffff" stroke-width="10"/>
+
+  </symbol>
+</svg>
