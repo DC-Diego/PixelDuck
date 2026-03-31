@@ -7,9 +7,18 @@ class Orchestrator {
   
   }
 
+  
+  updateTotalLayers = (v)=>{
+    this.stateManager.setState({totalLayers: v});
+    console.log(v)
+  }
+  updateActiveLayer = (v)=>{
+    this.stateManager.setState({activeLayer: v});
+  }
+
+
   updateFPS = (v)=>{
     this.stateManager.setState({fps: v});
-    console.log(v)
   }
 
   updateSpeed = (v)=>{

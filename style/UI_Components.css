@@ -182,3 +182,11 @@ button:hover{
   -webkit-appearance: none;
   margin: 0;
 }
+use.hidden{
+  display: none;
+
+}
+.layer-eye, .layer-eye:hover{
+  background-color: transparent;
+
+}

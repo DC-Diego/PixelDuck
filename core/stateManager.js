@@ -10,6 +10,8 @@ class StateManager {
       loopingType: 0,
       speed: 1,
       fps: 24,
+      activeLayer: 0,
+      totalLayers: 0,
     }
     this.#listeners = [];
 

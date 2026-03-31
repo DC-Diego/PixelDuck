@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="120" height="120" fill="currentColor" class="bi bi-skip-forward-fill" viewBox="0 0 120 120">
+  <symbol id="delete-layer">
+  
+    <polygon points="30,30 40,10 80,10 90,30" fill="none"  rx='10' stroke="#ffffff" stroke-width="10" stroke-linecap="round" />
+    
+    <rect x='25' y='30' width='70' height='90' rx='10' stroke="#ffffff" stroke-width="10" stroke-linecap="round" fill="none" />
+    <line x1="5" x2="115" y1="30" y2='30'  stroke="#ffffff" stroke-width="10" />
+    <line x1="40" x2="40" y1="50" y2='100'  stroke="#ffffff" stroke-width="10" />
+    <line x1="60" x2="60" y1="50" y2='100'  stroke="#ffffff" stroke-width="10" />
+    <line x1="80" x2="80" y1="50" y2='100'  stroke="#ffffff" stroke-width="10" />
+
+  </symbol>
+</svg>

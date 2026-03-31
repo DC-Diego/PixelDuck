@@ -100,6 +100,63 @@
             <circle cx="21" cy="12" r="2"/>
           </svg>
         </div>
+        <div class="sub">
+          <div id="properties">
+
+          </div>
+          <div id="layers">
+            <div class="splitter h">
+              <svg class="splitter-icon" viewBox="0 0 24 24">
+                <circle cx="3" cy="12" r="2"/>
+                <circle cx="12" cy="12" r="2"/>
+                <circle cx="21" cy="12" r="2"/>
+              </svg>
+            </div>
+
+            <div class="props">
+              <button id="btn-new-layer" class="icon-buttons"  title="New Layer"  aria-label="New Layer"> 
+                <svg viewBox="0 0 120 120" style="scale:1.4;" class="SVG-icon"><use  href="./sources/svg/newLayer.svg#new-layer" ></use></svg>
+              </button>
+              <button id="btn-group-layers" class="icon-buttons"  title="Group Layers"  aria-label="Group Layers"> 
+                <svg viewBox="0 0 120 120" style="scale:1.4;" class="SVG-icon"><use  href="./sources/svg/group.svg#group-layers" ></use></svg>
+              </button>
+              <button id="btn-duplicate-layer" class="icon-buttons"  title="Duplicate Layer"  aria-label="Duplicate Layer"> 
+                <svg viewBox="0 0 120 120" style="scale:1.4;" class="SVG-icon"><use  href="./sources/svg/duplicateFrame.svg#duplicate-frame" ></use></svg>
+              </button>
+              <button id="btn-delete-layer" class="icon-buttons"  title="Delete Layer"  aria-label="Delete Layer"> 
+                <svg viewBox="0 0 120 120" style="scale:1.4;" class="SVG-icon"><use  href="./sources/svg/deleteLayer.svg#delete-layer" ></use></svg>
+              </button>
+
+              <div class="group-label-input" id="opacity" title="current frame" style="height:30px;">
+                <h1>Opacidade:</h1>
+                <input class="input-stepper-js" type="number" min="0" max="100" value="0" style="width:35px;">
+              </div>
+
+            </div>
+            <div class="Layers-area" id="layer-area">
+
+              <!-- <div class="layer">     
+                <button style="margin: 0; width: 40px;" >
+                  <svg viewBox="0 0 16 16" style="width: 90%; height: 90%;"  >
+                  <use  href="./sources/svg/eye.svg" ></use> 
+                  <use class="hidden" href="./sources/svg/eyeClose.svg" ></use> 
+                </svg></button>
+
+                <div class="layer-image"><img src="sources/logo.png" alt=""></div>  
+                <h1 class="hidden9" > Layer 1</h1>
+                <input class="hidden" value="Layer 1">
+
+
+              </div> -->
+            
+
+
+            </div>
+
+
+          </div>
+        </div>
+
 
       </div>
 
@@ -242,20 +299,7 @@
             </button>
 
           </div>
-
-          <!-- <div class="div-toggle-reveal combo-js" id="frameMarkers" title="Frame Markers">
-            <h1 class="combo-text-js"></h1>
-            <button class="icon-buttons input-ctrl combo-button-js"  aria-label="Frame Markers">
-              <svg class="toggle-icon " viewBox="0 0 24 24"><line x1="16" y1="12" x2="8" y2="5" />
-                <line x1="16" y1="12" x2="8" y2="19" /></svg>
-            </button>
-          </div> -->
-
-
-
-
         </div>
-
       </div>
       
       
@@ -278,9 +322,7 @@
 
         <div class="timeline-info">
           <span id="info-qtdFrames-js">60 frames</span>
-          <!-- Total frames - V -->
           <span id="info-duracao-js"> 2.5 segundos</span>
-          <!-- • Duração total (em segundos) - V -->
          
             
         </div>

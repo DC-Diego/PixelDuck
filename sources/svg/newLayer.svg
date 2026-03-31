@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="120" height="120" fill="currentColor" class="bi bi-skip-forward-fill" viewBox="0 0 120 120">
+  <symbol id="new-layer">
+  
+  
+  <rect x='10' y='10' width='100' height='100' rx='15' stroke="#171717" stroke-width="10" />
+
+  <line x1='30' x2='90' y1='60' y2='60' stroke="#171717" stroke-width="10"/>
+  <line x1='60' x2='60' y1='30' y2='90' stroke="#171717" stroke-width="10"/>
+
+
+  </symbol>
+</svg>

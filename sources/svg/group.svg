@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="120" height="120" fill="currentColor" class="bi bi-skip-forward-fill" viewBox="0 0 120 120">
+  <symbol id="group-layers">
+  
+    <rect x='60' y='10' width='50' height='50' rx='10'  fill="#ffffff"/>
+    <rect x='10' y='25' width='100' height='75' rx='10' fill="#ffffff"/>
+
+  </symbol>
+</svg>

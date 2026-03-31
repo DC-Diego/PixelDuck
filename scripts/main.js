@@ -7,6 +7,7 @@ import {Splitter} from  '../UI/Splitter.js';
 import {Stepper} from  '../UI/Stepper.js';
 import { ToggleReveal } from '../UI/ToggleReveal.js';
 import {setActivePage, getActivePage, getActivePageName} from './navigate.js';
+import {Layer} from '../components/Layers.js';
 import {Timeline} from '../components/Timeline.js';
 import {StateManager} from '../core/stateManager.js';
 import {Orchestrator} from '../core/orchestrator.js';
@@ -37,6 +38,7 @@ document.getElementById("toggleToolbar").addEventListener('click', ()=>{
 
 const timelineSplitter = new Splitter (document.getElementById("timeline"), 'h');
 const propertiesSplitter = new Splitter (document.getElementById("propertiesPanel"), 'v');
+const layersSplitter = new Splitter (document.getElementById("layers"), 'h');
 
 
 
@@ -44,6 +46,7 @@ const currentFrame = new Stepper(document.getElementById("currentFrame"),1 ,1, t
   orchestrator.updateCurrentFrame );
 
 const startingFrame = new Stepper(document.getElementById("starterFrame"), 1,1, false, orchestrator.updateStartFrame );
+const layerOpacity = new Stepper(document.getElementById("opacity"), 1,0.5, true  );
 
 const endingFrame= new Stepper(document.getElementById("endingFrame"), 1,1, false, orchestrator.updateEndFrame);
 const onionSkin = new ToggleReveal(document.getElementById("onionSkin"));
@@ -86,6 +89,16 @@ stateManager.subscribe((s)=>{
 
 
 const timeline = new Timeline(document.getElementById("timeline-viewport") , document.getElementById("frameArea"), { updateCurrentFrame: orchestrator.updateCurrentFrame  });
+
+const layer = new Layer(document.getElementById("layer-area") ,  { updateActiveLayer: orchestrator.updateActiveLayer, updateTotalLayers: orchestrator.updateTotalLayers  });
+
+// layer update 
+stateManager.subscribe((s)=>{
+  layer.setActiveLayer(s.activeLayer);
+  layer.setTotalLayers(s.totalLayers);
+
+
+});
 
 // Render + infos
 stateManager.subscribe((s)=>{

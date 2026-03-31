@@ -21,8 +21,9 @@ class Stepper extends UI_Component{
     }
 
     
-    this.on(this.#incrementer, 'pointerdown',()=>this.#increment(this.#infos.step))
-    this.on(this.#decrementer, 'pointerdown',()=>this.#decrement(this.#infos.step))
+    if(this.#incrementer) this.on(this.#incrementer, 'pointerdown',()=>this.#increment(this.#infos.step))
+    if(this.#decrementer) this.on(this.#decrementer, 'pointerdown',()=>this.#decrement(this.#infos.step))
+
     this.on(this.#input, 'keydown', this.#filterInput );
     this.on(this.#input, 'blur', this.#fixInput );
     this.on(this.#input, 'change', this.#change);
