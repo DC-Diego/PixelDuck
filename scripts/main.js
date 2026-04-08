@@ -135,10 +135,6 @@ let intervalId = null;
 window.addEventListener('keydown', (e)=>{
   const fps = FPSinput.getActiveValue();
   switch(e.key){
-    case 'A':
-    case 'a':
-      console.log(data.getFrameData());
-      break;
     case ' ': //iniciar
       // console.log(fps);  
       if(intervalId == null){
