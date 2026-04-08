@@ -11,9 +11,12 @@ import {Layer} from '../components/Layers.js';
 import {Timeline} from '../components/Timeline.js';
 import {StateManager} from '../core/stateManager.js';
 import {Orchestrator} from '../core/orchestrator.js';
+import {Data} from '../core/Data.js';
 
 const stateManager = new StateManager();
 const orchestrator = new Orchestrator(stateManager);
+const data = new Data();
+
 
 function renderComponent(parent, child){
   parent.appendChild(child);
@@ -61,6 +64,20 @@ const loopCombo = new ComboBox(document.getElementById("loopingMode"), ["Play on
 const FPSinput = new PresetInput(document.getElementById("FPSset"), ["24", "48", "60", "120"], orchestrator.updateFPS);
 
 playSpeed.setValue(1);
+
+const btnNewLayer = document.getElementById("btn-new-layer");
+
+btnNewLayer.addEventListener("pointerdown", ()=>{
+  data.newLayer();
+});
+
+const btnFrameAfter = document.getElementById("btn-insert-frame-after");
+
+btnFrameAfter.addEventListener("pointerdown", ()=>{
+  data.newFrame();
+});
+
+
 
 //updateMaxFrameControllers
 stateManager.subscribe((s)=>{
@@ -118,6 +135,10 @@ let intervalId = null;
 window.addEventListener('keydown', (e)=>{
   const fps = FPSinput.getActiveValue();
   switch(e.key){
+    case 'A':
+    case 'a':
+      console.log(data.getFrameData());
+      break;
     case ' ': //iniciar
       // console.log(fps);  
       if(intervalId == null){
