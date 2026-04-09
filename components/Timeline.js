@@ -17,7 +17,7 @@ class Timeline extends UI_Component{
     }
     this.#orchestratorFuncs = orchestratorFuncs;
     this.frameContainer = f
-    this.#totalFrames = 60;
+    // this.#totalFrames = 12;
     this.activeFrame = null;
     this.#activeID = 0;
     
@@ -27,13 +27,13 @@ class Timeline extends UI_Component{
 
 
 
-    for(let i =0;i<this.#totalFrames;i++){
-      this.#framesContent.push(i);
+    // for(let i =0;i<this.#totalFrames;i++){
+    //   this.#framesContent.push(i);
 
-    }
+    // }
    
-    this.createFrames();
-    this.#setFrameContainerWidth();
+    // this.createFrames();
+    // this.#setFrameContainerWidth();
   }
    setActiveId = (id)=>{
     this.#activeID =id;
@@ -51,29 +51,39 @@ class Timeline extends UI_Component{
   setEndFrame = (f)=>{this.#endFrame=f; }
   setLoopingType = (t)=>{this.#loopingType=t; }
 
-  #setFrameContainerWidth = ()=>{
+  setFrameContainerWidth = (totalFrames)=>{
     const { FRAME_WIDTH, FRAME_GAP } =  this.#Properties;
-    this.frameContainer.style.minWidth = `${(FRAME_WIDTH+FRAME_GAP*2)*this.#totalFrames}px`;
-    this.frameContainer.style.maxWidth = `${(FRAME_WIDTH+FRAME_GAP*2)*this.#totalFrames}px`;
+    this.frameContainer.style.minWidth = `${(FRAME_WIDTH+FRAME_GAP*2)*totalFrames}px`;
+    this.frameContainer.style.maxWidth = `${(FRAME_WIDTH+FRAME_GAP*2)*totalFrames}px`;
    
   }
   
   #setFrameContent = (e,i)=>{
-    e.innerText=this.#framesContent[i];
+    e.innerText=Math.floor(i);
 
   }
 
 
-  createFrames = ()=>{
-    for (let i = 0; i < this.#totalFrames; i++) {
-      const frame = document.createElement('div');
-      frame.classList.add("Frame");
-      this.#setFrameContent(frame, i)
+  renderFrames = ()=>{
+    for(let i = 0; i <this.#framesDom.length;i++){
+      const frame= this.#framesDom[i];
       this.frameContainer.appendChild(frame);
       frame.addEventListener('pointerdown', ()=>{this.#orchestratorFuncs.updateCurrentFrame(i);})
-      this.#framesDom.push(frame);
-
+   
     }
+
+
+  }
+
+
+  createFrames = (position, id)=>{
+    const frame = document.createElement('div');
+    frame.classList.add("Frame");
+    this.#setFrameContent(frame, id)
+    this.#framesDom.splice(position,0,frame);
+    this.renderFrames();
+    this.#orchestratorFuncs.updateCurrentFrame(position)
+
   }
 
 

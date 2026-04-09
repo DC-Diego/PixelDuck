@@ -5,8 +5,8 @@ class StateManager {
     this.state = {
       currentFrame: 0,
       startFrame: 0,
-      endFrame: 59,
-      totalFrames: 60,
+      endFrame: 0,
+      totalFrames: 0, // ativos
       loopingType: 0,
       speed: 1,
       fps: 24,

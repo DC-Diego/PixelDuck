@@ -16,6 +16,8 @@ import {Data} from '../core/Data.js';
 const stateManager = new StateManager();
 const orchestrator = new Orchestrator(stateManager);
 const data = new Data();
+const timeline = new Timeline(document.getElementById("timeline-viewport") , document.getElementById("frameArea"), { updateCurrentFrame: orchestrator.updateCurrentFrame  });
+
 
 
 function renderComponent(parent, child){
@@ -72,9 +74,62 @@ btnNewLayer.addEventListener("pointerdown", ()=>{
 });
 
 const btnFrameAfter = document.getElementById("btn-insert-frame-after");
+const btnFrameBefore = document.getElementById("btn-insert-frame-before");
+const btnDuplicateFrame = document.getElementById("btn-duplicate-frame");
+const btnRemoveFrame = document.getElementById("btn-remove-frame");
+
+
+const createFrame = (position, total)=>{
+  const id = data.newFrame(position);
+  orchestrator.updateTotalFrames(total+1);
+  timeline.createFrames(position, id)
+}
+
+const duplicateFrame = (position, total)=>{
+  const id = data.duplicateFrame(position);
+  orchestrator.updateTotalFrames(total+1);
+  timeline.createFrames(position, id)
+}
+
+const removeFrame = (position, total)=>{
+  const id = data.removeFrame(position);
+  orchestrator.updateTotalFrames(total-1);
+}
+createFrame(0,0)
+
+btnRemoveFrame.addEventListener("pointerdown", ()=>{
+  // Atualizar a timeline para esconder o frame apagado;
+  // Atualizar a timeline para renderizar apenas os frames que estão marcados como "isRenderable" no Data
+  // Atualizar o Data.js para retornar um array de frames renderizaveis (ou seja, que possuem isRenderable = true)
+  // Enviar esse array para a timeline renderizar
+  const {currentFrame, totalFrames} = stateManager.getState();
+  removeFrame(currentFrame, totalFrames);
+
+});
+
+btnDuplicateFrame.addEventListener("pointerdown", ()=>{
+  const {currentFrame, totalFrames} = stateManager.getState();
+  duplicateFrame(currentFrame+1, totalFrames)  
+  orchestrator.updateEndFrame(endingFrame.getValue()+1);
+});
+
+btnFrameBefore.addEventListener("pointerdown", ()=>{
+  const { currentFrame, totalFrames} = stateManager.getState();
+  createFrame(currentFrame, totalFrames);
+  orchestrator.updateEndFrame(endingFrame.getValue()+1);
+});
 
 btnFrameAfter.addEventListener("pointerdown", ()=>{
-  data.newFrame();
+  const {currentFrame, totalFrames} = stateManager.getState();
+  createFrame(currentFrame+1, totalFrames);
+  orchestrator.updateEndFrame(endingFrame.getValue()+1);
+});
+
+// TotalFrames
+stateManager.subscribe((s)=>{
+  timeline.setFrameContainerWidth(s.totalFrames);
+
+
 });
 
 
@@ -105,7 +160,8 @@ stateManager.subscribe((s)=>{
 });
 
 
-const timeline = new Timeline(document.getElementById("timeline-viewport") , document.getElementById("frameArea"), { updateCurrentFrame: orchestrator.updateCurrentFrame  });
+
+
 
 const layer = new Layer(document.getElementById("layer-area") ,  { updateActiveLayer: orchestrator.updateActiveLayer, updateTotalLayers: orchestrator.updateTotalLayers  });
 
@@ -121,13 +177,14 @@ stateManager.subscribe((s)=>{
 stateManager.subscribe((s)=>{
   timeline.setFrameById(s.currentFrame);
   const canvas = document.getElementById("canvasArea");
-  canvas.innerText = timeline.getRenderContent(s.currentFrame);
+  canvas.innerText = data.getFrameById(s.currentFrame).TEMPORARIO;
 
   document.getElementById("info-qtdFrames-js").innerText=`Quantidade de frames: ${s.totalFrames}`;
   document.getElementById("info-duracao-js").innerText=`Duração: ${Math.floor(s.totalFrames/s.fps*100)/100}s`;
 
 
 });
+
 stateManager.notify();
 
 /// TEMPORARY ANIMATION CALLER

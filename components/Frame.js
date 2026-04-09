@@ -1,11 +1,25 @@
 class Frame{
 
-  static #frameQtd = 0; #frameId; #Layers; #image;
-  constructor(){
-    this.#frameId = Frame.#frameQtd;
-    Frame.#frameQtd = Frame.#frameQtd+1;
-    this.#Layers = [];
+ #frameId; #Layers = []; #image;
+  constructor(id){
+    this.#frameId = id;
+    // this.#Layers = [];
+    this.TEMPORARIO = id;
     this.#image = new Image();
+  }
+
+  getContent(){
+    return this.TEMPORARIO;
+    // return this.#Layers;
+  }
+
+  setContent(content){
+    this.TEMPORARIO = content;
+    // content.forEach(e=>{
+      // this.#Layers.push(e);
+
+    // })
+
   }
 
   getFrame(){

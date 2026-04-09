@@ -67,6 +67,7 @@ class Stepper extends UI_Component{
   }
 
   setMaxInput = (max)=>{
+    if(max < this.#infos.min) max = this.#infos.min;
     this.#input.max = max;
     this.#infos.max = max;
   }
