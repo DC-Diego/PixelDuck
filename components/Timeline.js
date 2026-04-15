@@ -4,8 +4,12 @@ import { UI_Component } from '../UI/UI_Component.js';
 class Timeline extends UI_Component{
 
   #startFrame; #endFrame; #loopingType;
-  #Properties; #framesContent = []; #framesDom = []; #totalFrames; #activeID;
+  #Properties; #framesContent = []; #framesDom = []; #activeID;
   #orchestratorFuncs = {};
+  #totalFrames = 0;
+
+
+  #FrameSliderProps;
 
   constructor(root, f, orchestratorFuncs){
     super(root)
@@ -17,7 +21,6 @@ class Timeline extends UI_Component{
     }
     this.#orchestratorFuncs = orchestratorFuncs;
     this.frameContainer = f
-    // this.#totalFrames = 12;
     this.activeFrame = null;
     this.#activeID = 0;
     
@@ -27,13 +30,13 @@ class Timeline extends UI_Component{
 
 
 
-    // for(let i =0;i<this.#totalFrames;i++){
-    //   this.#framesContent.push(i);
+    this.#FrameSliderProps = {
+      dragging: null,
+      target: -1,
+      destiny: -1
+    };
 
-    // }
-   
-    // this.createFrames();
-    // this.#setFrameContainerWidth();
+    this.on(this.frameContainer, 'dragover', this.dragoverContainer);
   }
    setActiveId = (id)=>{
     this.#activeID =id;
@@ -63,24 +66,70 @@ class Timeline extends UI_Component{
 
   }
 
+ 
+  dragoverContainer = (e)=>{
+    e.preventDefault();
+    const left = e.clientX-this.frameContainer.offsetLeft;
+    
+    this.#FrameSliderProps.dragging.style.display='none';
+    let i = Math.floor(left/(132));
+    document.querySelector(".JSframeDragMargin")?.classList.remove('JSframeDragMargin');
+    this.#FrameSliderProps.destiny = i;
+    if(i >= this.#FrameSliderProps.x ) i = i+1;
+    if(i <= this.#framesDom.length-1)
+    this.#framesDom[i].frame.classList.add("JSframeDragMargin");
+  }
+
+  #dragStartFrame = (e,position)=>{
+    this.#FrameSliderProps.dragging = e.target;
+    this.#FrameSliderProps.x = position;
+    this.#FrameSliderProps.destiny = -1;
+
+  }
+  #dragEndFrame = (e)=>{
+    if(this.#FrameSliderProps.x == -1 || this.#FrameSliderProps.destiny==-1) return;
+    this.#FrameSliderProps.dragging = null;
+    document.querySelector(".JSframeDragMargin")?.classList.remove('JSframeDragMargin');
+    e.target.style.display = 'flex';
+    this.#orchestratorFuncs.reorderFrames(this.#FrameSliderProps.x, this.#FrameSliderProps.destiny);
+    this.#orchestratorFuncs.updateCurrentFrame(this.#FrameSliderProps.destiny);
+    this.#FrameSliderProps.x = -1;
+
+  }
 
   renderFrames = ()=>{
-    for(let i = 0; i <this.#framesDom.length;i++){
-      const frame= this.#framesDom[i];
+    console.log("RENDER")
+    this.frameContainer.innerHTML="";
+    for(let i = 0; i <this.#totalFrames;i++){
+      const frame= this.#framesDom[i].frame;
+      this.#setFrameContent(frame, i)
       this.frameContainer.appendChild(frame);
-      frame.addEventListener('pointerdown', ()=>{this.#orchestratorFuncs.updateCurrentFrame(i);})
-   
-    }
+      frame.draggable = 'true';
 
+    }
 
   }
 
 
+
+  removeFrame = (position)=>{
+    this.#totalFrames -=1;
+    // const item = this.#framesDom.splice(position,1)[0];
+    // console.log(item);
+    // this.#framesDom.splice(this.#framesDom.length,0,item);
+    this.renderFrames();
+  }
+
   createFrames = (position, id)=>{
     const frame = document.createElement('div');
     frame.classList.add("Frame");
-    this.#setFrameContent(frame, id)
-    this.#framesDom.splice(position,0,frame);
+    const item = {frame, isRenderable: true};
+    this.#framesDom.splice(position,0,item);
+
+    frame.addEventListener('dragstart', (e)=>this.#dragStartFrame(e, position));
+    frame.addEventListener('dragend', this.#dragEndFrame)
+    frame.addEventListener('pointerdown', ()=>this.#orchestratorFuncs.updateCurrentFrame(position) );
+    this.#totalFrames +=1;
     this.renderFrames();
     this.#orchestratorFuncs.updateCurrentFrame(position)
 
@@ -125,7 +174,7 @@ class Timeline extends UI_Component{
   }
 
   setFrameById =  (i)=>{
-    const e = this.#framesDom[i];
+    const e = this.#framesDom[i].frame;
 
     if(this.activeFrame) this.activeFrame.classList.remove("active");
     e.classList.add("active");

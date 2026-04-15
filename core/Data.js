@@ -58,7 +58,12 @@ class Data{
     }
   }
 
+  reorder=(target, destiny)=>{
+    console.log(target, destiny, this.#renderableFrames)
+    const item = this.#renderableFrames.splice(target,1)[0];
+    this.#renderableFrames.splice(destiny,0, item);
 
+  }
 
 
 }

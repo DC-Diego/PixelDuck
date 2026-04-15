@@ -16,7 +16,9 @@ import {Data} from '../core/Data.js';
 const stateManager = new StateManager();
 const orchestrator = new Orchestrator(stateManager);
 const data = new Data();
-const timeline = new Timeline(document.getElementById("timeline-viewport") , document.getElementById("frameArea"), { updateCurrentFrame: orchestrator.updateCurrentFrame  });
+
+
+const timeline = new Timeline(document.getElementById("timeline-viewport") , document.getElementById("frameArea"), { updateCurrentFrame: orchestrator.updateCurrentFrame, reorderFrames: data.reorder });
 
 
 
@@ -92,7 +94,9 @@ const duplicateFrame = (position, total)=>{
 }
 
 const removeFrame = (position, total)=>{
-  const id = data.removeFrame(position);
+  data.removeFrame(position);
+  data.reorder(position, total-1)
+  timeline.removeFrame(position);
   orchestrator.updateTotalFrames(total-1);
 }
 createFrame(0,0)

@@ -95,7 +95,6 @@ class Stepper extends UI_Component{
     } 
     if(value > this.#infos.max){
       this.#decrement(this.#infos.step);
-
     } 
   }
 

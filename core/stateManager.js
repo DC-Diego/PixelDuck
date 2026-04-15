@@ -6,7 +6,7 @@ class StateManager {
       currentFrame: 0,
       startFrame: 0,
       endFrame: 0,
-      totalFrames: 0, // ativos
+      totalFrames: 0, // ativos : Agora é o id/FrameQTD do "Data.js"
       loopingType: 0,
       speed: 1,
       fps: 24,

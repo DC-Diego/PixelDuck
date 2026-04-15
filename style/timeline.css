@@ -185,6 +185,7 @@
   min-width: 120px;
   user-select: none;
   margin: 3px;
+  display: block;
 
   border: solid #00000000 3px;
 }
@@ -195,6 +196,10 @@
   display: flex;
   justify-content: center;
 }
+.Frame.JSframeDragMargin{
+  margin-left: 132px;
+}
+
 .Frame.active::after{  
   content: '';
   position: absolute;
