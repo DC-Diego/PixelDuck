@@ -77,7 +77,7 @@ class Timeline extends UI_Component{
     this.#FrameSliderProps.destiny = i;
     if(i >= this.#FrameSliderProps.x ) i = i+1;
     if(i <= this.#framesDom.length-1)
-    this.#framesDom[i].frame.classList.add("JSframeDragMargin");
+    this.#framesDom[i].classList.add("JSframeDragMargin");
   }
 
   #dragStartFrame = (e,position)=>{
@@ -101,34 +101,27 @@ class Timeline extends UI_Component{
     console.log("RENDER")
     this.frameContainer.innerHTML="";
     for(let i = 0; i <this.#totalFrames;i++){
-      const frame= this.#framesDom[i].frame;
+      const frame= this.#framesDom[i];
       this.#setFrameContent(frame, i)
       this.frameContainer.appendChild(frame);
       frame.draggable = 'true';
 
     }
-
   }
 
-
-
-  removeFrame = (position)=>{
+  removeFrame = ()=>{
     this.#totalFrames -=1;
-    // const item = this.#framesDom.splice(position,1)[0];
-    // console.log(item);
-    // this.#framesDom.splice(this.#framesDom.length,0,item);
     this.renderFrames();
   }
 
   createFrames = (position, id)=>{
     const frame = document.createElement('div');
     frame.classList.add("Frame");
-    const item = {frame, isRenderable: true};
-    this.#framesDom.splice(position,0,item);
+    this.#framesDom.push(frame);
 
     frame.addEventListener('dragstart', (e)=>this.#dragStartFrame(e, position));
     frame.addEventListener('dragend', this.#dragEndFrame)
-    frame.addEventListener('pointerdown', ()=>this.#orchestratorFuncs.updateCurrentFrame(position) );
+    frame.addEventListener('pointerdown', ()=>this.#orchestratorFuncs.updateCurrentFrame(id) );
     this.#totalFrames +=1;
     this.renderFrames();
     this.#orchestratorFuncs.updateCurrentFrame(position)
@@ -174,7 +167,7 @@ class Timeline extends UI_Component{
   }
 
   setFrameById =  (i)=>{
-    const e = this.#framesDom[i].frame;
+    const e = this.#framesDom[i];
 
     if(this.activeFrame) this.activeFrame.classList.remove("active");
     e.classList.add("active");

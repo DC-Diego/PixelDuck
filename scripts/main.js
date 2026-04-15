@@ -96,16 +96,12 @@ const duplicateFrame = (position, total)=>{
 const removeFrame = (position, total)=>{
   data.removeFrame(position);
   data.reorder(position, total-1)
-  timeline.removeFrame(position);
+  timeline.removeFrame();
   orchestrator.updateTotalFrames(total-1);
 }
 createFrame(0,0)
 
 btnRemoveFrame.addEventListener("pointerdown", ()=>{
-  // Atualizar a timeline para esconder o frame apagado;
-  // Atualizar a timeline para renderizar apenas os frames que estão marcados como "isRenderable" no Data
-  // Atualizar o Data.js para retornar um array de frames renderizaveis (ou seja, que possuem isRenderable = true)
-  // Enviar esse array para a timeline renderizar
   const {currentFrame, totalFrames} = stateManager.getState();
   removeFrame(currentFrame, totalFrames);
 
