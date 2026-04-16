@@ -218,12 +218,17 @@ body{
 }
 .layer{
   width: 100%;
-  min-height: 60px;
-  height: 60px;
+  min-height: 55px;
+  height: 55px;
   display: flex;
   flex-direction: row;
   border-bottom: 1px solid #202020;
   align-items: center;
+
+}
+.layer.selected{
+  padding-left: 10px;
+
 
 }
 .layer.active{
@@ -232,7 +237,7 @@ body{
 
 .layer-image{
   margin: 0;
-  height: 90%;
+  height: 85%;
   aspect-ratio: 1/1;
   background: white;
   display: flex;

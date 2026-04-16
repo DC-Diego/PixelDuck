@@ -69,7 +69,7 @@ class Timeline extends UI_Component{
  
   dragoverContainer = (e)=>{
     e.preventDefault();
-    const left = e.clientX-this.frameContainer.offsetLeft;
+    const left = e.clientX-this.frameContainer.offsetLeft+this.root.scrollLeft;
     
     this.#FrameSliderProps.dragging.style.display='none';
     let i = Math.floor(left/(132));
@@ -98,7 +98,6 @@ class Timeline extends UI_Component{
   }
 
   renderFrames = ()=>{
-    console.log("RENDER")
     this.frameContainer.innerHTML="";
     for(let i = 0; i <this.#totalFrames;i++){
       const frame= this.#framesDom[i];
