@@ -75,25 +75,25 @@ class Timeline extends UI_Component{
     let i = Math.floor(left/(132));
     document.querySelector(".JSframeDragMargin")?.classList.remove('JSframeDragMargin');
     this.#FrameSliderProps.destiny = i;
-    if(i >= this.#FrameSliderProps.x ) i = i+1;
+    if(i >= this.#FrameSliderProps.target ) i = i+1;
     if(i <= this.#framesDom.length-1)
     this.#framesDom[i].classList.add("JSframeDragMargin");
   }
 
   #dragStartFrame = (e,position)=>{
     this.#FrameSliderProps.dragging = e.target;
-    this.#FrameSliderProps.x = position;
+    this.#FrameSliderProps.target = position;
     this.#FrameSliderProps.destiny = -1;
 
   }
   #dragEndFrame = (e)=>{
-    if(this.#FrameSliderProps.x == -1 || this.#FrameSliderProps.destiny==-1) return;
+    if(this.#FrameSliderProps.target == -1 || this.#FrameSliderProps.destiny==-1) return;
     this.#FrameSliderProps.dragging = null;
     document.querySelector(".JSframeDragMargin")?.classList.remove('JSframeDragMargin');
     e.target.style.display = 'flex';
-    this.#orchestratorFuncs.reorderFrames(this.#FrameSliderProps.x, this.#FrameSliderProps.destiny);
+    this.#orchestratorFuncs.reorderFrames(this.#FrameSliderProps.target, this.#FrameSliderProps.destiny);
     this.#orchestratorFuncs.updateCurrentFrame(this.#FrameSliderProps.destiny);
-    this.#FrameSliderProps.x = -1;
+    this.#FrameSliderProps.target = -1;
 
   }
 

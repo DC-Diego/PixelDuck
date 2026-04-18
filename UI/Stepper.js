@@ -96,6 +96,7 @@ class Stepper extends UI_Component{
     if(value > this.#infos.max){
       this.#decrement(this.#infos.step);
     } 
+    if(this.#displayBar) this.#progressbar(Number(this.#input.value));
   }
 
   #progressbar = (v)=>{

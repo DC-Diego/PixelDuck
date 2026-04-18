@@ -7,7 +7,7 @@ import {Splitter} from  '../UI/Splitter.js';
 import {Stepper} from  '../UI/Stepper.js';
 import { ToggleReveal } from '../UI/ToggleReveal.js';
 import {setActivePage, getActivePage, getActivePageName} from './navigate.js';
-import {Layer} from '../components/Layers.js';
+import {LayerManager} from '../components/Layers.js';
 import {Timeline} from '../components/Timeline.js';
 import {StateManager} from '../core/stateManager.js';
 import {Orchestrator} from '../core/orchestrator.js';
@@ -19,6 +19,9 @@ const data = new Data();
 
 
 const timeline = new Timeline(document.getElementById("timeline-viewport") , document.getElementById("frameArea"), { updateCurrentFrame: orchestrator.updateCurrentFrame, reorderFrames: data.reorder });
+
+
+const layer = new LayerManager(document.getElementById("layer-area") ,  { updateActiveLayer: orchestrator.updateActiveLayer, updateTotalLayers: orchestrator.updateTotalLayers  });
 
 
 
@@ -53,7 +56,7 @@ const currentFrame = new Stepper(document.getElementById("currentFrame"),1 ,1, t
   orchestrator.updateCurrentFrame );
 
 const startingFrame = new Stepper(document.getElementById("starterFrame"), 1,1, false, orchestrator.updateStartFrame );
-const layerOpacity = new Stepper(document.getElementById("opacity"), 1,0.5, true  );
+const layerOpacity = new Stepper(document.getElementById("opacity"), 1,0.5, true, (e)=>{ layer.setOpacity(e)} );
 
 const endingFrame= new Stepper(document.getElementById("endingFrame"), 1,1, false, orchestrator.updateEndFrame);
 const onionSkin = new ToggleReveal(document.getElementById("onionSkin"));
@@ -71,8 +74,17 @@ playSpeed.setValue(1);
 
 const btnNewLayer = document.getElementById("btn-new-layer");
 
-btnNewLayer.addEventListener("pointerdown", ()=>{
+const createLayer = (position, totalLayers)=>{
+  layer.createLayer(position);
   data.newLayer();
+  orchestrator.updateTotalLayers(totalLayers+1);
+  
+}
+
+btnNewLayer.addEventListener("pointerdown", ()=>{
+  const {activeLayer, totalLayers} = stateManager.getState();
+  createLayer(activeLayer+1, totalLayers);
+  
 });
 
 const btnFrameAfter = document.getElementById("btn-insert-frame-after");
@@ -81,14 +93,14 @@ const btnDuplicateFrame = document.getElementById("btn-duplicate-frame");
 const btnRemoveFrame = document.getElementById("btn-remove-frame");
 
 
-const createFrame = (position, total)=>{
-  const id = data.newFrame(position);
+const createFrame = (position, total, totalLayers)=>{
+  const id = data.newFrame(position, totalLayers);
   orchestrator.updateTotalFrames(total+1);
   timeline.createFrames(position, id)
 }
 
-const duplicateFrame = (position, total)=>{
-  const id = data.duplicateFrame(position);
+const duplicateFrame = (position, total, totalLayers)=>{
+  const id = data.duplicateFrame(position, totalLayers);
   orchestrator.updateTotalFrames(total+1);
   timeline.createFrames(position, id)
 }
@@ -99,7 +111,10 @@ const removeFrame = (position, total)=>{
   timeline.removeFrame();
   orchestrator.updateTotalFrames(total-1);
 }
-createFrame(0,0)
+
+createFrame(0,0,0);
+createLayer(0,0);
+
 
 btnRemoveFrame.addEventListener("pointerdown", ()=>{
   const {currentFrame, totalFrames} = stateManager.getState();
@@ -108,20 +123,20 @@ btnRemoveFrame.addEventListener("pointerdown", ()=>{
 });
 
 btnDuplicateFrame.addEventListener("pointerdown", ()=>{
-  const {currentFrame, totalFrames} = stateManager.getState();
-  duplicateFrame(currentFrame+1, totalFrames)  
+  const {currentFrame, totalFrames, totalLayers} = stateManager.getState();
+  duplicateFrame(currentFrame+1, totalFrames, totalLayers)  
   orchestrator.updateEndFrame(endingFrame.getValue()+1);
 });
 
 btnFrameBefore.addEventListener("pointerdown", ()=>{
-  const { currentFrame, totalFrames} = stateManager.getState();
-  createFrame(currentFrame, totalFrames);
+  const { currentFrame, totalFrames, totalLayers} = stateManager.getState();
+  createFrame(currentFrame, totalFrames, totalLayers);
   orchestrator.updateEndFrame(endingFrame.getValue()+1);
 });
 
 btnFrameAfter.addEventListener("pointerdown", ()=>{
-  const {currentFrame, totalFrames} = stateManager.getState();
-  createFrame(currentFrame+1, totalFrames);
+  const {currentFrame, totalFrames, totalLayers} = stateManager.getState();
+  createFrame(currentFrame+1, totalFrames, totalLayers);
   orchestrator.updateEndFrame(endingFrame.getValue()+1);
 });
 
@@ -163,12 +178,12 @@ stateManager.subscribe((s)=>{
 
 
 
-const layer = new Layer(document.getElementById("layer-area") ,  { updateActiveLayer: orchestrator.updateActiveLayer, updateTotalLayers: orchestrator.updateTotalLayers  });
-
 // layer update 
 stateManager.subscribe((s)=>{
   layer.setActiveLayer(s.activeLayer);
-  layer.setTotalLayers(s.totalLayers);
+  layerOpacity.setValue(layer.getOpacity());
+
+  // layer.setTotalLayers(s.totalLayers);
 
 
 });
@@ -177,7 +192,7 @@ stateManager.subscribe((s)=>{
 stateManager.subscribe((s)=>{
   timeline.setFrameById(s.currentFrame);
   const canvas = document.getElementById("canvasArea");
-  canvas.innerText = data.getFrameById(s.currentFrame).TEMPORARIO;
+  canvas.innerText = data.getFrameById(s.currentFrame).getContent();
 
   document.getElementById("info-qtdFrames-js").innerText=`Quantidade de frames: ${s.totalFrames}`;
   document.getElementById("info-duracao-js").innerText=`Duração: ${Math.floor(s.totalFrames/s.fps*100)/100}s`;

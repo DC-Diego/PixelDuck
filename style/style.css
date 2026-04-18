@@ -77,7 +77,6 @@ body{
 
 .centerArea{
   display: flex;
-  position: relative;
   flex-direction: row;
   width: 100%;
   align-items: center;
@@ -189,7 +188,6 @@ body{
   height: 150%;
   min-height: 10%;
   background-color: #303030;
-  position: relative;
   display: flex;
   flex-direction: column;
 }
@@ -214,6 +212,7 @@ body{
   border-top: 1px solid #101010;
   border-left: 1px solid #101010;
   overflow: auto;
+  overflow-x: hidden;
 
 }
 .layer{
@@ -231,6 +230,13 @@ body{
 
 
 }
+.layer.JSLayerDragging{
+  margin-top: 55px;
+
+
+}
+
+
 .layer.active{
   background-color: #171717;
 }

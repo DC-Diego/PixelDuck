@@ -1,11 +1,13 @@
 class Frame{
 
  #frameId; #Layers = []; #image;
-  constructor(id){
+  constructor(id, qtdLayers){
     this.#frameId = id;
     // this.#Layers = [];
     this.TEMPORARIO = id;
     this.#image = new Image();
+    for(let i =0; i < qtdLayers;i++) this.newLayer()
+
   }
 
   getContent(){
@@ -27,7 +29,8 @@ class Frame{
   }
 
   newLayer(){
-    this.#Layers.push([0,0,0]);
+    let i = this.#frameId+"_"+this.#Layers.length;
+    this.#Layers.push([i,i,i]);
 
 
   }
