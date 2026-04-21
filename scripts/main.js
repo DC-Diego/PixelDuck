@@ -73,6 +73,7 @@ const FPSinput = new PresetInput(document.getElementById("FPSset"), ["24", "48",
 playSpeed.setValue(1);
 
 const btnNewLayer = document.getElementById("btn-new-layer");
+const btnRemoveLayer = document.getElementById("btn-remove-layer");
 
 const createLayer = (position, totalLayers)=>{
   layer.createLayer(position);
@@ -81,9 +82,22 @@ const createLayer = (position, totalLayers)=>{
   
 }
 
+const removeLayer = (totalLayers)=>{
+  layer.removeLayer();
+  orchestrator.updateTotalLayers(totalLayers-1);
+
+}
+
+
 btnNewLayer.addEventListener("pointerdown", ()=>{
   const {activeLayer, totalLayers} = stateManager.getState();
   createLayer(activeLayer+1, totalLayers);
+  
+});
+
+btnRemoveLayer.addEventListener("pointerdown", ()=>{
+  const {totalLayers} = stateManager.getState();
+  removeLayer(totalLayers);
   
 });
 

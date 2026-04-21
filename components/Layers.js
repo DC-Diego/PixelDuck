@@ -116,9 +116,7 @@ export class LayerManager extends UI_Component{
   }
 
   reorderLayers = (position, destiny)=>{
-    // console.log(position, destiny);
-    // console.log( this.#renderableLayers);
-    
+    console.log(this.#renderableLayers);
     const item = this.#renderableLayers.splice(position,1)[0];
     this.#renderableLayers.splice(destiny,0, item);
     this.#renderLayers();
@@ -133,12 +131,28 @@ export class LayerManager extends UI_Component{
     this.#activeLayerID = i;  
     this.getActiveLayerData().toggleSelection();
     document.querySelector('.layer.active')?.classList.remove('active');
-    this.#layersDom[i].root.classList.add('active');
+    // i = this.#renderableLayers[i].position;
+    this.#layersDom[this.getPosition()].root.classList.add('active');
     document.querySelectorAll(".layer.selected").forEach(e=>{
       e.classList.remove("selected");
     });
   }
 
+
+  getPosition(){
+    return this.#renderableLayers[this.#activeLayerID].position;
+  }
+
+  removeLayer = ()=>{
+    const i = this.getPosition();
+    console.log(i)
+
+    console.log(this.#renderableLayers);
+
+    this.#renderableLayers[this.#activeLayerID].isRenderable = false;
+    this.reorderLayers(i, LayerManager.#totalLayers);
+    this.#renderLayers();
+  }
 
   createLayer=(position)=>{
     
@@ -148,7 +162,7 @@ export class LayerManager extends UI_Component{
     this.#layerData.push(layer);
     
     const item = {
-      position: id, isRenderable: true
+      position: id, isRenderable: true, renderableOrder: NaN
     }
     this.#layersDom.push(layerDom);
 
@@ -162,11 +176,13 @@ export class LayerManager extends UI_Component{
         layerDom.root.classList.toggle("selected");
         layer.toggleSelection();
       }else{
-        this.#orchestratorFuncs.updateActiveLayer(id);
+        console.log(item)
+        this.#orchestratorFuncs.updateActiveLayer(item.renderableOrder);
 
       }
-
     });
+
+
     LayerManager.#totalLayers++;
     
     this.#orchestratorFuncs.updateActiveLayer(position);
@@ -174,7 +190,7 @@ export class LayerManager extends UI_Component{
   }
 
   getActiveLayerData(){
-    return this.#layerData[this.#renderableLayers[this.#activeLayerID].position];
+    return this.#layerData[this.getPosition()];
   }
 
   getOpacity(){
@@ -188,8 +204,8 @@ export class LayerManager extends UI_Component{
     this.root.innerHTML = "";
     for (let i = LayerManager.#totalLayers-1; i >=0; i--) {
       const e = this.#renderableLayers[i]
-      
-      if(!e.isRenderable) return 
+      this.#renderableLayers[i].renderableOrder = i;
+      if(!e.isRenderable) continue 
       const j = e.position;
       const layer = this.#layersDom[j].root;
       this.root.appendChild(layer);
