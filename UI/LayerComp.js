@@ -31,9 +31,15 @@ class LayerComp extends UI_Component{
 
   setLayerData = (layerData)=>{
     this.#layerData = layerData;
-    this.input.value = this.#layerData.getName();
-    this.h1.innerText= this.#layerData.getName();
+    this.#setInputValue(this.#layerData.getName());
+    this.#setH1Value(this.#layerData.getName());
+    console.log(layerData)
+
   }
+  getLayerData = ()=>{
+    return this.#layerData;
+  }
+
 
   inputKeyDown = (e)=>{
     switch(e.key){
@@ -70,6 +76,14 @@ class LayerComp extends UI_Component{
 
   }
 
+  #setInputValue = (val)=>{
+    this.input.value = val;
+
+  }
+  #setH1Value = (val)=>{
+    this.h1.innerText = val;
+  }
+
 
 
   updateName=()=>{
@@ -77,8 +91,8 @@ class LayerComp extends UI_Component{
     this.cancelName();
   }
   cancelName=()=>{
-    this.input.value = this.#layerData.getName();
-    this.h1.innerText= this.#layerData.getName();
+    this.#setInputValue(this.#layerData.getName());
+    this.#setH1Value(this.#layerData.getName());
     this.h1.classList.remove("hidden");
     this.input.classList.add("hidden");
   }
