@@ -8,7 +8,7 @@ class LayerComp extends UI_Component{
     this.root.classList.add("layer");
     this.root.draggable = true;
     this.root.innerHTML = ` 
-    <button class="layer-eye" style="margin: 0; width: 40px;" >
+    <button class="layer-eye" style="margin: 0; min-width: 40px;  width: 40px;" >
       <svg viewBox="0 0 16 16" style="width: 90%; height: 90%;"  >
         <use href="./sources/svg/eye.svg" ></use> 
         <use class="hidden" href="./sources/svg/eyeClose.svg" ></use> 
@@ -33,8 +33,6 @@ class LayerComp extends UI_Component{
     this.#layerData = layerData;
     this.#setInputValue(this.#layerData.getName());
     this.#setH1Value(this.#layerData.getName());
-    console.log(layerData)
-
   }
   getLayerData = ()=>{
     return this.#layerData;

@@ -56,7 +56,11 @@ const currentFrame = new Stepper(document.getElementById("currentFrame"),1 ,1, t
   orchestrator.updateCurrentFrame );
 
 const startingFrame = new Stepper(document.getElementById("starterFrame"), 1,1, false, orchestrator.updateStartFrame );
-const layerOpacity = new Stepper(document.getElementById("opacity"), 1,0.5, true, (e)=>{ layer.setOpacity(e)} );
+const layerOpacity = new Stepper(document.getElementById("opacity"), 1,0.5, true, (e)=>{ 
+  layer.setOpacity(e);
+  TEMPORARY_SETCANVASOPACITY(e);
+
+});
 
 const endingFrame= new Stepper(document.getElementById("endingFrame"), 1,1, false, orchestrator.updateEndFrame);
 const onionSkin = new ToggleReveal(document.getElementById("onionSkin"));
@@ -74,10 +78,17 @@ playSpeed.setValue(1);
 
 const btnNewLayer = document.getElementById("btn-new-layer");
 const btnRemoveLayer = document.getElementById("btn-remove-layer");
+const btnDuplicateLayer = document.getElementById("btn-duplicate-layer");
 
 const createLayer = (position, totalLayers)=>{
   layer.createLayer(position);
   data.newLayer();
+  orchestrator.updateTotalLayers(totalLayers+1);
+  
+}
+const duplicateLayer = (position, totalLayers)=>{
+  layer.duplicateLayer(position+1);
+  data.duplicateLayer(position);
   orchestrator.updateTotalLayers(totalLayers+1);
   
 }
@@ -87,7 +98,11 @@ const removeLayer = (totalLayers)=>{
   orchestrator.updateTotalLayers(totalLayers-1);
 
 }
-
+btnDuplicateLayer.addEventListener("pointerdown", ()=>{
+  const {activeLayer, totalLayers} = stateManager.getState();
+  duplicateLayer(activeLayer, totalLayers);
+  
+});
 
 btnNewLayer.addEventListener("pointerdown", ()=>{
   const {activeLayer, totalLayers} = stateManager.getState();
@@ -196,17 +211,31 @@ stateManager.subscribe((s)=>{
 stateManager.subscribe((s)=>{
   layer.setActiveLayer(s.activeLayer);
   layerOpacity.setValue(layer.getOpacity());
+  // TEMPORARY_SETCANVASOPACITY(layer.getOpacity());
 
   // layer.setTotalLayers(s.totalLayers);
 
 
 });
 
+function TEMPORARY_SETCANVASOPACITY(op){
+  const canvas = document.getElementById("canvasArea");
+  canvas.style.opacity = op+"%";
+
+}
+
 // Render + infos
 stateManager.subscribe((s)=>{
   timeline.setFrameById(s.currentFrame);
   const canvas = document.getElementById("canvasArea");
-  canvas.innerText = data.getFrameById(s.currentFrame).getContent();
+
+  layer.setLayersData(data.getFrameData(s.currentFrame));
+
+  // canvas.innerText = data.getFrameById(s.currentFrame).getContent();
+  canvas.innerText = layer.getData();
+  // canvas.style.opacity = layer.getOpacity()+"%";
+  TEMPORARY_SETCANVASOPACITY(layer.getOpacity());
+
 
   document.getElementById("info-qtdFrames-js").innerText=`Quantidade de frames: ${s.totalFrames}`;
   document.getElementById("info-duracao-js").innerText=`Duração: ${Math.floor(s.totalFrames/s.fps*100)/100}s`;

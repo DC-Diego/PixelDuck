@@ -133,8 +133,16 @@ body{
   font-size: 16px;
 }
 
+.icon-buttons:disabled{
+  transition: none;
+  filter: contrast(0.5) blur(0.5px) opacity(0.8);
 
-
+}
+.icon-buttons:disabled:hover{
+  background-color: #171717;
+  font-size: 14px;
+  cursor: not-allowed;
+}
 
 .viewport{
   position: relative;
@@ -218,8 +226,8 @@ body{
 }
 .layer{
   width: 100%;
-  min-height: 55px;
-  height: 55px;
+  min-height: 50px;
+  height: 50px;
   display: flex;
   flex-direction: row;
   border-bottom: 1px solid #202020;
@@ -254,7 +262,9 @@ body{
 .layer h1{
   color: #dddddd;
   margin-left: 15px;
-  font-size: 18px;
+  font-size: 14px;
+  overflow: hidden;
+  max-height: 90%;
 
 }
 
@@ -265,7 +275,7 @@ body{
   border: none;
   color: #dddddd;
   margin-left: 15px;
-  font-size: 18px;
+  font-size: 14px;
   width: 150px;
   border-bottom: 3px solid #dddddd;
 }

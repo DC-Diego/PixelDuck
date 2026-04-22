@@ -1,41 +1,7 @@
 import { UI_Component } from "../UI/UI_Component.js";
 import { LayerComp } from "../UI/LayerComp.js";
+import { Layer } from "../core/Layer.js";
 
-
-class Layer{
-  #id; #opacity;
-  constructor(id, name, group){
-    this.#id = id;
-    this.name= name;
-    this.visible = true;
-    this.img = new Image();
-    this.isSelected = false;
-    this.data = [];
-    this.group = group;
-    this.#opacity = 100;
-    this.isRenderable = true;
-
-  }
-
-  setName(name){
-    this.name = name;
-  }
-  getName(){ return this.name }
-  getOpacity(){ return this.#opacity }
-  
-  setOpacity(op){
-    this.#opacity = op;
-  }
-
-  toggleVisible=()=>{
-    this.visible = !this.visible;
-    return this.visible;
-  }
-  toggleSelection=()=>{
-    this.isSelected= !this.isSelected;
-    return this.isSelected;
-  }
-}
 
 export class LayerManager extends UI_Component{
 
@@ -44,7 +10,7 @@ export class LayerManager extends UI_Component{
   #orchestratorFuncs; #layersDom = []; 
   #layerData = []; #renderableLayers=[];
   #isCtrlPressed = false; #inactiveLayers = 0;
-
+  #LAYER_SIZE = 50;
   #LayerSliderProps;
   constructor(root, orchestratorFuncs){
     super(root);
@@ -71,7 +37,7 @@ export class LayerManager extends UI_Component{
   #dragstartLayer = (e)=>{
     const Top = e.clientY - this.root.offsetTop + this.root.scrollTop;
     this.#LayerSliderProps.dragging = e.target;
-    this.#LayerSliderProps.target = LayerManager.#totalLayers -1 -this.#inactiveLayers-Math.floor(Top / 55);
+    this.#LayerSliderProps.target = LayerManager.#totalLayers -1 -this.#inactiveLayers-Math.floor(Top / this.#LAYER_SIZE);
     this.#LayerSliderProps.destiny = -1;
     
   }
@@ -90,10 +56,9 @@ export class LayerManager extends UI_Component{
     e.preventDefault();
     const Top = e.clientY - this.root.offsetTop + this.root.scrollTop;
     this.#LayerSliderProps.dragging.style.display = 'none';
-    let i = Math.floor(Top / 55); 
+    let i = Math.floor(Top / this.#LAYER_SIZE); 
     if (i >= 0 && i < LayerManager.#totalLayers-this.#inactiveLayers) {
       const dt = LayerManager.#totalLayers-1-this.#inactiveLayers-i;
-      console.log(dt);
       this.#LayerSliderProps.destiny = dt;
       document.querySelector(".JSLayerDragging")?.classList.remove('JSLayerDragging');
       i = dt <= this.#LayerSliderProps.target?dt-1: dt;
@@ -118,10 +83,7 @@ export class LayerManager extends UI_Component{
   }
 
   reorderLayers = (position, destiny)=>{
-    console.log(position, destiny);
-    console.log(this.#renderableLayers);
     const item = this.#renderableLayers.splice(position,1)[0];
-    console.log(item);
     this.#renderableLayers.splice(destiny,0, item);
 
     this.#renderLayers();
@@ -148,6 +110,20 @@ export class LayerManager extends UI_Component{
     return this.#renderableLayers[this.#activeLayerID].position;
   }
 
+  setLayersData = (data)=>{
+    for(let i =0; i < this.#layerData.length;i++){
+      const e = this.#layerData[i];
+      e.setData(data[i]);
+    }
+  }
+
+  getData(){
+    return this.getActiveLayerData().data;
+
+  }
+
+
+
   removeLayer = ()=>{
     this.#inactiveLayers++;
 
@@ -157,8 +133,17 @@ export class LayerManager extends UI_Component{
 
   }
 
+
+
+  duplicateLayer = (position)=>{
+    const name = this.getActiveLayerData().getName();
+    this.createLayer(position).setName(`${name} (copy)` );
+    this.#layersDom[this.getPosition()].setLayerData(this.getActiveLayerData());
+  }
+
+
+
   createLayer=(position)=>{
-    
     const id = LayerManager.#totalLayers;
     const layer = new Layer(id, 'Layer '+id, 0);
     const layerDom = new LayerComp(layer);
@@ -179,7 +164,6 @@ export class LayerManager extends UI_Component{
         layerDom.root.classList.toggle("selected");
         layer.toggleSelection();
       }else{
-        console.log(item)
         this.#orchestratorFuncs.updateActiveLayer(item.renderableOrder);
 
       }
@@ -190,6 +174,7 @@ export class LayerManager extends UI_Component{
     
     this.#orchestratorFuncs.updateActiveLayer(position);
     this.#renderLayers();
+    return layer;
   }
 
   getActiveLayerData(){
@@ -204,7 +189,6 @@ export class LayerManager extends UI_Component{
   }
 
   #renderLayers=()=>{
-    console.log("RENDER: ")
     this.root.innerHTML = "";
     for (let i = LayerManager.#totalLayers-1; i >=0; i--) {
       const e = this.#renderableLayers[i]

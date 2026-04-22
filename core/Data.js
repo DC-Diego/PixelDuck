@@ -16,8 +16,9 @@ class Data{
     return this.#frameData[position];
 
   }
-  getFrameData(){
-    return this.#frameData;
+  getFrameData(id){
+    // console.log(this.#frameData)
+    return this.getFrameById(id).getContent();
 
   }
 
@@ -57,9 +58,18 @@ class Data{
       frame.newLayer();
     }
   }
+  
+  duplicateLayer(position){
+    // return
+    for(let i =0;i < this.#frameData.length; i++){
+      const frame = this.#frameData[i];
+      frame.duplicateLayer(position);
+    }
+  }
+
 
   reorder=(target, destiny)=>{
-    console.log(target, destiny, this.#renderableFrames)
+    // console.log(target, destiny, this.#renderableFrames)
     const item = this.#renderableFrames.splice(target,1)[0];
     this.#renderableFrames.splice(destiny,0, item);
 
