@@ -14,6 +14,7 @@ class Orchestrator {
   }
   updateActiveLayer = (v)=>{
     this.stateManager.setState({activeLayer: v});
+    console.log(v)
   }
 
 

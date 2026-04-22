@@ -43,7 +43,7 @@ export class LayerManager extends UI_Component{
   #activeLayerID;  
   #orchestratorFuncs; #layersDom = []; 
   #layerData = []; #renderableLayers=[];
-  #isCtrlPressed = false;
+  #isCtrlPressed = false; #inactiveLayers = 0;
 
   #LayerSliderProps;
   constructor(root, orchestratorFuncs){
@@ -71,7 +71,7 @@ export class LayerManager extends UI_Component{
   #dragstartLayer = (e)=>{
     const Top = e.clientY - this.root.offsetTop + this.root.scrollTop;
     this.#LayerSliderProps.dragging = e.target;
-    this.#LayerSliderProps.target = LayerManager.#totalLayers -1 -Math.floor(Top / 55);
+    this.#LayerSliderProps.target = LayerManager.#totalLayers -1 -this.#inactiveLayers-Math.floor(Top / 55);
     this.#LayerSliderProps.destiny = -1;
     
   }
@@ -81,6 +81,7 @@ export class LayerManager extends UI_Component{
     document.querySelector(".JSLayerDragging")?.classList.remove('JSLayerDragging');
     e.target.style.display = 'flex';
     this.reorderLayers(this.#LayerSliderProps.target, this.#LayerSliderProps.destiny);
+    this.#orchestratorFuncs.updateActiveLayer(this.#LayerSliderProps.destiny);
     this.#LayerSliderProps.target = -1;
 
   }
@@ -90,8 +91,9 @@ export class LayerManager extends UI_Component{
     const Top = e.clientY - this.root.offsetTop + this.root.scrollTop;
     this.#LayerSliderProps.dragging.style.display = 'none';
     let i = Math.floor(Top / 55); 
-    if (i >= 0 && i < LayerManager.#totalLayers) {
-      const dt = LayerManager.#totalLayers-1-i;
+    if (i >= 0 && i < LayerManager.#totalLayers-this.#inactiveLayers) {
+      const dt = LayerManager.#totalLayers-1-this.#inactiveLayers-i;
+      console.log(dt);
       this.#LayerSliderProps.destiny = dt;
       document.querySelector(".JSLayerDragging")?.classList.remove('JSLayerDragging');
       i = dt <= this.#LayerSliderProps.target?dt-1: dt;
@@ -116,9 +118,12 @@ export class LayerManager extends UI_Component{
   }
 
   reorderLayers = (position, destiny)=>{
+    console.log(position, destiny);
     console.log(this.#renderableLayers);
     const item = this.#renderableLayers.splice(position,1)[0];
+    console.log(item);
     this.#renderableLayers.splice(destiny,0, item);
+
     this.#renderLayers();
   }
 
@@ -144,14 +149,12 @@ export class LayerManager extends UI_Component{
   }
 
   removeLayer = ()=>{
-    const i = this.getPosition();
-    console.log(i)
-
-    console.log(this.#renderableLayers);
+    this.#inactiveLayers++;
 
     this.#renderableLayers[this.#activeLayerID].isRenderable = false;
-    this.reorderLayers(i, LayerManager.#totalLayers);
-    this.#renderLayers();
+    this.reorderLayers(this.#activeLayerID, LayerManager.#totalLayers);
+    this.#orchestratorFuncs.updateActiveLayer(   this.#activeLayerID > 0?this.#activeLayerID-1:0   );
+
   }
 
   createLayer=(position)=>{
@@ -201,6 +204,7 @@ export class LayerManager extends UI_Component{
   }
 
   #renderLayers=()=>{
+    console.log("RENDER: ")
     this.root.innerHTML = "";
     for (let i = LayerManager.#totalLayers-1; i >=0; i--) {
       const e = this.#renderableLayers[i]
