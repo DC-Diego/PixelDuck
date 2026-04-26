@@ -7,7 +7,7 @@ import {Splitter} from  '../UI/Splitter.js';
 import {Stepper} from  '../UI/Stepper.js';
 import { ToggleReveal } from '../UI/ToggleReveal.js';
 import {setActivePage, getActivePage, getActivePageName} from './navigate.js';
-import {LayerManager} from '../components/Layers.js';
+import {LayerManager} from '../components/LayerManager.js';
 import {Timeline} from '../components/Timeline.js';
 import {StateManager} from '../core/stateManager.js';
 import {Orchestrator} from '../core/orchestrator.js';

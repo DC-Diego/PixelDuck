@@ -54,12 +54,13 @@ export class LayerManager extends UI_Component{
 
   #dragoverContainer = (e) => {
     e.preventDefault();
+    console.log("EEE")
     const Top = e.clientY - this.root.offsetTop + this.root.scrollTop;
     this.#LayerSliderProps.dragging.style.display = 'none';
     let i = Math.floor(Top / this.#LAYER_SIZE); 
     if (i >= 0 && i < LayerManager.#totalLayers-this.#inactiveLayers) {
       const dt = LayerManager.#totalLayers-1-this.#inactiveLayers-i;
-      this.#LayerSliderProps.destiny = dt;
+      // this.#LayerSliderProps.destiny = dt;
       document.querySelector(".JSLayerDragging")?.classList.remove('JSLayerDragging');
       i = dt <= this.#LayerSliderProps.target?dt-1: dt;
       const layer = this.#layersDom[i!=-1?this.#renderableLayers[i].position:i]; 
@@ -85,7 +86,8 @@ export class LayerManager extends UI_Component{
   reorderLayers = (position, destiny)=>{
     const item = this.#renderableLayers.splice(position,1)[0];
     this.#renderableLayers.splice(destiny,0, item);
-
+    console.log(position, destiny)
+    console.log(this.#renderableLayers)
     this.#renderLayers();
   }
 
@@ -158,6 +160,11 @@ export class LayerManager extends UI_Component{
 
     layerDom.root.addEventListener('dragstart', this.#dragstartLayer);
     layerDom.root.addEventListener('dragend', this.#dragendLayer);
+    layerDom.root.addEventListener('dragover', (e)=>{
+      e.preventDefault(); 
+      // e.stopPropagation();
+      this.#LayerSliderProps.destiny = item.renderableOrder;
+    });
 
     layerDom.root.addEventListener('pointerdown', ()=>{
       if(this.#isCtrlPressed){
@@ -165,7 +172,6 @@ export class LayerManager extends UI_Component{
         layer.toggleSelection();
       }else{
         this.#orchestratorFuncs.updateActiveLayer(item.renderableOrder);
-
       }
     });
 
