@@ -14,6 +14,7 @@ export class LayerManager extends UI_Component{
   #LAYER_SIZE = 50;
   #LayerSliderProps;
   #Groups = [null];
+  #Selected_Group = 0;
   constructor(root, orchestratorFuncs){
     super(root);
 
@@ -50,7 +51,9 @@ export class LayerManager extends UI_Component{
     e.target.style.display = 'flex';
     this.reorderLayers(this.#LayerSliderProps.target, this.#LayerSliderProps.destiny);
     this.#orchestratorFuncs.updateActiveLayer(this.#LayerSliderProps.destiny);
+    this.getActiveLayerData().group = this.#Selected_Group;
     this.#LayerSliderProps.target = -1;
+    this.#renderLayers();
 
   }
 
@@ -89,7 +92,7 @@ export class LayerManager extends UI_Component{
     this.#renderableLayers.splice(destiny,0, item);
     console.log(position, destiny)
     console.log(this.#renderableLayers)
-    this.#renderLayers();
+   
   }
 
   
@@ -141,7 +144,7 @@ export class LayerManager extends UI_Component{
     this.#renderableLayers[this.#activeLayerID].isRenderable = false;
     this.reorderLayers(this.#activeLayerID, LayerManager.#totalLayers);
     this.#orchestratorFuncs.updateActiveLayer(   this.#activeLayerID > 0?this.#activeLayerID-1:0   );
-
+    this.#renderLayers();
   }
 
 
@@ -153,7 +156,6 @@ export class LayerManager extends UI_Component{
   }
 
   toggleGroupVisible = (groupId, isVisible)=>{
-    console.log("RRRRR")
     this.#renderableLayers.forEach(e=>{
       let i =e.position;
       if(this.#layerData[i].group == groupId){
@@ -163,17 +165,28 @@ export class LayerManager extends UI_Component{
   }
   
   groupLayers = ()=>{
-    const group = new GroupLayer({toggleGroupVisible: this.toggleGroupVisible});  
-    this.#renderableLayers.forEach(e=>{
-      let i =e.position;
+    const group = new GroupLayer({toggleGroupVisible: this.toggleGroupVisible}); 
+    
+    let lastNode = -1;
 
+    for (let j = LayerManager.#totalLayers-1; j >=0; j--) {
+      const e = this.#renderableLayers[j];
+      if(!e.isRenderable) continue
+      let i = e.position;
       if(this.#layerData[i].isSelected){
+        if(lastNode == -1){
+          lastNode = j;
+          group.setRepresentative(e);
+        }else{
+          lastNode = lastNode-1;
+          this.reorderLayers(j, lastNode);
+        }
         this.#layerData[i].group = group.getId();
       }
-    });
+    }
     this.#Groups.push(group);
     this.deSelectAllLayers();
-    
+    console.log(this.#renderableLayers)
     this.#renderLayers();
   }
 
@@ -183,7 +196,7 @@ export class LayerManager extends UI_Component{
     const layer = new Layer(id, 'Layer '+id, 0);
     const layerDom = new LayerComp(layer);
     this.#layerData.push(layer);
-    
+    layer.group = this.#Selected_Group;
     const item = {
       position: id, isRenderable: true, renderableOrder: NaN
     }
@@ -196,6 +209,7 @@ export class LayerManager extends UI_Component{
     layerDom.root.addEventListener('dragover', (e)=>{
       e.preventDefault(); 
       // e.stopPropagation();
+      this.#Selected_Group = layer.group;
       this.#LayerSliderProps.destiny = item.renderableOrder;
     });
 
@@ -203,6 +217,7 @@ export class LayerManager extends UI_Component{
       if(this.#isCtrlPressed){
         this.selectLayer(item.renderableOrder);
       }else{
+        this.#Selected_Group = layer.group;
         this.#orchestratorFuncs.updateActiveLayer(item.renderableOrder);
       }
     });
@@ -228,7 +243,6 @@ export class LayerManager extends UI_Component{
 
   #renderLayers=()=>{
     // return
-    console.log(this.#layerData)
     this.root.innerHTML = "";
     let previousGroup = 0;
     for (let i = LayerManager.#totalLayers-1; i >=0; i--) {
@@ -240,7 +254,6 @@ export class LayerManager extends UI_Component{
       if(this.#layerData[j].group==0)  this.root.appendChild(layer);
       else{
         const group = this.#Groups[this.#layerData[j].group]; 
-        // console.log(this.#Groups, group,j, this.#layerData[j].group, this.#layerData[j] );
         this.root.appendChild(group.root);
         group.setItem(layer);
       }

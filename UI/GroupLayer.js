@@ -101,11 +101,11 @@ export class GroupLayer extends UI_Component{
   }
 
   btnVisiblePointerDown = (f)=>{
-    f.stopPropagation();
     this.setVisibility(!this.visible);
   }
-
-  btnContentPointerDown = ()=>{
+  
+  btnContentPointerDown = (f)=>{
+    f.stopPropagation();
     this.display = !this.display;
     this.GroupLayersArea.classList.toggle("hidden");
   }
