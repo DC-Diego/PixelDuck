@@ -75,7 +75,6 @@ class LayerComp extends UI_Component{
     const use = this.button.querySelectorAll('use'); 
     use[v?1:0].classList.add("hidden")
     use[v?0:1].classList.remove('hidden');
-    console.log(v)
 
   }
 

@@ -32,6 +32,7 @@ export class LayerManager extends UI_Component{
     this.on(document, "keydown", this.#documentKey);
     this.on(document, "keyup", this.#documentKey);
     
+    this.on(this.root, "pointerdown", ()=>{ this.#Selected_Group =0  });
     this.on(this.root, "dragover", this.#dragoverContainer);
 
 
@@ -42,7 +43,7 @@ export class LayerManager extends UI_Component{
     this.#LayerSliderProps.dragging = e.target;
     this.#LayerSliderProps.target = LayerManager.#totalLayers -1 -this.#inactiveLayers-Math.floor(Top / this.#LAYER_SIZE);
     this.#LayerSliderProps.destiny = -1;
-    
+    console.log("DRAG - ", this.#LayerSliderProps.target);
   }
   #dragendLayer = (e)=>{
     if(this.#LayerSliderProps.target == -1 || this.#LayerSliderProps.destiny==-1) return;
@@ -186,7 +187,7 @@ export class LayerManager extends UI_Component{
     }
     this.#Groups.push(group);
     this.deSelectAllLayers();
-    console.log(this.#renderableLayers)
+    this.#Selected_Group = group.getId();
     this.#renderLayers();
   }
 
@@ -213,10 +214,11 @@ export class LayerManager extends UI_Component{
       this.#LayerSliderProps.destiny = item.renderableOrder;
     });
 
-    layerDom.root.addEventListener('pointerdown', ()=>{
+    layerDom.root.addEventListener('pointerdown', (e)=>{
       if(this.#isCtrlPressed){
         this.selectLayer(item.renderableOrder);
       }else{
+        e.stopPropagation();
         this.#Selected_Group = layer.group;
         this.#orchestratorFuncs.updateActiveLayer(item.renderableOrder);
       }
@@ -251,12 +253,14 @@ export class LayerManager extends UI_Component{
       if(!e.isRenderable) continue 
       const j = e.position;
       const layer = this.#layersDom[j].root;
+
       if(this.#layerData[j].group==0)  this.root.appendChild(layer);
       else{
         const group = this.#Groups[this.#layerData[j].group]; 
-        this.root.appendChild(group.root);
+        if(this.#layerData[j].group != previousGroup) this.root.appendChild(group.root);
         group.setItem(layer);
       }
+      previousGroup = this.#layerData[j].group;
     
     }
   }

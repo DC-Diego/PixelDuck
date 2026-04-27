@@ -191,3 +191,6 @@ use.hidden{
 
 }
 
+svg.rotate270{
+  transform: rotateZ(270deg);
+}

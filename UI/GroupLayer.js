@@ -12,7 +12,7 @@ export class GroupLayer extends UI_Component{
     this.root.innerHTML=`
     <div class="group-layer-props">
       <button class="show-content" style="margin: 0; align-items: center; width: 20px; display: flex; padding: 0;" >
-        <svg class="toggle-icon" viewBox="0 0 24 24" style="scale: 0.8;">
+        <svg class="toggle-icon rotate270" viewBox="0 0 24 24" style="scale: 0.8;">
           <line x1="16" y1="19" x2="8" y2="12"></line>
           <line x1="16" y1="5" x2="8" y2="12"></line>
         </svg>
@@ -29,7 +29,7 @@ export class GroupLayer extends UI_Component{
 
     this.GroupLayersArea = document.createElement("div");
     this.GroupLayersArea.classList.add("group-layer-content");
-    this.GroupLayersArea.classList.add("hidden");
+    // this.GroupLayersArea.classList.add("hidden");
     
     this.root.appendChild(this.GroupLayersArea);
 
@@ -66,6 +66,7 @@ export class GroupLayer extends UI_Component{
     this.#groupRepresentative = renderableLayer;
     this.lock = true;
   }
+  getRepresentative(){ return this.#groupRepresentative;}
 
   inputKeyDown = (e)=>{
     switch(e.key){
@@ -108,6 +109,7 @@ export class GroupLayer extends UI_Component{
     f.stopPropagation();
     this.display = !this.display;
     this.GroupLayersArea.classList.toggle("hidden");
+    this.btnContent.querySelector("svg").classList.toggle("rotate270");
   }
 
   #setInputValue = (val)=>{
