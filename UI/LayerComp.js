@@ -20,10 +20,11 @@ class LayerComp extends UI_Component{
     this.h1 = this.root.querySelector("h1");
     this.input = this.root.querySelector("input");
     this.button = this.root.querySelector("button");
+    this.visible =true;
     this.clickTimeout = null;
     
 
-    this.on(this.button, "pointerdown",this.buttonPointerDown );
+    this.on(this.button, "pointerdown",this.#buttonPointerDown );
     this.on(this.input, "blur",this.cancelName );
     this.on(this.input, "keydown",this.inputKeyDown );
     this.on(this.h1, "pointerdown",this.h1PointerDown );
@@ -63,15 +64,23 @@ class LayerComp extends UI_Component{
     }
   }
 
-  buttonPointerDown = (f)=>{
+  #buttonPointerDown = (f)=>{
     f.stopPropagation();
-    this.#layerData.toggleVisible();
-    this.button.querySelectorAll('use').forEach(e=>{
-      e.classList.toggle('hidden')
-    })
+    this.toggleVisible();
+  }
 
- 
+  setVisible = (v)=>{
+    this.visible = v;
+    this.#layerData.setVisible(v);
+    const use = this.button.querySelectorAll('use'); 
+    use[v?1:0].classList.add("hidden")
+    use[v?0:1].classList.remove('hidden');
+    console.log(v)
 
+  }
+
+  toggleVisible(){
+    this.setVisible(!this.visible);
   }
 
   #setInputValue = (val)=>{

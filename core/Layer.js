@@ -29,12 +29,23 @@ class Layer{
   }
   getOpacity(){ return this.#opacity }
 
-  toggleVisible=()=>{
-    this.visible = !this.visible;
+
+  setVisible = (v)=>{
+    this.visible = v;
     return this.visible;
   }
+  toggleVisible=()=>{
+    this.setVisible(!this.visible);
+  }
+
+
+  setSelection = (s)=>{
+    this.isSelected = s;
+
+
+  }
   toggleSelection=()=>{
-    this.isSelected= !this.isSelected;
+    this.setSelection(!this.isSelected);
     return this.isSelected;
   }
 }

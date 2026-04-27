@@ -1,5 +1,6 @@
 import { UI_Component } from "../UI/UI_Component.js";
 import { LayerComp } from "../UI/LayerComp.js";
+import { GroupLayer } from "../UI/GroupLayer.js";
 import { Layer } from "../core/Layer.js";
 
 
@@ -12,6 +13,7 @@ export class LayerManager extends UI_Component{
   #isCtrlPressed = false; #inactiveLayers = 0;
   #LAYER_SIZE = 50;
   #LayerSliderProps;
+  #Groups = [null];
   constructor(root, orchestratorFuncs){
     super(root);
 
@@ -54,7 +56,6 @@ export class LayerManager extends UI_Component{
 
   #dragoverContainer = (e) => {
     e.preventDefault();
-    console.log("EEE")
     const Top = e.clientY - this.root.offsetTop + this.root.scrollTop;
     this.#LayerSliderProps.dragging.style.display = 'none';
     let i = Math.floor(Top / this.#LAYER_SIZE); 
@@ -96,15 +97,12 @@ export class LayerManager extends UI_Component{
 
 
   setActiveLayer = (i)=>{
-    this.getActiveLayerData().toggleSelection();
+    this.deSelectAllLayers();
     this.#activeLayerID = i;  
     this.getActiveLayerData().toggleSelection();
     document.querySelector('.layer.active')?.classList.remove('active');
     // i = this.#renderableLayers[i].position;
     this.#layersDom[this.getPosition()].root.classList.add('active');
-    document.querySelectorAll(".layer.selected").forEach(e=>{
-      e.classList.remove("selected");
-    });
   }
 
 
@@ -124,11 +122,22 @@ export class LayerManager extends UI_Component{
 
   }
 
+  deSelectAllLayers = ()=>{
+    this.#renderableLayers.forEach(e=>{
+      let i =e.position;
+      this.#layersDom[i].root.classList.remove("selected");
+      this.#layerData[i].setSelection(false);
+    });
+  }
 
+  selectLayer = (position)=>{
+    this.#layersDom[this.#renderableLayers[position].position].root.classList.toggle("selected");
+    this.#layerData[this.#renderableLayers[position].position].toggleSelection();
+
+  }
 
   removeLayer = ()=>{
     this.#inactiveLayers++;
-
     this.#renderableLayers[this.#activeLayerID].isRenderable = false;
     this.reorderLayers(this.#activeLayerID, LayerManager.#totalLayers);
     this.#orchestratorFuncs.updateActiveLayer(   this.#activeLayerID > 0?this.#activeLayerID-1:0   );
@@ -143,6 +152,30 @@ export class LayerManager extends UI_Component{
     this.#layersDom[this.getPosition()].setLayerData(this.getActiveLayerData());
   }
 
+  toggleGroupVisible = (groupId, isVisible)=>{
+    console.log("RRRRR")
+    this.#renderableLayers.forEach(e=>{
+      let i =e.position;
+      if(this.#layerData[i].group == groupId){
+        this.#layersDom[i].setVisible(isVisible);
+      }
+    });
+  }
+  
+  groupLayers = ()=>{
+    const group = new GroupLayer({toggleGroupVisible: this.toggleGroupVisible});  
+    this.#renderableLayers.forEach(e=>{
+      let i =e.position;
+
+      if(this.#layerData[i].isSelected){
+        this.#layerData[i].group = group.getId();
+      }
+    });
+    this.#Groups.push(group);
+    this.deSelectAllLayers();
+    
+    this.#renderLayers();
+  }
 
 
   createLayer=(position)=>{
@@ -168,8 +201,7 @@ export class LayerManager extends UI_Component{
 
     layerDom.root.addEventListener('pointerdown', ()=>{
       if(this.#isCtrlPressed){
-        layerDom.root.classList.toggle("selected");
-        layer.toggleSelection();
+        this.selectLayer(item.renderableOrder);
       }else{
         this.#orchestratorFuncs.updateActiveLayer(item.renderableOrder);
       }
@@ -195,14 +227,24 @@ export class LayerManager extends UI_Component{
   }
 
   #renderLayers=()=>{
+    // return
+    console.log(this.#layerData)
     this.root.innerHTML = "";
+    let previousGroup = 0;
     for (let i = LayerManager.#totalLayers-1; i >=0; i--) {
       const e = this.#renderableLayers[i]
       this.#renderableLayers[i].renderableOrder = i;
       if(!e.isRenderable) continue 
       const j = e.position;
       const layer = this.#layersDom[j].root;
-      this.root.appendChild(layer);
+      if(this.#layerData[j].group==0)  this.root.appendChild(layer);
+      else{
+        const group = this.#Groups[this.#layerData[j].group]; 
+        // console.log(this.#Groups, group,j, this.#layerData[j].group, this.#layerData[j] );
+        this.root.appendChild(group.root);
+        group.setItem(layer);
+      }
+    
     }
   }
 

@@ -79,6 +79,8 @@ playSpeed.setValue(1);
 const btnNewLayer = document.getElementById("btn-new-layer");
 const btnRemoveLayer = document.getElementById("btn-remove-layer");
 const btnDuplicateLayer = document.getElementById("btn-duplicate-layer");
+const btnGroupLayers = document.getElementById("btn-group-layers");
+
 
 const createLayer = (position, totalLayers)=>{
   layer.createLayer(position);
@@ -98,6 +100,12 @@ const removeLayer = (totalLayers)=>{
   orchestrator.updateTotalLayers(totalLayers-1);
 
 }
+
+btnGroupLayers.addEventListener("pointerdown", ()=>{
+  layer.groupLayers();
+
+});
+
 btnDuplicateLayer.addEventListener("pointerdown", ()=>{
   const {activeLayer, totalLayers} = stateManager.getState();
   duplicateLayer(activeLayer, totalLayers);
