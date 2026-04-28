@@ -38,10 +38,11 @@ export class LayerManager extends UI_Component{
 
   }
 
-  #dragstartLayer = (e)=>{
+  #dragstartLayer = (e, i)=>{
     const Top = e.clientY - this.root.offsetTop + this.root.scrollTop;
     this.#LayerSliderProps.dragging = e.target;
-    this.#LayerSliderProps.target = LayerManager.#totalLayers -1 -this.#inactiveLayers-Math.floor(Top / this.#LAYER_SIZE);
+    // this.#LayerSliderProps.target = LayerManager.#totalLayers -1 -this.#inactiveLayers-Math.floor(Top / this.#LAYER_SIZE);
+    this.#LayerSliderProps.target = i
     this.#LayerSliderProps.destiny = -1;
     console.log("DRAG - ", this.#LayerSliderProps.target);
   }
@@ -140,14 +141,45 @@ export class LayerManager extends UI_Component{
 
   }
 
-  removeLayer = ()=>{
+
+  #rmLayer =(i)=>{
     this.#inactiveLayers++;
-    this.#renderableLayers[this.#activeLayerID].isRenderable = false;
-    this.reorderLayers(this.#activeLayerID, LayerManager.#totalLayers);
-    this.#orchestratorFuncs.updateActiveLayer(   this.#activeLayerID > 0?this.#activeLayerID-1:0   );
+    this.#renderableLayers[i].isRenderable = false;
+    this.reorderLayers(i, LayerManager.#totalLayers);
+    return i;
+  }
+
+/*
+  for (let j = 0; j < LayerManager.#totalLayers; j++) {
+      const e = this.#renderableLayers[j];
+      if(!e.isRenderable) continue
+      let i = e.position;
+      if(this.#layerData[i].isSelected){
+
+      }
+    }
+
+*/
+
+  removeLayer = ()=>{
+    let tempActive =  this.#activeLayerID; 
+    for (let j = LayerManager.#totalLayers-1; j >=0; j--) {
+      const e = this.#renderableLayers[j];
+      if(!e.isRenderable) continue
+      let i = e.position;
+      if(this.#layerData[i].isSelected){
+        this.#rmLayer(j);
+        tempActive--;
+      }
+    }
+    this.#orchestratorFuncs.updateActiveLayer(tempActive);
     this.#renderLayers();
   }
 
+
+  #dpLayer = ()=>{
+    
+  }
 
 
   duplicateLayer = (position)=>{
@@ -205,7 +237,7 @@ export class LayerManager extends UI_Component{
 
     this.#renderableLayers.splice(position,0, item);
 
-    layerDom.root.addEventListener('dragstart', this.#dragstartLayer);
+    layerDom.root.addEventListener('dragstart', (e)=>{this.#dragstartLayer(e, item.renderableOrder)});
     layerDom.root.addEventListener('dragend', this.#dragendLayer);
     layerDom.root.addEventListener('dragover', (e)=>{
       e.preventDefault(); 
@@ -257,7 +289,10 @@ export class LayerManager extends UI_Component{
       if(this.#layerData[j].group==0)  this.root.appendChild(layer);
       else{
         const group = this.#Groups[this.#layerData[j].group]; 
-        if(this.#layerData[j].group != previousGroup) this.root.appendChild(group.root);
+        if(this.#layerData[j].group != previousGroup){
+          group.clearChildren();
+          this.root.appendChild(group.root);
+        } 
         group.setItem(layer);
       }
       previousGroup = this.#layerData[j].group;

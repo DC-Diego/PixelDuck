@@ -313,7 +313,7 @@ body{
   background-color: #474747;
   margin-top: 5px;
   margin-bottom: 5px;
-  border-radius: 5px;
+  /* border-radius: 5px; */
 }
 .group-layer-content.hidden{ display: none;}
 

@@ -68,6 +68,11 @@ export class GroupLayer extends UI_Component{
   }
   getRepresentative(){ return this.#groupRepresentative;}
 
+  clearChildren(){
+    this.GroupLayersArea.replaceChildren()
+
+  }
+
   inputKeyDown = (e)=>{
     switch(e.key){
       case "Escape":
