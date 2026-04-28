@@ -237,9 +237,13 @@ body{
 
 
 
+.layer.active, .group-layer.active{
+  background-color: #171717;
+}
 .layer.selected, .group-layer.selected{
   /* padding-left: 10px; */
-  background-color: #171717;
+  /* background-color: #171717; */
+  background-color: #c71717;
 
 }
 .layer.JSLayerDragging, .group-layer.layer.JSLayerDragging{
@@ -248,9 +252,6 @@ body{
 }
 
 
-.layer.active, .group-layer.active{
-  background-color: #171717;
-}
 
 .layer-image{
   margin: 0;

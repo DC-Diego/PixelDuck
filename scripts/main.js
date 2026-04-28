@@ -83,15 +83,15 @@ const btnGroupLayers = document.getElementById("btn-group-layers");
 
 
 const createLayer = (position, totalLayers)=>{
+  if(totalLayers == 0) position = 0
   layer.createLayer(position);
   data.newLayer();
   orchestrator.updateTotalLayers(totalLayers+1);
   
 }
 const duplicateLayer = (position, totalLayers)=>{
-  layer.duplicateLayer(position+1);
-  data.duplicateLayer(position);
-  orchestrator.updateTotalLayers(totalLayers+1);
+  const qtd = layer.duplicateLayer(position+1, data.duplicateLayer);
+  orchestrator.updateTotalLayers(totalLayers+qtd);
   
 }
 
@@ -120,7 +120,7 @@ btnNewLayer.addEventListener("pointerdown", ()=>{
 
 btnRemoveLayer.addEventListener("pointerdown", ()=>{
   const {totalLayers} = stateManager.getState();
-  removeLayer(totalLayers);
+  if(totalLayers > 0) removeLayer(totalLayers);
   
 });
 

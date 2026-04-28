@@ -59,7 +59,7 @@ class Data{
     }
   }
   
-  duplicateLayer(position){
+  duplicateLayer = (position)=>{
     // return
     for(let i =0;i < this.#frameData.length; i++){
       const frame = this.#frameData[i];

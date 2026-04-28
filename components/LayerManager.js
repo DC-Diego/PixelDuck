@@ -104,7 +104,8 @@ export class LayerManager extends UI_Component{
   setActiveLayer = (i)=>{
     this.deSelectAllLayers();
     this.#activeLayerID = i;  
-    this.getActiveLayerData().toggleSelection();
+    // this.getActiveLayerData().toggleSelection();
+    this.selectLayer(i);
     document.querySelector('.layer.active')?.classList.remove('active');
     // i = this.#renderableLayers[i].position;
     this.#layersDom[this.getPosition()].root.classList.add('active');
@@ -128,7 +129,7 @@ export class LayerManager extends UI_Component{
   }
 
   deSelectAllLayers = ()=>{
-    this.#renderableLayers.forEach(e=>{
+    this.#renderableLayers.forEach((e,j)=>{
       let i =e.position;
       this.#layersDom[i].root.classList.remove("selected");
       this.#layerData[i].setSelection(false);
@@ -136,6 +137,8 @@ export class LayerManager extends UI_Component{
   }
 
   selectLayer = (position)=>{
+    console.log(position)
+    if(position < 0) return
     this.#layersDom[this.#renderableLayers[position].position].root.classList.toggle("selected");
     this.#layerData[this.#renderableLayers[position].position].toggleSelection();
 
@@ -163,13 +166,13 @@ export class LayerManager extends UI_Component{
 
   removeLayer = ()=>{
     let tempActive =  this.#activeLayerID; 
-    for (let j = LayerManager.#totalLayers-1; j >=0; j--) {
+    for (let j = LayerManager.#totalLayers-1-this.#inactiveLayers; j >=0; j--) {
       const e = this.#renderableLayers[j];
       if(!e.isRenderable) continue
       let i = e.position;
       if(this.#layerData[i].isSelected){
         this.#rmLayer(j);
-        tempActive--;
+        if(tempActive > 0)tempActive--;
       }
     }
     this.#orchestratorFuncs.updateActiveLayer(tempActive);
@@ -177,16 +180,50 @@ export class LayerManager extends UI_Component{
   }
 
 
-  #dpLayer = ()=>{
-    
+  #dpLayer = (i)=>{
+    // this.#renderableLayers[this.#activeLayerID].position - getPosition()
+    // this.#layerData[this.getPosition()] - getActiveLayerData() 
+    let j = this.#renderableLayers[i].position;
+    const name = this.#layerData[j].getName();
+    this.#crLayer(i+1).setName(`${name} (copy)` );
+    j = this.#renderableLayers[i+1].position;
+    this.#layersDom[j].setLayerData(this.#layerData[j]);
+    return i+1;
   }
 
 
-  duplicateLayer = (position)=>{
-    const name = this.getActiveLayerData().getName();
-    this.createLayer(position).setName(`${name} (copy)` );
-    this.#layersDom[this.getPosition()].setLayerData(this.getActiveLayerData());
+  duplicateLayer = (position, duplicateFunc)=>{
+    let qtd = 0;
+    let active = -1;
+    for (let j = LayerManager.#totalLayers-1-this.#inactiveLayers; j >=0; j--) {
+      const e = this.#renderableLayers[j];
+      if(!e.isRenderable) { continue }
+      let i = e.position;
+      if(this.#layerData[i].isSelected){
+        this.#Selected_Group = this.#layerData[i].group;
+        this.#dpLayer(j);
+        if(active == -1) active = j;
+        duplicateFunc(j);
+        qtd++;
+
+      }
+    }
+    if(active!=-1){
+      this.#orchestratorFuncs.updateActiveLayer(active+qtd);
+      this.#renderLayers();
+    }
+    return qtd;
+    // const name = this.getActiveLayerData().getName();
+    // this.createLayer(position).setName(`${name} (copy)` );
+    // this.#layersDom[this.getPosition()].setLayerData(this.getActiveLayerData());
   }
+  
+  // Copy - Backup
+  // duplicateLayer = (position)=>{
+  //   const name = this.getActiveLayerData().getName();
+  //   this.createLayer(position).setName(`${name} (copy)` );
+  //   this.#layersDom[this.getPosition()].setLayerData(this.getActiveLayerData());
+  // }
 
   toggleGroupVisible = (groupId, isVisible)=>{
     this.#renderableLayers.forEach(e=>{
@@ -202,7 +239,7 @@ export class LayerManager extends UI_Component{
     
     let lastNode = -1;
 
-    for (let j = LayerManager.#totalLayers-1; j >=0; j--) {
+    for (let j = LayerManager.#totalLayers-1-this.#inactiveLayers; j >=0; j--) {
       const e = this.#renderableLayers[j];
       if(!e.isRenderable) continue
       let i = e.position;
@@ -220,11 +257,11 @@ export class LayerManager extends UI_Component{
     this.#Groups.push(group);
     this.deSelectAllLayers();
     this.#Selected_Group = group.getId();
+    this.#orchestratorFuncs.updateActiveLayer(group.getRepresentative().renderableOrder);
     this.#renderLayers();
   }
 
-
-  createLayer=(position)=>{
+  #crLayer = (position)=>{
     const id = LayerManager.#totalLayers;
     const layer = new Layer(id, 'Layer '+id, 0);
     const layerDom = new LayerComp(layer);
@@ -234,7 +271,7 @@ export class LayerManager extends UI_Component{
       position: id, isRenderable: true, renderableOrder: NaN
     }
     this.#layersDom.push(layerDom);
-
+    console.log(layer)
     this.#renderableLayers.splice(position,0, item);
 
     layerDom.root.addEventListener('dragstart', (e)=>{this.#dragstartLayer(e, item.renderableOrder)});
@@ -245,6 +282,9 @@ export class LayerManager extends UI_Component{
       this.#Selected_Group = layer.group;
       this.#LayerSliderProps.destiny = item.renderableOrder;
     });
+
+    
+
 
     layerDom.root.addEventListener('pointerdown', (e)=>{
       if(this.#isCtrlPressed){
@@ -258,7 +298,14 @@ export class LayerManager extends UI_Component{
 
 
     LayerManager.#totalLayers++;
-    
+    return layer;
+
+  }
+
+
+  createLayer=(position)=>{
+    const layer = this.#crLayer(position); 
+
     this.#orchestratorFuncs.updateActiveLayer(position);
     this.#renderLayers();
     return layer;
@@ -290,6 +337,7 @@ export class LayerManager extends UI_Component{
       else{
         const group = this.#Groups[this.#layerData[j].group]; 
         if(this.#layerData[j].group != previousGroup){
+          console.log(this.#layerData[j].group, "CLEAR")
           group.clearChildren();
           this.root.appendChild(group.root);
         } 
