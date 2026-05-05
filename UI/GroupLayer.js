@@ -4,12 +4,13 @@ import { UI_Component } from "./UI_Component.js";
 
 export class GroupLayer extends UI_Component{
   static qtd = 1;
-  #id; #orchestratorFuncs; #groupRepresentative = null; 
-  constructor(ofunc){  
+  #id; #orchestratorFuncs; #groupRepresentative = null; #bottomLayer = null;
+  constructor(ofunc, f_bef, f_aft){  
     super(document.createElement("div"));
     this.#id = GroupLayer.qtd++;
     this.root.classList.add("group-layer");
     this.root.innerHTML=`
+    <div class="js-upper-layer-drag"> </div>
     <div class="group-layer-props">
       <button class="show-content" style="margin: 0; align-items: center; width: 20px; display: flex; padding: 0;" >
         <svg class="toggle-icon rotate270" viewBox="0 0 24 24" style="scale: 0.8;">
@@ -29,9 +30,12 @@ export class GroupLayer extends UI_Component{
 
     this.GroupLayersArea = document.createElement("div");
     this.GroupLayersArea.classList.add("group-layer-content");
+    this.bottomLayerDrag = document.createElement("div");
+    this.bottomLayerDrag.classList.add("js-bottom-layer-drag");
     // this.GroupLayersArea.classList.add("hidden");
-    
+    this.topLayerDrag =  this.root.querySelector(".js-upper-layer-drag");
     this.root.appendChild(this.GroupLayersArea);
+    this.root.appendChild(this.bottomLayerDrag);
 
     this.h1 = this.root.querySelector("h1");
     this.input = this.root.querySelector("input");
@@ -53,9 +57,12 @@ export class GroupLayer extends UI_Component{
     this.on(this.input, "blur",this.cancelName );
     this.on(this.input, "keydown",this.inputKeyDown );
     this.on(this.h1, "pointerdown",this.h1PointerDown );
-
+    // this.on(this.h1, "dragover", this.#dragover );
+    this.on(this.bottomLayerDrag, "dragover", f_bef );
+    this.on(this.topLayerDrag, "dragover", f_aft );
     // return this.#id;
   }
+
 
   setItem = (item)=>{
     this.GroupLayersArea.appendChild(item);
@@ -67,6 +74,13 @@ export class GroupLayer extends UI_Component{
     this.lock = true;
   }
   getRepresentative(){ return this.#groupRepresentative;}
+
+  setBottomLayer = (renderableLayer)=>{
+    this.#bottomLayer = renderableLayer;
+    this.lock = true;
+  }
+  getBottomLayer(){ return this.#bottomLayer;}
+
 
   clearChildren(){
     this.GroupLayersArea.replaceChildren()

@@ -11,15 +11,12 @@ export class LayerManager extends UI_Component{
   #orchestratorFuncs; #layersDom = []; 
   #layerData = []; #renderableLayers=[];
   #isCtrlPressed = false; #inactiveLayers = 0;
-  #LAYER_SIZE = 50;
+  #LAYER_SIZE = 50; #JSDRAG = null;
   #LayerSliderProps;
   #Groups = [null];
   #Selected_Group = 0;
   constructor(root, orchestratorFuncs){
     super(root);
-
-
-
 
     this.#LayerSliderProps = {
       dragging: null,
@@ -35,22 +32,27 @@ export class LayerManager extends UI_Component{
     this.on(this.root, "pointerdown", ()=>{ this.#Selected_Group =0  });
     this.on(this.root, "dragover", this.#dragoverContainer);
 
-
   }
 
   #dragstartLayer = (e, i)=>{
-    const Top = e.clientY - this.root.offsetTop + this.root.scrollTop;
+    console.error("SELECIONAR TEXTO CAUSA ERRO")
     this.#LayerSliderProps.dragging = e.target;
-    // this.#LayerSliderProps.target = LayerManager.#totalLayers -1 -this.#inactiveLayers-Math.floor(Top / this.#LAYER_SIZE);
     this.#LayerSliderProps.target = i
     this.#LayerSliderProps.destiny = -1;
-    console.log("DRAG - ", this.#LayerSliderProps.target);
+    console.log(e)
+    setTimeout(()=>e.target.style.display = 'none',10);
+    
   }
   #dragendLayer = (e)=>{
-    if(this.#LayerSliderProps.target == -1 || this.#LayerSliderProps.destiny==-1) return;
     this.#LayerSliderProps.dragging = null;
-    document.querySelector(".JSLayerDragging")?.classList.remove('JSLayerDragging');
     e.target.style.display = 'flex';
+    this.#JSDRAG?.classList.remove('JSLayerDragging');
+    this.#JSDRAG = null;
+    if(this.#LayerSliderProps.target == -1 || this.#LayerSliderProps.destiny==-1) return;
+
+    if(this.#LayerSliderProps.target < this.#LayerSliderProps.destiny){
+      this.#LayerSliderProps.destiny -=1;
+    } 
     this.reorderLayers(this.#LayerSliderProps.target, this.#LayerSliderProps.destiny);
     this.#orchestratorFuncs.updateActiveLayer(this.#LayerSliderProps.destiny);
     this.getActiveLayerData().group = this.#Selected_Group;
@@ -60,20 +62,8 @@ export class LayerManager extends UI_Component{
   }
 
   #dragoverContainer = (e) => {
+    // this.#LayerSliderProps.dragging.style.display = 'none';
     e.preventDefault();
-    const Top = e.clientY - this.root.offsetTop + this.root.scrollTop;
-    this.#LayerSliderProps.dragging.style.display = 'none';
-    let i = Math.floor(Top / this.#LAYER_SIZE); 
-    if (i >= 0 && i < LayerManager.#totalLayers-this.#inactiveLayers) {
-      const dt = LayerManager.#totalLayers-1-this.#inactiveLayers-i;
-      // this.#LayerSliderProps.destiny = dt;
-      document.querySelector(".JSLayerDragging")?.classList.remove('JSLayerDragging');
-      i = dt <= this.#LayerSliderProps.target?dt-1: dt;
-      const layer = this.#layersDom[i!=-1?this.#renderableLayers[i].position:i]; 
-      if (layer && layer.root) {
-        layer.root.classList.add("JSLayerDragging");
-      }
-    }
   }
 
 
@@ -90,24 +80,18 @@ export class LayerManager extends UI_Component{
   }
 
   reorderLayers = (position, destiny)=>{
+    console.log(position, destiny)
     const item = this.#renderableLayers.splice(position,1)[0];
     this.#renderableLayers.splice(destiny,0, item);
-    console.log(position, destiny)
     console.log(this.#renderableLayers)
    
   }
 
-  
-
-
-
   setActiveLayer = (i)=>{
     this.deSelectAllLayers();
     this.#activeLayerID = i;  
-    // this.getActiveLayerData().toggleSelection();
     this.selectLayer(i);
     document.querySelector('.layer.active')?.classList.remove('active');
-    // i = this.#renderableLayers[i].position;
     this.#layersDom[this.getPosition()].root.classList.add('active');
   }
 
@@ -137,13 +121,11 @@ export class LayerManager extends UI_Component{
   }
 
   selectLayer = (position)=>{
-    console.log(position)
     if(position < 0) return
     this.#layersDom[this.#renderableLayers[position].position].root.classList.toggle("selected");
     this.#layerData[this.#renderableLayers[position].position].toggleSelection();
 
   }
-
 
   #rmLayer =(i)=>{
     this.#inactiveLayers++;
@@ -151,18 +133,6 @@ export class LayerManager extends UI_Component{
     this.reorderLayers(i, LayerManager.#totalLayers);
     return i;
   }
-
-/*
-  for (let j = 0; j < LayerManager.#totalLayers; j++) {
-      const e = this.#renderableLayers[j];
-      if(!e.isRenderable) continue
-      let i = e.position;
-      if(this.#layerData[i].isSelected){
-
-      }
-    }
-
-*/
 
   removeLayer = ()=>{
     let tempActive =  this.#activeLayerID; 
@@ -181,8 +151,6 @@ export class LayerManager extends UI_Component{
 
 
   #dpLayer = (i)=>{
-    // this.#renderableLayers[this.#activeLayerID].position - getPosition()
-    // this.#layerData[this.getPosition()] - getActiveLayerData() 
     let j = this.#renderableLayers[i].position;
     const name = this.#layerData[j].getName();
     this.#crLayer(i+1).setName(`${name} (copy)` );
@@ -205,7 +173,6 @@ export class LayerManager extends UI_Component{
         if(active == -1) active = j;
         duplicateFunc(j);
         qtd++;
-
       }
     }
     if(active!=-1){
@@ -213,9 +180,6 @@ export class LayerManager extends UI_Component{
       this.#renderLayers();
     }
     return qtd;
-    // const name = this.getActiveLayerData().getName();
-    // this.createLayer(position).setName(`${name} (copy)` );
-    // this.#layersDom[this.getPosition()].setLayerData(this.getActiveLayerData());
   }
   
   // Copy - Backup
@@ -235,7 +199,28 @@ export class LayerManager extends UI_Component{
   }
   
   groupLayers = ()=>{
-    const group = new GroupLayer({toggleGroupVisible: this.toggleGroupVisible}); 
+    const group = new GroupLayer({toggleGroupVisible: this.toggleGroupVisible},(e)=>{
+      e.preventDefault();
+      e.stopPropagation();
+      this.#Selected_Group = 0;
+      this.#LayerSliderProps.destiny = group.getBottomLayer().renderableOrder; 
+    }, (e)=>{
+      e.preventDefault();
+      e.stopPropagation();
+      this.#Selected_Group = 0;
+      this.#LayerSliderProps.destiny = group.getRepresentative().renderableOrder+1
+    }); 
+    // group.root
+
+    group.on(group.root, "dragover", (e)=>{
+      e.preventDefault(); 
+      if(this.#JSDRAG) this.#JSDRAG.classList.remove("JSLayerDragging")
+      this.#JSDRAG = group.root;
+      this.#JSDRAG.classList.add("JSLayerDragging");
+  
+    })
+
+    
     
     let lastNode = -1;
 
@@ -261,15 +246,21 @@ export class LayerManager extends UI_Component{
     this.#renderLayers();
   }
 
+
   #crLayer = (position)=>{
     const id = LayerManager.#totalLayers;
     const layer = new Layer(id, 'Layer '+id, 0);
-    const layerDom = new LayerComp(layer);
     this.#layerData.push(layer);
     layer.group = this.#Selected_Group;
     const item = {
       position: id, isRenderable: true, renderableOrder: NaN
     }
+
+    const layerDom = new LayerComp(layer, ()=>{
+      this.#LayerSliderProps.destiny = item.renderableOrder; 
+    }, ()=>{
+      this.#LayerSliderProps.destiny = item.renderableOrder+1
+    });
     this.#layersDom.push(layerDom);
     console.log(layer)
     this.#renderableLayers.splice(position,0, item);
@@ -278,13 +269,13 @@ export class LayerManager extends UI_Component{
     layerDom.root.addEventListener('dragend', this.#dragendLayer);
     layerDom.root.addEventListener('dragover', (e)=>{
       e.preventDefault(); 
-      // e.stopPropagation();
+      e.stopPropagation();
+      if(this.#JSDRAG) this.#JSDRAG.classList.remove("JSLayerDragging")
+      this.#JSDRAG = layerDom.root;
+      this.#JSDRAG.classList.add("JSLayerDragging");
       this.#Selected_Group = layer.group;
-      this.#LayerSliderProps.destiny = item.renderableOrder;
+      // this.#LayerSliderProps.destiny = item.renderableOrder;
     });
-
-    
-
 
     layerDom.root.addEventListener('pointerdown', (e)=>{
       if(this.#isCtrlPressed){
@@ -296,7 +287,6 @@ export class LayerManager extends UI_Component{
       }
     });
 
-
     LayerManager.#totalLayers++;
     return layer;
 
@@ -305,7 +295,6 @@ export class LayerManager extends UI_Component{
 
   createLayer=(position)=>{
     const layer = this.#crLayer(position); 
-
     this.#orchestratorFuncs.updateActiveLayer(position);
     this.#renderLayers();
     return layer;
@@ -323,7 +312,6 @@ export class LayerManager extends UI_Component{
   }
 
   #renderLayers=()=>{
-    // return
     this.root.innerHTML = "";
     let previousGroup = 0;
     for (let i = LayerManager.#totalLayers-1; i >=0; i--) {
@@ -337,17 +325,17 @@ export class LayerManager extends UI_Component{
       else{
         const group = this.#Groups[this.#layerData[j].group]; 
         if(this.#layerData[j].group != previousGroup){
-          console.log(this.#layerData[j].group, "CLEAR")
           group.clearChildren();
+          group.setRepresentative(e);
           this.root.appendChild(group.root);
         } 
         group.setItem(layer);
+        group.setBottomLayer(e);
+      
       }
       previousGroup = this.#layerData[j].group;
-    
     }
   }
-
 
   setTotalLayers = (i)=>{
     return
@@ -355,8 +343,4 @@ export class LayerManager extends UI_Component{
     // this.#orchestratorFuncs.updateTotalLayers(i);
 
   }
-
-
-
-
 }

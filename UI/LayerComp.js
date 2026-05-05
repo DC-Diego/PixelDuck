@@ -2,12 +2,14 @@ import { UI_Component } from "./UI_Component.js";
 
 class LayerComp extends UI_Component{
   #layerData;
-  constructor(l_data){
+  constructor(l_data, f_bef, f_aft){
     super(document.createElement("div"));
     this.#layerData = l_data;
     this.root.classList.add("layer");
     this.root.draggable = true;
-    this.root.innerHTML = ` 
+    this.root.innerHTML = `
+    <div class="js-upper-layer-drag"> </div>
+    <div class="sub-layer">
     <button class="layer-eye" style="margin: 0; min-width: 40px;  width: 40px;" >
       <svg viewBox="0 0 16 16" style="width: 90%; height: 90%;"  >
         <use href="./sources/svg/eye.svg" ></use> 
@@ -16,18 +18,24 @@ class LayerComp extends UI_Component{
     <div class="layer-image"><img src="sources/logo.png" alt=""></div>  
     <h1 class="hidden1" > ${this.#layerData.getName()}</h1>
     <input class="hidden" value="${this.#layerData.getName()}" >
+    </div>
+    <div class="js-bottom-layer-drag"> </div>
   `;
     this.h1 = this.root.querySelector("h1");
     this.input = this.root.querySelector("input");
     this.button = this.root.querySelector("button");
-    this.visible =true;
+    this.visible = true;
     this.clickTimeout = null;
     
+    this.topLayerDrag =  this.root.querySelector(".js-upper-layer-drag");
+    this.bottomLayerDrag = this.root.querySelector(".js-bottom-layer-drag");
 
-    this.on(this.button, "pointerdown",this.#buttonPointerDown );
-    this.on(this.input, "blur",this.cancelName );
-    this.on(this.input, "keydown",this.inputKeyDown );
-    this.on(this.h1, "pointerdown",this.h1PointerDown );
+    this.on(this.button, "pointerdown", this.#buttonPointerDown );
+    this.on(this.input, "blur", this.cancelName );
+    this.on(this.input, "keydown", this.inputKeyDown );
+    this.on(this.h1, "pointerdown", this.h1PointerDown );
+    this.on(this.bottomLayerDrag, "dragover", ()=> f_bef() );
+    this.on(this.topLayerDrag, "dragover", ()=> f_aft() );
   }
 
   setLayerData = (layerData)=>{
@@ -90,8 +98,6 @@ class LayerComp extends UI_Component{
     this.h1.innerText = val;
   }
 
-
-
   updateName=()=>{
     this.#layerData.setName(this.input.value);
     this.cancelName();
@@ -102,7 +108,6 @@ class LayerComp extends UI_Component{
     this.h1.classList.remove("hidden");
     this.input.classList.add("hidden");
   }
-
 
 }
 
