@@ -34,18 +34,18 @@ export class LayerManager extends UI_Component{
 
   }
 
-  #dragstartLayer = (e, i)=>{
-    console.error("SELECIONAR TEXTO CAUSA ERRO")
-    this.#LayerSliderProps.dragging = e.target;
+  #dragstartLayer = (bind, e, i)=>{
+    // console.error("SELECIONAR TEXTO CAUSA ERRO")
+    this.#LayerSliderProps.dragging = bind;
     this.#LayerSliderProps.target = i
     this.#LayerSliderProps.destiny = -1;
-    console.log(e)
-    setTimeout(()=>e.target.style.display = 'none',10);
+    // console.log(e)
+    setTimeout(()=>bind.style.display = 'none',10);
     
   }
-  #dragendLayer = (e)=>{
+  #dragendLayer = (bind, e)=>{
     this.#LayerSliderProps.dragging = null;
-    e.target.style.display = 'flex';
+    bind.style.display = 'flex';
     this.#JSDRAG?.classList.remove('JSLayerDragging');
     this.#JSDRAG = null;
     if(this.#LayerSliderProps.target == -1 || this.#LayerSliderProps.destiny==-1) return;
@@ -265,8 +265,8 @@ export class LayerManager extends UI_Component{
     console.log(layer)
     this.#renderableLayers.splice(position,0, item);
 
-    layerDom.root.addEventListener('dragstart', (e)=>{this.#dragstartLayer(e, item.renderableOrder)});
-    layerDom.root.addEventListener('dragend', this.#dragendLayer);
+    layerDom.root.addEventListener('dragstart', (e)=>{this.#dragstartLayer(layerDom.root ,e, item.renderableOrder)});
+    layerDom.root.addEventListener('dragend', (e)=>{this.#dragendLayer(layerDom.root, e)});
     layerDom.root.addEventListener('dragover', (e)=>{
       e.preventDefault(); 
       e.stopPropagation();
