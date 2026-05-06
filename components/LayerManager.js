@@ -89,7 +89,7 @@ export class LayerManager extends UI_Component{
   setActiveLayer = (i)=>{
     this.deSelectAllLayers();
     this.#activeLayerID = i;  
-    this.selectLayer(i);
+    this.toggleSelectLayer(i);
     document.querySelector('.layer.active')?.classList.remove('active');
     this.#layersDom[this.getPosition()].root.classList.add('active');
   }
@@ -119,12 +119,36 @@ export class LayerManager extends UI_Component{
     });
   }
 
-  selectLayer = (position)=>{
+  toggleSelectLayer = (position)=>{
     if(position < 0) return
     this.#layersDom[this.#renderableLayers[position].position].root.classList.toggle("selected");
     this.#layerData[this.#renderableLayers[position].position].toggleSelection();
 
+  } 
+
+  selectLayer = (position, v)=>{
+    if(position < 0) return
+    if(v){
+      this.#layersDom[this.#renderableLayers[position].position].root.classList.add("selected");
+    }else{
+      this.#layersDom[this.#renderableLayers[position].position].root.classList.remove("selected");
+    }
+    this.#layerData[this.#renderableLayers[position].position].setSelection(v);
+    console.log(this.#layersDom[this.#renderableLayers[position].position].root,this.#layerData[this.#renderableLayers[position].position].isSelected )
   }
+
+
+  selectFromRange = (start, finish)=>{
+    if(start > finish) this.selectFromRange(finish, start);
+    for (let i = start; i <= finish; i++) {
+      this.selectLayer(i, true);
+     
+
+    }
+
+
+  }
+
 
   #rmLayer =(i)=>{
     this.#inactiveLayers++;
@@ -134,6 +158,11 @@ export class LayerManager extends UI_Component{
   }
 
   removeLayer = ()=>{
+    if(this.#groupClicked != 0){
+      const group = this.#Groups[this.#groupClicked];
+      this.selectFromRange(group.getBottomLayer().renderableOrder, group.getRepresentative().renderableOrder)
+
+    } 
     let tempActive =  this.#activeLayerID; 
     for (let j = LayerManager.#totalLayers-1-this.#inactiveLayers; j >=0; j--) {
       const e = this.#renderableLayers[j];
@@ -160,6 +189,10 @@ export class LayerManager extends UI_Component{
 
 
   duplicateLayer = (position, duplicateFunc)=>{
+    if(this.#groupClicked != 0){
+      const group = this.#Groups[this.#groupClicked];
+      this.selectFromRange(group.getBottomLayer().renderableOrder, group.getRepresentative().renderableOrder)
+    } 
     let qtd = 0;
     let active = -1;
     for (let j = LayerManager.#totalLayers-1-this.#inactiveLayers; j >=0; j--) {
@@ -168,13 +201,23 @@ export class LayerManager extends UI_Component{
       let i = e.position;
       if(this.#layerData[i].isSelected){
         this.#Selected_Group = this.#layerData[i].group;
-        this.#dpLayer(j);
+        let k = this.#dpLayer(j);
         if(active == -1) active = j;
         duplicateFunc(j);
         qtd++;
+        this.selectLayer(j, false);
+        if(this.#Selected_Group == this.#groupClicked) this.selectLayer(k, true);
       }
     }
     if(active!=-1){
+      if(this.#groupClicked != 0){
+        this.#renderLayers();
+        this.groupLayers();
+        // this.#groupClicked = this.#Selected_Group;
+
+        return qtd;
+      }
+
       this.#orchestratorFuncs.updateActiveLayer(active+qtd);
       this.#renderLayers();
     }
@@ -201,7 +244,9 @@ export class LayerManager extends UI_Component{
     if(this.#groupClicked!=0) this.#Groups[this.#groupClicked].root.classList.remove("selected");
     this.#groupClicked = group.getId();
     group.root.classList.add("selected");
-    this.#orchestratorFuncs.updateActiveLayer(group.getRepresentative().renderableOrder);
+    if(!this.#isCtrlPressed){
+      this.#orchestratorFuncs.updateActiveLayer(group.getRepresentative().renderableOrder);
+    }
   }
 
   groupLayers = ()=>{
@@ -235,6 +280,7 @@ export class LayerManager extends UI_Component{
       if(!e.isRenderable) continue
       let i = e.position;
       if(this.#layerData[i].isSelected){
+        console.log(j)
         if(lastNode == -1){
           lastNode = j;
           group.setRepresentative(e);
@@ -283,7 +329,7 @@ export class LayerManager extends UI_Component{
 
     layerDom.root.addEventListener('pointerdown', (e)=>{
       if(this.#isCtrlPressed){
-        this.selectLayer(item.renderableOrder);
+        this.toggleSelectLayer(item.renderableOrder);
       }else{
         e.stopPropagation();
         if(this.#groupClicked!=0) this.#Groups[this.#groupClicked].root.classList.remove("selected");
