@@ -243,7 +243,12 @@ body{
 .layer.active, .group-layer.active{
   background-color: #171717;
 }
-.layer.selected, .group-layer.selected{
+.group-layer.selected{
+  background-color: #4099ff;
+
+}
+
+.layer.selected{
   /* padding-left: 10px; */
   /* background-color: #171717; */
   background-color: #c71717;

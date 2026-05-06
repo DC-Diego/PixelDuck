@@ -15,6 +15,7 @@ export class LayerManager extends UI_Component{
   #LayerSliderProps;
   #Groups = [null];
   #Selected_Group = 0;
+  #groupClicked = false;
   constructor(root, orchestratorFuncs){
     super(root);
 
@@ -35,11 +36,9 @@ export class LayerManager extends UI_Component{
   }
 
   #dragstartLayer = (bind, e, i)=>{
-    // console.error("SELECIONAR TEXTO CAUSA ERRO")
     this.#LayerSliderProps.dragging = bind;
     this.#LayerSliderProps.target = i
     this.#LayerSliderProps.destiny = -1;
-    // console.log(e)
     setTimeout(()=>bind.style.display = 'none',10);
     
   }
@@ -198,6 +197,13 @@ export class LayerManager extends UI_Component{
     });
   }
   
+  #group_pointerdown = (e, group)=>{
+    if(this.#groupClicked!=0) this.#Groups[this.#groupClicked].root.classList.remove("selected");
+    this.#groupClicked = group.getId();
+    group.root.classList.add("selected");
+    this.#orchestratorFuncs.updateActiveLayer(group.getRepresentative().renderableOrder);
+  }
+
   groupLayers = ()=>{
     const group = new GroupLayer({toggleGroupVisible: this.toggleGroupVisible},(e)=>{
       e.preventDefault();
@@ -218,8 +224,8 @@ export class LayerManager extends UI_Component{
       this.#JSDRAG = group.root;
       this.#JSDRAG.classList.add("JSLayerDragging");
   
-    })
-
+    });
+    group.on(group.root, "pointerdown", (e)=>this.#group_pointerdown(e, group));
     
     
     let lastNode = -1;
@@ -262,7 +268,6 @@ export class LayerManager extends UI_Component{
       this.#LayerSliderProps.destiny = item.renderableOrder+1
     });
     this.#layersDom.push(layerDom);
-    console.log(layer)
     this.#renderableLayers.splice(position,0, item);
 
     layerDom.root.addEventListener('dragstart', (e)=>{this.#dragstartLayer(layerDom.root ,e, item.renderableOrder)});
@@ -274,7 +279,6 @@ export class LayerManager extends UI_Component{
       this.#JSDRAG = layerDom.root;
       this.#JSDRAG.classList.add("JSLayerDragging");
       this.#Selected_Group = layer.group;
-      // this.#LayerSliderProps.destiny = item.renderableOrder;
     });
 
     layerDom.root.addEventListener('pointerdown', (e)=>{
@@ -282,6 +286,9 @@ export class LayerManager extends UI_Component{
         this.selectLayer(item.renderableOrder);
       }else{
         e.stopPropagation();
+        if(this.#groupClicked!=0) this.#Groups[this.#groupClicked].root.classList.remove("selected");
+        this.#groupClicked = 0;
+
         this.#Selected_Group = layer.group;
         this.#orchestratorFuncs.updateActiveLayer(item.renderableOrder);
       }
