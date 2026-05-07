@@ -214,7 +214,7 @@ export class LayerManager extends UI_Component{
         this.#renderLayers();
         this.groupLayers();
         // this.#groupClicked = this.#Selected_Group;
-
+        console.error("Selecionar Grupo automaticamente ao cria-lo; Drag n Drop Grupo")
         return qtd;
       }
 
@@ -240,10 +240,15 @@ export class LayerManager extends UI_Component{
     });
   }
   
-  #group_pointerdown = (e, group)=>{
+  #selectGroup = (group)=>{
     if(this.#groupClicked!=0) this.#Groups[this.#groupClicked].root.classList.remove("selected");
     this.#groupClicked = group.getId();
     group.root.classList.add("selected");
+
+  }
+
+  #group_pointerdown = (e, group)=>{
+    this.#selectGroup(group);
     if(!this.#isCtrlPressed){
       this.#orchestratorFuncs.updateActiveLayer(group.getRepresentative().renderableOrder);
     }
@@ -294,6 +299,7 @@ export class LayerManager extends UI_Component{
     this.#Groups.push(group);
     this.deSelectAllLayers();
     this.#Selected_Group = group.getId();
+    this.#selectGroup(group);
     this.#orchestratorFuncs.updateActiveLayer(group.getRepresentative().renderableOrder);
     this.#renderLayers();
   }
