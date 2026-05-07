@@ -36,6 +36,7 @@ export class LayerManager extends UI_Component{
   }
 
   #dragstartLayer = (bind, e, i)=>{
+    e.stopPropagation();
     this.#LayerSliderProps.dragging = bind;
     this.#LayerSliderProps.target = i
     this.#LayerSliderProps.destiny = -1;
@@ -43,6 +44,7 @@ export class LayerManager extends UI_Component{
     
   }
   #dragendLayer = (bind, e)=>{
+    e.stopPropagation();
     this.#LayerSliderProps.dragging = null;
     bind.style.display = 'flex';
     this.#JSDRAG?.classList.remove('JSLayerDragging');
@@ -254,6 +256,32 @@ export class LayerManager extends UI_Component{
     }
   }
 
+  #group_dragend = (e, group)=>{
+    this.#LayerSliderProps.dragging = null;
+    group.root.style.display = 'flex';
+    this.#JSDRAG?.classList.remove('JSLayerDragging');
+    this.#JSDRAG = null;
+    if(this.#LayerSliderProps.target == -1 || this.#LayerSliderProps.destiny==-1) return;
+
+    const s = group.getBottomLayer().renderableOrder;
+    const n = group.getRepresentative().renderableOrder;
+    if(n < this.#LayerSliderProps.destiny){
+      this.#LayerSliderProps.destiny -=1;
+      for (let i = 0; i <=n-s; i++) {
+        this.reorderLayers(n-i, this.#LayerSliderProps.destiny-i);
+      }
+    }else{
+      for (let i = 0; i <= n-s; i++) {
+        this.reorderLayers(n, this.#LayerSliderProps.destiny);
+      }
+    }
+    
+    this.#LayerSliderProps.target = -1;
+    this.#renderLayers();
+    this.#orchestratorFuncs.updateActiveLayer(group.getRepresentative().renderableOrder);
+  }
+
+
   groupLayers = ()=>{
     const group = new GroupLayer({toggleGroupVisible: this.toggleGroupVisible},(e)=>{
       e.preventDefault();
@@ -266,8 +294,6 @@ export class LayerManager extends UI_Component{
       this.#Selected_Group = 0;
       this.#LayerSliderProps.destiny = group.getRepresentative().renderableOrder+1
     }); 
-    // group.root
-
     group.on(group.root, "dragover", (e)=>{
       e.preventDefault(); 
       if(this.#JSDRAG) this.#JSDRAG.classList.remove("JSLayerDragging")
@@ -276,6 +302,9 @@ export class LayerManager extends UI_Component{
   
     });
     group.on(group.root, "pointerdown", (e)=>this.#group_pointerdown(e, group));
+
+    group.on(group.root, "dragstart", (e)=>this.#dragstartLayer(group.root, e, group.getRepresentative()));
+    group.on(group.root, "dragend", (e)=>this.#group_dragend(e, group));
     
     
     let lastNode = -1;

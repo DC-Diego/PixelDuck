@@ -9,6 +9,7 @@ export class GroupLayer extends UI_Component{
     super(document.createElement("div"));
     this.#id = GroupLayer.qtd++;
     this.root.classList.add("group-layer");
+    this.root.draggable = true;
     this.root.innerHTML=`
     <div class="js-upper-layer-drag"> </div>
     <div class="group-layer-props">
@@ -28,6 +29,9 @@ export class GroupLayer extends UI_Component{
     </div>
   `;
 
+    this.PropsGroupLayers = this.root.querySelector(".group-layer-props");
+    
+    
     this.GroupLayersArea = document.createElement("div");
     this.GroupLayersArea.classList.add("group-layer-content");
     this.bottomLayerDrag = document.createElement("div");
@@ -58,10 +62,17 @@ export class GroupLayer extends UI_Component{
     this.on(this.input, "keydown",this.inputKeyDown );
     this.on(this.h1, "pointerdown",this.h1PointerDown );
     // this.on(this.h1, "dragover", this.#dragover );
+    
     this.on(this.bottomLayerDrag, "dragover", f_bef );
     this.on(this.topLayerDrag, "dragover", f_aft );
     // return this.#id;
+
   }
+
+
+
+
+
 
 
   setItem = (item)=>{
