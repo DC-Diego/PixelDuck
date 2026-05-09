@@ -7,13 +7,17 @@ import { Layer } from "../core/Layer.js";
 export class LayerManager extends UI_Component{
 
   static #totalLayers = 0;
+
+  #isCtrlPressed = false; 
+  #isShiftPressed = false; 
+
   #activeLayerID;  
   #orchestratorFuncs; #layersDom = []; 
   #layerData = []; #renderableLayers=[];
-  #isCtrlPressed = false; #inactiveLayers = 0;
   #LAYER_SIZE = 50; #JSDRAG = null;
   #LayerSliderProps;
   #Groups = [null];
+  #inactiveLayers = 0;
   #Selected_Group = 0;
   #groupClicked = false;
   constructor(root, orchestratorFuncs){
@@ -70,6 +74,10 @@ export class LayerManager extends UI_Component{
 
   #documentKey = (e)=>{
     switch (e.key) {
+      case 'Shift':
+        e.preventDefault()
+        this.#isShiftPressed = (e.type=="keydown")?true:false;
+        break;
       case 'Control':
         this.#isCtrlPressed = (e.type=="keydown")?true:false;
         break;
@@ -144,11 +152,7 @@ export class LayerManager extends UI_Component{
     if(start > finish) this.selectFromRange(finish, start);
     for (let i = start; i <= finish; i++) {
       this.selectLayer(i, true);
-     
-
     }
-
-
   }
 
 
@@ -214,9 +218,9 @@ export class LayerManager extends UI_Component{
     if(active!=-1){
       if(this.#groupClicked != 0){
         this.#renderLayers();
-        this.groupLayers();
-        // this.#groupClicked = this.#Selected_Group;
-        console.error("Selecionar Grupo automaticamente ao cria-lo; Drag n Drop Grupo")
+        const name = this.#Groups[this.#groupClicked].name;
+        const gr_duplicate = this.groupLayers();
+        gr_duplicate.setName(name+" (copy)");
         return qtd;
       }
 
@@ -331,6 +335,7 @@ export class LayerManager extends UI_Component{
     this.#selectGroup(group);
     this.#orchestratorFuncs.updateActiveLayer(group.getRepresentative().renderableOrder);
     this.#renderLayers();
+    return group;
   }
 
 
@@ -363,7 +368,11 @@ export class LayerManager extends UI_Component{
     });
 
     layerDom.root.addEventListener('pointerdown', (e)=>{
-      if(this.#isCtrlPressed){
+      e.stopPropagation()
+      if(this.#isShiftPressed){
+        this.selectFromRange(this.#activeLayerID, item.renderableOrder);
+
+      }else if(this.#isCtrlPressed){
         this.toggleSelectLayer(item.renderableOrder);
       }else{
         e.stopPropagation();

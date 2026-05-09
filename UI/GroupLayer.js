@@ -49,7 +49,7 @@ export class GroupLayer extends UI_Component{
     this.clickTimeout = null;
   
     
-    this.name = "Group"+this.#id;
+    this.name = "Group "+this.#id;
     this.display = false;
     this.visible = true;
     this.#orchestratorFuncs = ofunc;
@@ -148,6 +148,11 @@ export class GroupLayer extends UI_Component{
   }
   #setH1Value = (val)=>{
     this.h1.innerText = val;
+  }
+
+  setName = (name)=>{
+    this.name = name;
+    this.cancelName();
   }
 
   updateName=()=>{
