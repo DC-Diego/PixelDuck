@@ -8,6 +8,10 @@ class Orchestrator {
   }
 
   
+  updateCanvasProperties = (v)=>{
+    this.stateManager.setState({canvasProperties: v});
+    console.log(v)
+  }
   updateTotalLayers = (v)=>{
     this.stateManager.setState({totalLayers: v});
     console.log(v)

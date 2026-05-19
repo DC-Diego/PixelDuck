@@ -12,6 +12,7 @@ class StateManager {
       fps: 24,
       activeLayer: 0,
       totalLayers: 0,
+      canvasProperties: {x: 0, y: 0, width: undefined, height: undefined, aspectRatio: undefined, scale: 1},
     }
     this.#listeners = [];
 

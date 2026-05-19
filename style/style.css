@@ -150,6 +150,7 @@ body{
   align-items: center;
   justify-content: center;
   height: 100%;
+  overflow: hidden;
   background-color: #171717;
   border-radius: 10px 0px 0px 0px;
   flex: 1;
@@ -161,6 +162,7 @@ body{
   background-color: #dddddd;
   display: flex;
   align-items: center;
+  user-select: none;
   justify-content: center;
 
 }

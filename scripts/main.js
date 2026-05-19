@@ -16,7 +16,7 @@ import {Data} from '../core/Data.js';
 const stateManager = new StateManager();
 const orchestrator = new Orchestrator(stateManager);
 const data = new Data();
-
+const canvasArea = document.getElementById("canvasArea");
 
 const timeline = new Timeline(document.getElementById("timeline-viewport") , document.getElementById("frameArea"), { updateCurrentFrame: orchestrator.updateCurrentFrame, reorderFrames: data.reorder });
 
@@ -29,6 +29,70 @@ function renderComponent(parent, child){
   parent.appendChild(child);
 
 }
+
+
+////////////////// TEMPORARY, UNTIL TOOLS CLASS/DOCUMENT!!!
+const moveHandTool = document.getElementById("moveHandTool");
+let isMoveTool = false;
+moveHandTool.addEventListener("pointerdown", ()=>{
+  isMoveTool = true;
+  mainViewport.style.cursor="grab";
+});
+
+let isMoving = false;
+let startMovement = {x: null, y: null}
+
+let canvasProperties = {
+  x: 0,
+  y: 0,
+  width: undefined,
+  height: undefined,
+  aspectRatio: undefined,
+  scale: 1 
+};
+
+const mainViewport = document.getElementById("mainViewport");
+mainViewport.addEventListener('pointerdown', (e)=>{ 
+  if(isMoveTool) {
+    isMoving = true; 
+    mainViewport.style.cursor="grabbing"; 
+    startMovement = {x: e.x, y:e.y}; 
+  } 
+});
+mainViewport.addEventListener('pointerup', (e)=>{ 
+  if(isMoving) { 
+    isMoving = false;
+    mainViewport.style.cursor="grab";
+    canvasProperties.x = canvasProperties.x+e.x-startMovement.x;
+    canvasProperties.y = canvasProperties.y+e.y-startMovement.y;
+    orchestrator.updateCanvasProperties(canvasProperties);
+  } 
+});
+
+mainViewport.addEventListener('pointermove', (e)=>{
+  if(isMoving){
+    canvasArea.style.transform = `translateX(${canvasProperties.x+e.x-startMovement.x  }px)       translateY(${canvasProperties.y+ e.y-startMovement.y}px) scale(${canvasProperties.scale}) `;
+  }  
+});
+
+
+stateManager.subscribe((s)=>{
+  canvasProperties = s.canvasProperties;
+  canvasArea.style.transform = `translateX(${canvasProperties.x}px)
+    translateY(${canvasProperties.y}px)
+    scale(${canvasProperties.scale})`;
+
+
+})
+
+
+
+////////////////// TEMPORARY, UNTIL TOOLS CLASS/DOCUMENT!!!
+
+
+
+
+
 
 document.querySelectorAll(".tool").forEach((e)=>{
   e.addEventListener('click',()=>{
@@ -184,8 +248,6 @@ stateManager.subscribe((s)=>{
 
 });
 
-
-
 //updateMaxFrameControllers
 stateManager.subscribe((s)=>{
   currentFrame.setMaxInput(s.totalFrames-1);
@@ -227,20 +289,19 @@ stateManager.subscribe((s)=>{
 });
 
 function TEMPORARY_SETCANVASOPACITY(op){
-  const canvas = document.getElementById("canvasArea");
-  canvas.style.opacity = op+"%";
+  canvasArea.style.opacity = op+"%";
 
 }
 
 // Render + infos
 stateManager.subscribe((s)=>{
   timeline.setFrameById(s.currentFrame);
-  const canvas = document.getElementById("canvasArea");
+  
 
   layer.setLayersData(data.getFrameData(s.currentFrame));
 
   // canvas.innerText = data.getFrameById(s.currentFrame).getContent();
-  canvas.innerText = layer.getData();
+  canvasArea.innerText = layer.getData();
   // canvas.style.opacity = layer.getOpacity()+"%";
   TEMPORARY_SETCANVASOPACITY(layer.getOpacity());
 
