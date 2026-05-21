@@ -1,11 +1,11 @@
 
 import {confirmDialog} from '../components/POPUP_confirm.js';
 import {splashScreen} from  '../scripts/splashScreen.js';
-import { ComboBox } from '../UI/ComboBox.js';
-import { PresetInput } from '../UI/PresetInput.js';
-import {Splitter} from  '../UI/Splitter.js';
-import {Stepper} from  '../UI/Stepper.js';
-import { ToggleReveal } from '../UI/ToggleReveal.js';
+import { ComboBox } from '../components/UI/ComboBox.js';
+import { PresetInput } from '../components/UI/PresetInput.js';
+import {Splitter} from  '../components/UI/Splitter.js';
+import {Stepper} from  '../components/UI/Stepper.js';
+import { ToggleReveal } from '../components/UI/ToggleReveal.js';
 import {setActivePage, getActivePage, getActivePageName} from './navigate.js';
 import {LayerManager} from '../components/LayerManager.js';
 import {Timeline} from '../components/Timeline.js';

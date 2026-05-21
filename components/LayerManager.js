@@ -1,6 +1,6 @@
-import { UI_Component } from "../UI/UI_Component.js";
-import { LayerComp } from "../UI/LayerComp.js";
-import { GroupLayer } from "../UI/GroupLayer.js";
+import { UI_Component } from "./UI/UI_Component.js";
+import { LayerComp } from "./UI/LayerComp.js";
+import { GroupLayer } from "./UI/GroupLayer.js";
 import { Layer } from "../core/Layer.js";
 
 

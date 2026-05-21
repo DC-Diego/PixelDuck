@@ -1,5 +1,5 @@
 
-import { UI_Component } from '../UI/UI_Component.js';
+import { UI_Component } from './UI/UI_Component.js';
 
 class Timeline extends UI_Component{
 
