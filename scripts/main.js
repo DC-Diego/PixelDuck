@@ -12,11 +12,15 @@ import {Timeline} from '../components/Timeline.js';
 import {StateManager} from '../core/stateManager.js';
 import {Orchestrator} from '../core/orchestrator.js';
 import {Data} from '../core/Data.js';
+import {Canvas} from '../components/Canvas.js';
+import { ToolManager } from "../Tools/ToolManager.js";
 
 const stateManager = new StateManager();
 const orchestrator = new Orchestrator(stateManager);
 const data = new Data();
 const canvasArea = document.getElementById("canvasArea");
+
+const toolManager = new ToolManager(ToolManager.Tools.GRAB);
 
 const timeline = new Timeline(document.getElementById("timeline-viewport") , document.getElementById("frameArea"), { updateCurrentFrame: orchestrator.updateCurrentFrame, reorderFrames: data.reorder });
 
@@ -30,14 +34,45 @@ function renderComponent(parent, child){
 
 }
 
+/////////////////////////////////////////
+// Canvas
+
+const WIDTH = 32;
+const HEIGHT = 32;
+canvasArea.style.width = `${10*WIDTH}px`;
+canvasArea.style.height = `${10*HEIGHT}px`;
+
+const activeCanvas = new Canvas(WIDTH, HEIGHT, false, toolManager);
+const beforeCanvas = new Canvas(WIDTH, HEIGHT, true, toolManager);
+const upperCanvas = new Canvas(WIDTH, HEIGHT, true, toolManager);
+const onionBefore_Canvas = new Canvas(WIDTH, HEIGHT, true, toolManager);
+const onionNext_Canvas = new Canvas(WIDTH, HEIGHT, true, toolManager);
+
+canvasArea.appendChild(onionNext_Canvas.root);
+canvasArea.appendChild(onionBefore_Canvas.root);
+canvasArea.appendChild(upperCanvas.root);
+canvasArea.appendChild(activeCanvas.root);
+canvasArea.appendChild(beforeCanvas.root);
+
+
+// Canvas
+/////////////////////////////////////////
+
+
+
 
 ////////////////// TEMPORARY, UNTIL TOOLS CLASS/DOCUMENT!!!
 const moveHandTool = document.getElementById("moveHandTool");
-let isMoveTool = false;
+const brushTool = document.getElementById("brushTool");
+brushTool.addEventListener("pointerdown", ()=>{
+  toolManager.setActiveTool(ToolManager.Tools.BRUSH);
+  mainViewport.style.cursor="default";
+});
 moveHandTool.addEventListener("pointerdown", ()=>{
-  isMoveTool = true;
+  toolManager.setActiveTool(ToolManager.Tools.GRAB);
   mainViewport.style.cursor="grab";
 });
+
 
 let isMoving = false;
 let startMovement = {x: null, y: null}
@@ -53,7 +88,8 @@ let canvasProperties = {
 
 const mainViewport = document.getElementById("mainViewport");
 mainViewport.addEventListener('pointerdown', (e)=>{ 
-  if(isMoveTool) {
+  console.log()
+  if(toolManager.getActiveToolName() == ToolManager.Tools.GRAB) {
     isMoving = true; 
     mainViewport.style.cursor="grabbing"; 
     startMovement = {x: e.x, y:e.y}; 
@@ -301,7 +337,8 @@ stateManager.subscribe((s)=>{
   layer.setLayersData(data.getFrameData(s.currentFrame));
 
   // canvas.innerText = data.getFrameById(s.currentFrame).getContent();
-  canvasArea.innerText = layer.getData();
+  // canvasArea.innerText = layer.getData();
+  activeCanvas.innerText = layer.getData();
   // canvas.style.opacity = layer.getOpacity()+"%";
   TEMPORARY_SETCANVASOPACITY(layer.getOpacity());
 
