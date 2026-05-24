@@ -61,9 +61,15 @@ canvasArea.appendChild(beforeCanvas.root);
 
 
 
-////////////////// TEMPORARY, UNTIL TOOLS CLASS/DOCUMENT!!!
 const moveHandTool = document.getElementById("moveHandTool");
 const brushTool = document.getElementById("brushTool");
+const eraserTool = document.getElementById("eraserTool");
+
+eraserTool.addEventListener("pointerdown", ()=>{
+  toolManager.setActiveTool(ToolManager.Tools.ERASER);
+  mainViewport.style.cursor="default";
+});
+
 brushTool.addEventListener("pointerdown", ()=>{
   toolManager.setActiveTool(ToolManager.Tools.BRUSH);
   mainViewport.style.cursor="default";
@@ -72,54 +78,39 @@ moveHandTool.addEventListener("pointerdown", ()=>{
   toolManager.setActiveTool(ToolManager.Tools.GRAB);
   mainViewport.style.cursor="grab";
 });
+////////////////// TEMPORARY, UNTIL TOOLS CLASS/DOCUMENT!!!
 
 
-let isMoving = false;
-let startMovement = {x: null, y: null}
-
-let canvasProperties = {
-  x: 0,
-  y: 0,
-  width: undefined,
-  height: undefined,
-  aspectRatio: undefined,
-  scale: 1 
-};
 
 const mainViewport = document.getElementById("mainViewport");
+
 mainViewport.addEventListener('pointerdown', (e)=>{ 
-  console.log()
   if(toolManager.getActiveToolName() == ToolManager.Tools.GRAB) {
-    isMoving = true; 
-    mainViewport.style.cursor="grabbing"; 
-    startMovement = {x: e.x, y:e.y}; 
-  } 
-});
-mainViewport.addEventListener('pointerup', (e)=>{ 
-  if(isMoving) { 
-    isMoving = false;
-    mainViewport.style.cursor="grab";
-    canvasProperties.x = canvasProperties.x+e.x-startMovement.x;
-    canvasProperties.y = canvasProperties.y+e.y-startMovement.y;
-    orchestrator.updateCanvasProperties(canvasProperties);
-  } 
-});
+    toolManager.pointerDown(e.x, e.y, {mainViewport: mainViewport, canvasProperties: stateManager.getState().canvasProperties });
 
+  }
+});
 mainViewport.addEventListener('pointermove', (e)=>{
-  if(isMoving){
-    canvasArea.style.transform = `translateX(${canvasProperties.x+e.x-startMovement.x  }px)       translateY(${canvasProperties.y+ e.y-startMovement.y}px) scale(${canvasProperties.scale}) `;
-  }  
+  if(toolManager.getActiveToolName() == ToolManager.Tools.GRAB)
+    toolManager.pointerMove(e.x, e.y, {canvasArea: canvasArea});
+});
+
+mainViewport.addEventListener('pointerup', (e)=>{ 
+  if(toolManager.getActiveToolName() == ToolManager.Tools.GRAB){
+    toolManager.pointerUp(e.x, e.y, {mainViewport: mainViewport});
+  }
 });
 
 
-stateManager.subscribe((s)=>{
-  canvasProperties = s.canvasProperties;
-  canvasArea.style.transform = `translateX(${canvasProperties.x}px)
-    translateY(${canvasProperties.y}px)
-    scale(${canvasProperties.scale})`;
+
+// stateManager.subscribe((s)=>{
+//   canvasProperties = s.canvasProperties;
+//   canvasArea.style.transform = `translateX(${canvasProperties.x}px)
+//     translateY(${canvasProperties.y}px)
+//     scale(${canvasProperties.scale})`;
 
 
-})
+// })
 
 
 

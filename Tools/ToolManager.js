@@ -1,4 +1,6 @@
 import { Brush } from "./Brush.js";
+import { Eraser } from "./Eraser.js";
+import { Grab } from "./Grab.js";
 import { Tools } from "./tools.js";
 
 export class ToolManager{
@@ -23,8 +25,9 @@ export class ToolManager{
   #activeTool;
   #toolId;
   #toolsList = [
-    new Tools(),
-    new Brush()
+    new Grab(),
+    new Brush(),
+    new Eraser()
   ];
 
   #action = {
@@ -33,9 +36,11 @@ export class ToolManager{
 
   };
 
-  constructor(activeTool){
-    this.setActiveTool(activeTool);
+  #viewport;
 
+  constructor(activeTool, viewport){
+    this.setActiveTool(activeTool);
+    this.#viewport = viewport;
   }
 
   setActiveTool = (activeTool)=>{
@@ -49,12 +54,18 @@ export class ToolManager{
     return this.#toolId;
   }
 
-  pointerDown = (x,y, canvas)=>{
+  pointerDown = (x,y, options)=>{
+    if(this.#activeTool.modifyCanvas == false){
+      this.#activeTool.pointerDown(x,y, options);
+      return 
+    }
+
+
     if(this.#activeTool.requireCanvasCopy){
       console.log("missing...")
     }
     this.#action.actionName = this.#toolId;
-    const returnedAction = this.#activeTool.pointerDown(x,y, canvas);
+    const returnedAction = this.#activeTool.pointerDown(x,y, options);
 
     this.#action.changes.push(returnedAction);
 
@@ -63,9 +74,14 @@ export class ToolManager{
     }
   }
 
-  pointerMove = (x,y, canvas)=>{
+  pointerMove = (x,y, options)=>{
+    if(this.#activeTool.modifyCanvas == false){
+      this.#activeTool.pointerMove(x,y, options);
+      return 
+    }
+
     this.#action.actionName = this.#toolId;
-    const returnedAction = this.#activeTool.pointerMove(x,y, canvas);
+    const returnedAction = this.#activeTool.pointerMove(x,y, options);
 
     this.#action.changes.push(returnedAction);
 
@@ -73,9 +89,14 @@ export class ToolManager{
 
   }
 
-  pointerUp = (x,y, canvas)=>{
+  pointerUp = (x,y, options)=>{
+    if(this.#activeTool.modifyCanvas == false){
+      this.#activeTool.pointerUp(x,y, options);
+      return 
+    }
+
     this.#action.actionName = this.#toolId;
-    const returnedAction = this.#activeTool.pointerUp(x,y, canvas);
+    const returnedAction = this.#activeTool.pointerUp(x,y, options);
     this.#action.changes.push(returnedAction);
 
     console.log("commit to history");

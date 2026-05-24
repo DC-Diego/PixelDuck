@@ -27,20 +27,20 @@ export class Canvas extends UI_Component{
 
     this.on(this.root, "pointerdown", (e)=>{
       this.isPressing = true;
-      tools.pointerDown(Math.floor(e.offsetX), Math.floor(e.offsetY), this) 
+      tools.pointerDown(Math.round(e.offsetX), Math.round(e.offsetY), this) 
     });
     this.on(this.root, "pointermove", (e)=>{
       if(this.isPressing){
-        tools.pointerMove(Math.floor(e.offsetX), Math.floor(e.offsetY), this);
+        tools.pointerMove(Math.round(e.offsetX), Math.round(e.offsetY), this);
       }
     });
     this.on(this.root, "pointerup", (e)=>{
       this.isPressing = false; 
-      tools.pointerUp(Math.floor(e.offsetX), Math.floor(e.offsetY), this);
+      tools.pointerUp(Math.round(e.offsetX), Math.round(e.offsetY), this);
     });
     this.on(this.root, "pointerout", (e)=>{
       this.isPressing = false; 
-      tools.pointerUp(Math.floor(e.offsetX), Math.floor(e.offsetY), this);
+      tools.pointerUp(Math.round(e.offsetX), Math.round(e.offsetY), this);
     });
       
     this.setLocked(lock);
@@ -91,7 +91,7 @@ export class Canvas extends UI_Component{
   }
   erase = (x, y)=>{
     this.#context.beginPath();
-    this.#context.clearRect(x,y,5,5);
+    this.#context.clearRect(x,y,1,1);
     this.#context.closePath();
   }
 

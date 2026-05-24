@@ -1,8 +1,8 @@
 import { Tools } from "./tools.js";
 
-export class Brush extends Tools{
+export class Eraser extends Tools{
 
-  color = "#000000";
+
   #lastPixel = {x: null, y: null};
   #canvasCopy = null;
 
@@ -21,13 +21,13 @@ export class Brush extends Tools{
   pointerDown=(x,y, canvas)=>{
     
     this.#lastPixel = {x:x,y:y};
-    canvas.draw(x,y, this.color);
+    canvas.erase(x,y);
     return {
       pixels:[{
         x: x,
         y: y,
         // before: this.#canvasCopy[x][y],
-        after: this.color
+        after: null
       }],
       commit: false
     }
@@ -43,13 +43,13 @@ export class Brush extends Tools{
 
       let tx = Math.abs(sx+dx*i/n); let ty = Math.abs(sy+dy*i/n);
       
-      canvas.draw(tx,ty, this.color);
+      canvas.erase(tx,ty);
       
       pixels.push({
         x: tx,
         y: ty,
         // before: this.#canvasCopy[tx][ty],
-        after: this.color
+        after: null
       });
     }
 
