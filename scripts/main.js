@@ -59,7 +59,7 @@ canvasArea.appendChild(beforeCanvas.root);
 /////////////////////////////////////////
 
 
-
+const mainViewport = document.getElementById("mainViewport");
 
 const moveHandTool = document.getElementById("moveHandTool");
 const brushTool = document.getElementById("brushTool");
@@ -81,8 +81,11 @@ moveHandTool.addEventListener("pointerdown", ()=>{
 ////////////////// TEMPORARY, UNTIL TOOLS CLASS/DOCUMENT!!!
 
 
+toolManager.setActiveTool(ToolManager.Tools.GRAB);
+mainViewport.style.cursor="grab";
+moveHandTool.classList.add('activeTool');
 
-const mainViewport = document.getElementById("mainViewport");
+
 
 mainViewport.addEventListener('pointerdown', (e)=>{ 
   if(toolManager.getActiveToolName() == ToolManager.Tools.GRAB) {
