@@ -1,6 +1,4 @@
-export 
-
-class Layer{
+export class Layer{
   #id; #opacity;
   constructor(id, name, group){
     this.#id = id;

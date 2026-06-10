@@ -14,6 +14,7 @@ import {Orchestrator} from '../core/orchestrator.js';
 import {Data} from '../core/Data.js';
 import {Canvas} from '../components/Canvas.js';
 import { ToolManager } from "../Tools/ToolManager.js";
+import { AppPipeline } from "./AppPipeline.js";
 
 const stateManager = new StateManager();
 const orchestrator = new Orchestrator(stateManager);

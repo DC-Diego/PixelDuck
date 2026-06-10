@@ -6,6 +6,8 @@ class Data{
   #frameData = [];
   #renderableFrames = [];
   
+  // MELHOR CANDIDATO para CONTROLLER GERAL: History, Timeline, Layers, ActiveLayerMatrix, Render, Tool
+
   constructor(){
     // this.newFrame(0);
   }
