@@ -27,25 +27,24 @@ export class Canvas extends UI_Component{
 
     this.on(this.root, "pointerdown", (e)=>{
       this.isPressing = true;
-      tools.pointerDown(Math.round(e.offsetX), Math.round(e.offsetY), this) 
+      tools.pointerDown(this.#normalizeX(Math.floor(e.offsetX)), this.#normalizeY(Math.floor(e.offsetY)), this) 
     });
     this.on(this.root, "pointermove", (e)=>{
       if(this.isPressing){
-        tools.pointerMove(Math.round(e.offsetX), Math.round(e.offsetY), this);
+        tools.pointerMove(this.#normalizeX(Math.floor(e.offsetX)), this.#normalizeY(Math.floor(e.offsetY)), this);
       }
     });
     this.on(this.root, "pointerup", (e)=>{
       this.isPressing = false; 
-      tools.pointerUp(Math.round(e.offsetX), Math.round(e.offsetY), this);
+      tools.pointerUp(this.#normalizeX(Math.floor(e.offsetX)), this.#normalizeY(Math.floor(e.offsetY)), this);
     });
     this.on(this.root, "pointerout", (e)=>{
-      this.isPressing = false; 
-      tools.pointerUp(Math.round(e.offsetX), Math.round(e.offsetY), this);
+      if(this.isPressing){
+        this.isPressing = false; 
+        tools.pointerUp(this.#normalizeX(Math.floor(e.offsetX)), this.#normalizeY(Math.floor(e.offsetY)), this);
+      }
     });
-      
     this.setLocked(lock);
-
-
   }
 
   setColor = (color)=>{
@@ -55,13 +54,23 @@ export class Canvas extends UI_Component{
   TEMPORARY_MANAGECLICK = (e)=>{
     if(this.isPressing == false) return
     if(this.isDraw){
-      this.draw(Math.floor(e.offsetX), Math.floor(e.offsetY), this.#color);
+      this.draw(this.#normalizeX(Math.floor(e.offsetX)), this.#normalizeY(Math.floor(e.offsetY)), this.#color);
     }else{
-      this.erase(Math.floor(e.offsetX), Math.floor(e.offsetY))
+      this.erase(this.#normalizeX(Math.floor(e.offsetX)), this.#normalizeY(Math.floor(e.offsetY)))
     }
 
   }
 
+  #normalizeX=(x)=>{
+    if(x<0) return 0;
+    if(x>=this.width) return this.width-1;
+    return x;
+  }
+  #normalizeY=(y)=>{
+    if(y<0) return 0;
+    if(y>=this.height) return this.height-1;
+    return y;
+  }
 
   setLocked = (v)=>{
     if(v){
@@ -77,8 +86,10 @@ export class Canvas extends UI_Component{
   }
 
   draw = (x, y, c = "#000000")=>{
-    if(x < 0) console.log(x);
-    if(y < 0) console.log(y);
+    if(x < 0 || y < 0){
+      throw console.error("Error, X and Y must be higher than zero: x: "+x+" y: "+y);
+
+    } 
 
 
     this.#context.beginPath();

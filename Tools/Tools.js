@@ -2,12 +2,12 @@ export class Tools{
 
   isContinuous = false;
   requireCanvasCopy = false;
-  modifyCanvas = true;
+  isCanvasModifyTool = true;
 
-  constructor(isContinuous, requireCanvasCopy, modifyCanvas){
+  constructor(isContinuous, requireCanvasCopy, isCanvasModifyTool){
     this.isContinuous = isContinuous;
     this.requireCanvasCopy = requireCanvasCopy;
-    this.modifyCanvas = modifyCanvas;
+    this.isCanvasModifyTool = isCanvasModifyTool;
 
   }
 

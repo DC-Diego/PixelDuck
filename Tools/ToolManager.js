@@ -9,9 +9,9 @@ export class ToolManager{
     GRAB: 0,
     BRUSH: 1,
     ERASER: 2,
-    SELECT_RETANGLE: 3,
-    SELECT_WAND: 4,
-    BUCKET_FILL: 5,
+    BUCKET_FILL: 3,
+    SELECT_RETANGLE: 4,
+    SELECT_WAND: 5,
     DROPPER: 6, 
     CROP: 7,
     ZOOM_IN: 8,
@@ -31,23 +31,36 @@ export class ToolManager{
   ];
 
   #action = {
+    type: "tool",
+    toolGroup: "tool",
     actionName: "NULL-TOOL",
-    changes: []
+    activeLayer: -1,
+    activeFrame: -1,
+    changes: {
+      modifiedPixels: []
+    }
 
   };
 
-  #viewport;
 
-  constructor(activeTool, viewport){
+  #appToolService = ()=>{};
+  #CommitToHistoryService = ()=>{};
+
+
+  constructor(activeTool, appToolService, CommitToHistoryService){
     this.setActiveTool(activeTool);
-    this.#viewport = viewport;
+    this.#appToolService = appToolService;
+    this.#CommitToHistoryService = CommitToHistoryService;
+  }
+
+  getToolGroup(){
+
+    return "canvasDraw";
   }
 
   setActiveTool = (activeTool)=>{
     this.#toolId = activeTool;
     this.#activeTool = this.#toolsList[activeTool];
-
-
   }
 
   getActiveToolName = ()=>{
@@ -55,54 +68,47 @@ export class ToolManager{
   }
 
   pointerDown = (x,y, options)=>{
-    if(this.#activeTool.modifyCanvas == false){
+    if(this.#activeTool.isCanvasModifyTool == false){
       this.#activeTool.pointerDown(x,y, options);
-      return 
-    }
+    }else{
+      // this.#action.actionName = this.#toolId;
+      const returnedAction = this.#activeTool.pointerDown(x,y, options);
+      returnedAction.actionList.type = "tool";
+      returnedAction.actionList.toolGroup = this.getToolGroup();
+      returnedAction.actionList.toolName = this.#toolId;
+      this.#appToolService(returnedAction.actionList, returnedAction.options );
+      // this.#action.changes.modifiedPixels.push(returnedAction);
+      if(this.#activeTool.isContinuous == false){
+        console.log("Commit to history")
+        this.#CommitToHistoryService();
+      }
 
-
-    if(this.#activeTool.requireCanvasCopy){
-      console.log("missing...")
-    }
-    this.#action.actionName = this.#toolId;
-    const returnedAction = this.#activeTool.pointerDown(x,y, options);
-
-    this.#action.changes.push(returnedAction);
-
-    if(this.#activeTool.isContinuous == false){
-      console.log("Commit to history")
-    }
+    }  
   }
 
   pointerMove = (x,y, options)=>{
-    if(this.#activeTool.modifyCanvas == false){
-      this.#activeTool.pointerMove(x,y, options);
-      return 
+    if(this.#activeTool.isCanvasModifyTool == false){
+      this.#activeTool.pointerMove(x,y, options); 
+    }else{     
+      this.#action.actionName = this.#toolId;
+      const returnedAction = this.#activeTool.pointerMove(x,y, options);
+      if(returnedAction != null){
+        this.#appToolService(returnedAction.actionList, returnedAction.options );
+      }
     }
-
-    this.#action.actionName = this.#toolId;
-    const returnedAction = this.#activeTool.pointerMove(x,y, options);
-
-    this.#action.changes.push(returnedAction);
-
-
-
   }
 
   pointerUp = (x,y, options)=>{
-    if(this.#activeTool.modifyCanvas == false){
+    if(this.#activeTool.isCanvasModifyTool == false){
       this.#activeTool.pointerUp(x,y, options);
-      return 
+    }else{ 
+      this.#action.actionName = this.#toolId;
+      const returnedAction = this.#activeTool.pointerUp(x,y, options);
+      // this.#action.changes.modifiedPixels.push(returnedAction);
+      this.#CommitToHistoryService();
+
+      console.log("commit to history");     
     }
-
-    this.#action.actionName = this.#toolId;
-    const returnedAction = this.#activeTool.pointerUp(x,y, options);
-    this.#action.changes.push(returnedAction);
-
-    console.log("commit to history");
-
-
-
   }
 
 

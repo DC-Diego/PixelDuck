@@ -15,18 +15,45 @@ import {Data} from '../core/Data.js';
 import {Canvas} from '../components/Canvas.js';
 import { ToolManager } from "../Tools/ToolManager.js";
 import { AppPipeline } from "./AppPipeline.js";
+import { ActionHistory } from '../core/ActionHistory.js';
+import { Render } from '../core/Render.js';
 
 const stateManager = new StateManager();
 const orchestrator = new Orchestrator(stateManager);
 const data = new Data();
 const canvasArea = document.getElementById("canvasArea");
 
-const toolManager = new ToolManager(ToolManager.Tools.GRAB);
 
 const timeline = new Timeline(document.getElementById("timeline-viewport") , document.getElementById("frameArea"), { updateCurrentFrame: orchestrator.updateCurrentFrame, reorderFrames: data.reorder });
 
 
 const layer = new LayerManager(document.getElementById("layer-area") ,  { updateActiveLayer: orchestrator.updateActiveLayer, updateTotalLayers: orchestrator.updateTotalLayers  });
+
+
+const App = new AppPipeline();
+
+function startApp(){
+  App.setActionHistory(new ActionHistory());
+  App.setRender(render);
+  
+  
+  
+}
+
+const AppToolService=(actionList, options)=>{
+  App.Tool(actionList, options); 
+ 
+}
+const CommitToHistoryService=()=>{
+  App.Commit(); 
+ 
+}
+
+const toolManager = new ToolManager(ToolManager.Tools.GRAB, AppToolService, CommitToHistoryService);
+
+
+
+
 
 
 
@@ -43,17 +70,19 @@ const HEIGHT = 32;
 canvasArea.style.width = `${10*WIDTH}px`;
 canvasArea.style.height = `${10*HEIGHT}px`;
 
-const activeCanvas = new Canvas(WIDTH, HEIGHT, false, toolManager);
+const currentCanvas = new Canvas(WIDTH, HEIGHT, false, toolManager);
 const beforeCanvas = new Canvas(WIDTH, HEIGHT, true, toolManager);
-const upperCanvas = new Canvas(WIDTH, HEIGHT, true, toolManager);
-const onionBefore_Canvas = new Canvas(WIDTH, HEIGHT, true, toolManager);
-const onionNext_Canvas = new Canvas(WIDTH, HEIGHT, true, toolManager);
+const afterCanvas = new Canvas(WIDTH, HEIGHT, true, toolManager);
+const onion_beforeCanvas = new Canvas(WIDTH, HEIGHT, true, toolManager);
+const onion_nextCanvas = new Canvas(WIDTH, HEIGHT, true, toolManager);
 
-canvasArea.appendChild(onionNext_Canvas.root);
-canvasArea.appendChild(onionBefore_Canvas.root);
-canvasArea.appendChild(upperCanvas.root);
-canvasArea.appendChild(activeCanvas.root);
+canvasArea.appendChild(onion_nextCanvas.root);
+canvasArea.appendChild(onion_beforeCanvas.root);
+canvasArea.appendChild(afterCanvas.root);
+canvasArea.appendChild(currentCanvas.root);
 canvasArea.appendChild(beforeCanvas.root);
+
+const render = new Render(beforeCanvas, currentCanvas, afterCanvas, onion_beforeCanvas, onion_nextCanvas);
 
 
 // Canvas
@@ -82,21 +111,27 @@ moveHandTool.addEventListener("pointerdown", ()=>{
 ////////////////// TEMPORARY, UNTIL TOOLS CLASS/DOCUMENT!!!
 
 
-toolManager.setActiveTool(ToolManager.Tools.GRAB);
-mainViewport.style.cursor="grab";
-moveHandTool.classList.add('activeTool');
+toolManager.setActiveTool(ToolManager.Tools.BRUSH);
+brushTool.classList.add('activeTool');
 
 
 
 mainViewport.addEventListener('pointerdown', (e)=>{ 
   if(toolManager.getActiveToolName() == ToolManager.Tools.GRAB) {
     toolManager.pointerDown(e.x, e.y, {mainViewport: mainViewport, canvasProperties: stateManager.getState().canvasProperties });
-
   }
 });
+
+const transformCanvas = (props)=>{
+  canvasArea.style.transform = `translateX(${props.tx}px)
+   translateY(${props.ty}px)
+   scale(${props.scale})`;
+
+}
 mainViewport.addEventListener('pointermove', (e)=>{
+  
   if(toolManager.getActiveToolName() == ToolManager.Tools.GRAB)
-    toolManager.pointerMove(e.x, e.y, {canvasArea: canvasArea});
+    toolManager.pointerMove(e.x, e.y, { transformCanvas: transformCanvas });
 });
 
 mainViewport.addEventListener('pointerup', (e)=>{ 
@@ -104,7 +139,6 @@ mainViewport.addEventListener('pointerup', (e)=>{
     toolManager.pointerUp(e.x, e.y, {mainViewport: mainViewport});
   }
 });
-
 
 
 // stateManager.subscribe((s)=>{
@@ -333,7 +367,7 @@ stateManager.subscribe((s)=>{
 
   // canvas.innerText = data.getFrameById(s.currentFrame).getContent();
   // canvasArea.innerText = layer.getData();
-  activeCanvas.innerText = layer.getData();
+  currentCanvas.innerText = layer.getData();
   // canvas.style.opacity = layer.getOpacity()+"%";
   TEMPORARY_SETCANVASOPACITY(layer.getOpacity());
 
@@ -370,6 +404,7 @@ window.addEventListener('keydown', (e)=>{
 
 /// TEMPORARY ANIMATION CALLER
 
+startApp();
 
 
 // setActivePage('NewFilePage');

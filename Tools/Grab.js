@@ -29,10 +29,13 @@ export class Grab extends Tools{
   }
 
 
-  pointerMove=(x, y, {canvasArea})=>{
-    if(canvasArea == undefined) return;
+  pointerMove=(x, y, {transformCanvas})=>{
+    if(transformCanvas == undefined) return;
     if(this.isMoving){
-      canvasArea.style.transform = `translateX(${this.canvasProperties.x+x-this.startMovement.x  }px)       translateY(${this.canvasProperties.y+ y-this.startMovement.y}px) scale(${this.canvasProperties.scale}) `;
+      transformCanvas({
+        tx: this.canvasProperties.x+x-this.startMovement.x,
+        ty: this.canvasProperties.y+y-this.startMovement.y,
+        scale: this.canvasProperties.scale});
     }  
   }
   pointerUp=(x,y, {mainViewport})=>{
@@ -42,7 +45,6 @@ export class Grab extends Tools{
       mainViewport.style.cursor="grab";
       this.canvasProperties.x = this.canvasProperties.x+x-this.startMovement.x;
       this.canvasProperties.y = this.canvasProperties.y+y-this.startMovement.y;
-      // return this.canvasProperties;
     } 
   }
 

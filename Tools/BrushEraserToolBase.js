@@ -9,46 +9,50 @@ export class BrushEraserToolBase extends Tools{
 
 
   
-  pointerDown(x,y, color, tool){
+  pointerDown(x,y, color){
     this.#lastPixel = {x:x,y:y};
-    tool(x,y);
     return {
-      pixels:[{
-        x: x,
-        y: y,
-        // before: this.#canvasCopy[x][y],
-        after: color
-      }],
-      commit: false
+      actionList:{
+        type: undefined,
+        toolGroup: undefined,
+        toolName: undefined,
+        pixels:[{
+          x: x,
+          y: y,
+        }]
+      },
+      options:{
+        before: undefined,
+        after: color,
+      }
     }
   }
 
-  pointerMove(x,y,color, tool){
+  pointerMove(x,y){
     const sx = this.#lastPixel.x;
     const sy = this.#lastPixel.y;
-    const dx = sx-x;
-    const dy = sy-y;
+    const dx = x-sx;
+    const dy = y-sy;
     const n = Math.max(Math.abs(dx), Math.abs(dy));
+    if(n == 0) return null;
     const pixels = [];
-    for(let i  =0; i < n;i++){
-
-      let tx = Math.ceil(sx+dx*i/n); 
-      let ty = Math.ceil(sy+dy*i/n);
-      tool(x,y);
+    for(let i  =0; i <= n;i++){
+      let tx = Math.round(sx+dx*i/n); 
+      let ty = Math.round(sy+dy*i/n);
  
       pixels.push({
         x: tx,
         y: ty,
-        // before: this.#canvasCopy[tx][ty],
-        after: color
       });
     }
 
     this.#lastPixel = {x:x,y:y};
 
     return {
-      pixels: pixels,
-      commit: false
+      actionList:{
+        pixels: pixels
+      },
+      options: null
     }
   }
 
