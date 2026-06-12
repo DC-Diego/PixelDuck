@@ -17,6 +17,7 @@ import { ToolManager } from "../Tools/ToolManager.js";
 import { AppPipeline } from "./AppPipeline.js";
 import { ActionHistory } from '../core/ActionHistory.js';
 import { Render } from '../core/Render.js';
+import { TabView } from '../components/UI/TabView.js';
 
 const stateManager = new StateManager();
 const orchestrator = new Orchestrator(stateManager);
@@ -174,6 +175,9 @@ document.getElementById("toggleToolbar").addEventListener('click', ()=>{
 });
 
 
+
+
+const PropertiesTabView = new TabView (document.getElementById("properties"));
 
 const timelineSplitter = new Splitter (document.getElementById("timeline"), 'h');
 const propertiesSplitter = new Splitter (document.getElementById("propertiesPanel"), 'v');

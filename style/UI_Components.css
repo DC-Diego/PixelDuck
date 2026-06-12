@@ -9,20 +9,22 @@
 }
 .splitter{
 /* .splitter:hover{ */
-  background-color: #5b21b6;
+
+  background-color: #6959ff;
+  /* background-color: #5b21b6; */
   
 }
 
 .splitter.v{
   margin-left: 0px;
   height: 100%;
-  width: 10px;
+  min-width: 5px;
   cursor: col-resize;
 }
 
 .splitter.h{
   width: 100%;
-  height: 10px;
+  min-height: 5px;
   cursor: row-resize;
 
 }
@@ -160,7 +162,7 @@ button:hover{
 }
 
 
-.submenu-combo-js{
+.submenu-combo-js, .submenu-context-js{
   position: absolute;
   background-color: inherit;
   height: auto;
@@ -172,10 +174,21 @@ button:hover{
   border-radius: 0px 0px 5px 5px;
   
 }
-.submenu-combo-js.active{ display: flex; flex-direction: column; gap: 2px; z-index: 5;}
+.submenu-context-js{
+  width: fit-content;
+  padding: 5px;
+  top: auto;
+  left: auto;
 
-.submenu-combo-js span{ padding-left:5px; border-radius: 0px;}
-.submenu-combo-js span:hover{ background-color: #303030;}
+}
+
+.submenu-combo-js.active, .submenu-context-js.active { display: flex; flex-direction: column; gap: 2px; z-index: 5;}
+
+.submenu-context-js span {
+  width: 50px;
+}
+.submenu-combo-js span, .submenu-context-js span { padding-left:5px; border-radius: 0px;}
+.submenu-combo-js span:hover, .submenu-context-js span:hover { background-color: #303030;}
 
 .combo-js > input[type=number]::-webkit-inner-spin-button,
 .combo-js> input[type=number]::-webkit-outer-spin-button {
@@ -193,4 +206,47 @@ use.hidden{
 
 svg.rotate270{
   transform: rotateZ(270deg);
+}
+
+.TabView{
+  display: flex;
+  flex-direction: column;
+
+}
+.TabView h1{
+  font-size: 14px;
+  text-align: center;
+}
+.tabSelector{
+  height: 35px;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  gap: 2px;
+
+
+}
+.tabArea{
+  flex: 9;
+  height: 100%;
+  background-color: black;
+  display: flex;
+  align-items: center;
+  color: #ffffff;
+
+}
+.tabOptions{
+  flex: 1;
+  height: 100%;
+  background-color: green;
+  position: relative;
+}
+
+
+
+.tabContent{
+  flex: 1;
+  width: 100%;
+  background-color: red;
+
 }

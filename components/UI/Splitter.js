@@ -7,7 +7,7 @@ import { UI_Component } from "./UI_Component.js";
   constructor (root, type){
     super(root);
     this.#handle = this.root.querySelector('.splitter');
-
+    this.#handle.innerHTML = "";
     this.#type = type;
     this.#isHolding = false;
 

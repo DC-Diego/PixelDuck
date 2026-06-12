@@ -174,7 +174,7 @@ body{
   width: 30%;
   /* width: 10%; */
   max-width: 25%;
-  min-width: 10px;
+  min-width: 5px;
   display: flex;
   flex-direction: row;
 

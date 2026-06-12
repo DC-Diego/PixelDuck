@@ -3,7 +3,7 @@ import { BrushEraserToolBase } from "./BrushEraserToolBase.js";
 
 export class Brush extends BrushEraserToolBase{
 
-  color = "#ff0000";
+  color = "#000000";
   #canvasCopy = null;
 
   constructor(){
