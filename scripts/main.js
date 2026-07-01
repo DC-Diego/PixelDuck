@@ -179,9 +179,9 @@ document.getElementById("toggleToolbar").addEventListener('click', ()=>{
 
 const PropertiesTabView = new TabView (document.getElementById("properties"));
 
-const timelineSplitter = new Splitter (document.getElementById("timeline"), 'h');
-const propertiesSplitter = new Splitter (document.getElementById("propertiesPanel"), 'v');
-const layersSplitter = new Splitter (document.getElementById("layers"), 'h');
+const timelineSplitter = new Splitter (document.getElementById("timeline"), 'h', -1 );
+const propertiesSplitter = new Splitter (document.getElementById("propertiesPanel"), 'v', -1);
+const layersSplitter = new Splitter (document.getElementById("layers"), 'h', 1);
 
 
 
