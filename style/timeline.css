@@ -13,7 +13,7 @@
 
 .timeline-header{
   width: 100%;
-  background-color: #202020;
+  background-color: var(--light-darker);
   padding: 2px 0px;
   height: 32px;
   display: flex;
@@ -94,7 +94,7 @@
 }
 
 .group-label-input{
-  background-color: #3d3d3d;
+  background-color: var(--gray);
   height: 90% ;
   width: fit-content;
   display: flex;
@@ -110,7 +110,7 @@
 .group-label-input > input{
   font-size: 14px;
   text-align: center;
-  color: #dddddd;
+  color: var(--text-color);
   width: 60px;
   background-color: transparent;
   border: none;
@@ -217,7 +217,7 @@
   display: flex;
   flex-direction: row;
   align-items: center;
-  color: #dddddd;
+  color: var(--text-color);
   margin-right: 20px;
   gap: 10px;
 }

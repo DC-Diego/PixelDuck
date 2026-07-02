@@ -38,7 +38,7 @@ body{
   height: 30px;
   min-height: 30px;
   width: 100%;
-  background-color: #303030;
+  background-color: var(--dark-gray);
   display: flex;
   padding-bottom: 5px;
   flex-direction: row;
@@ -82,12 +82,12 @@ body{
   align-items: center;
   overflow: hidden;
   flex: 1;
-  background-color: #303030;
+  background-color: var(--dark-gray);
 }
 #toolbar{
   width: 40px;
   height: 100%;
-  background-color: #303030;
+  background-color: var(--dark-gray);
   margin: 0px;
   position: relative;
   display: flex;
@@ -113,14 +113,14 @@ body{
   margin-left: -40px;
 }
 
-.tool, .icon-buttons{
+.tool, .icon-buttons, .property-tab-selector{
   display: flex;
   align-items: center;
   justify-content: center;
   color: white;
   height: 30px;
   width: 30px;
-  background-color: #171717;
+  background-color: var(--dark);
   border-radius: 5px;
   cursor: pointer;
   user-select: none;
@@ -128,8 +128,13 @@ body{
   text-align: center;
   font-size: 14px;
 }
-.tool:hover, .icon-buttons:hover{
-  background-color: #202020;
+.property-tab-selector{
+  width: 26px;
+  height: 26px;
+  background-color: inherit;
+}
+.tool:hover, .icon-buttons:hover, .property-tab-selector:hover{
+  background-color:var(--light-darker);
   font-size: 16px;
 }
 
@@ -139,7 +144,7 @@ body{
 
 }
 .icon-buttons:disabled:hover{
-  background-color: #171717;
+  background-color: var(--dark);
   font-size: 14px;
   cursor: not-allowed;
 }
@@ -151,7 +156,7 @@ body{
   justify-content: center;
   height: 100%;
   overflow: hidden;
-  background-color: #171717;
+  background-color: var(--dark);
   border-radius: 10px 0px 0px 0px;
   flex: 1;
 
@@ -160,7 +165,7 @@ body{
   /* width: 500px;
   height: 200px; */
   position: relative;
-  background-color: #dddddd;
+  background-color: var(--text-color);
   display: flex;
   align-items: center;
   user-select: none;
@@ -197,16 +202,16 @@ body{
 
 #layers{
   max-height: 70%;
-  height: 60%;
+  height: 40%;
   min-height: 10%;
   width: 100%;
-  background-color: #303030;
+  background-color: var(--dark-gray);
   display: flex;
   flex-direction: column;
 
 }
 .props{
-  background-color: #303030;
+  background-color: var(--dark-gray);
   height: 50px;
   width: 100%;
   display: flex;
@@ -235,7 +240,7 @@ body{
   height: 50px;
   display: flex;
   flex-direction: column;
-  border-bottom: 1px solid #202020;
+  border-bottom: 1px solidvar(--light-darker);
   align-items: center;
   
 }
@@ -246,7 +251,7 @@ body{
 }
 
 .layer.active, .group-layer.active{
-  background-color: #171717;
+  background-color: var(--dark);
 }
 .group-layer.selected{
   background-color: #4099ff;
@@ -255,7 +260,7 @@ body{
 
 .layer.selected{
   /* padding-left: 10px; */
-  /* background-color: #171717; */
+  /* background-color: var(--dark); */
   background-color: #c71717;
 
 }
@@ -290,7 +295,7 @@ body{
 
 }
 .sub-layer h1, .group-layer h1{
-  color: #dddddd;
+  color: var(--text-color);
   margin-left: 15px;
   font-size: 14px;
   overflow: hidden;
@@ -304,11 +309,11 @@ body{
 .sub-layer input, .group-layer input{
   background-color: transparent;
   border: none;
-  color: #dddddd;
+  color: var(--text-color);
   margin-left: 15px;
   font-size: 14px;
   width: 150px;
-  border-bottom: 3px solid #dddddd;
+  border-bottom: 3px solid var(--text-color);
 }
 
 
@@ -326,7 +331,7 @@ body{
   display: flex;
   flex-direction: column;
   width: 100%;
-  border-bottom: 1px solid #202020;
+  border-bottom: 1px solidvar(--light-darker);
 
 
 }
