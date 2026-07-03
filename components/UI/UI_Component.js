@@ -13,11 +13,16 @@ class UI_Component{
   }
 
 
-  destroy(){
+  removeListeners(){
     this._listeners.forEach(({ target, event, handler, options })=>{
       target.removeEventListener(event, handler, options);
     });
     this._listeners= [];
+    
+  }
+
+  destroy(){
+    this.removeListeners();
     this.root = null;
 
   }

@@ -18,6 +18,7 @@ import { AppPipeline } from "./AppPipeline.js";
 import { ActionHistory } from '../core/ActionHistory.js';
 import { Render } from '../core/Render.js';
 import { TabView } from '../components/UI/TabView.js';
+import { PropertiesManager } from '../components/Properties/PropertiesManager.js';
 
 const stateManager = new StateManager();
 const orchestrator = new Orchestrator(stateManager);
@@ -176,6 +177,32 @@ document.getElementById("toggleToolbar").addEventListener('click', ()=>{
 
 
 
+const propertiesManager = new PropertiesManager(document.getElementById("property-display"));
+
+const teste =    {
+  tab_name: "Name",
+  list: [{
+    name: "Opacity",
+    type: "number",
+    min: 0,
+    max: 100 ,
+    default: 55,
+    step: 1,
+    sensitive: 1,
+
+  }, {
+    name: "Color",
+    type: "Color",
+    colorPallete: true
+  },
+  {
+    name: "Render types",
+    type: "combo",
+    itens: ["item1", "item2", "item3"]
+
+  }]
+};
+propertiesManager.setNewPropertyTab(teste)
 
 const PropertiesTabView = new TabView (document.getElementById("properties"));
 
