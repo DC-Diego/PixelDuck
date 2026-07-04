@@ -20,9 +20,10 @@ class Stepper extends UI_Component{
       sensitivy: sensitivy
     }
 
+    this.#input.step = step;
     
-    if(this.#incrementer) this.on(this.#incrementer, 'pointerdown',()=>this.#increment(this.#infos.step))
-    if(this.#decrementer) this.on(this.#decrementer, 'pointerdown',()=>this.#decrement(this.#infos.step))
+    if(this.#incrementer) this.on(this.#incrementer, 'pointerdown',()=>this.#increment(1))
+    if(this.#decrementer) this.on(this.#decrementer, 'pointerdown',()=>this.#decrement(1))
 
     this.on(this.#input, 'keydown', this.#filterInput );
     this.on(this.#input, 'blur', this.#fixInput );
@@ -38,8 +39,8 @@ class Stepper extends UI_Component{
     this.on(document, 'pointermove', (e)=>{
       if(isPressing){
         const dx = e.movementX*sensitivy;
-        if(dx < 0) this.#decrement(Math.abs(dx));
-        if(dx > 0) this.#increment(dx);
+        if(dx < 0) this.#decrement(Math.max(Math.abs(dx),1));
+        if(dx > 0) this.#increment(Math.max(dx,1));
       }
     });
     

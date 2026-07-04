@@ -180,14 +180,14 @@ document.getElementById("toggleToolbar").addEventListener('click', ()=>{
 const propertiesManager = new PropertiesManager(document.getElementById("property-display"));
 
 const teste =    {
-  tab_name: "Name",
+  tab_name: "Brush - Property",
   list: [{
     name: "Opacity",
     type: "number",
     min: 0,
-    max: 100 ,
-    default: 55,
-    step: 1,
+    max: 1 ,
+    default: 1/2,
+    step: 0.01,
     sensitive: 1,
 
   }, {

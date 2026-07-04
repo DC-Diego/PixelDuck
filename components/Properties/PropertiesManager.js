@@ -1,3 +1,4 @@
+import { ComboBox } from '../UI/ComboBox.js';
 import {UI_Component} from '../UI/UI_Component.js'
 
 import { StepperFactory } from './StepperFactory.js';
@@ -62,7 +63,6 @@ export class PropertiesManager extends UI_Component{
 
 
       }
-
 
 
     });
