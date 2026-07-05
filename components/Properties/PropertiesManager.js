@@ -38,7 +38,7 @@ export class PropertiesManager extends UI_Component{
     
     const h1 = document.createElement("h1");
     h1.classList.add("property-name-js") 
-    h1.innerText = name;
+    h1.innerText = `${name}:`;
     div.appendChild(h1);
     elements.forEach(e=>{
       div.appendChild(e);
@@ -60,26 +60,6 @@ export class PropertiesManager extends UI_Component{
   setNewPropertyTab(new_property){
     // props.
     // this.#renderController("banana", ['1', !![]+ +!![]])
-    const teste =    {
-      tab_name: "Name",
-      list: [{
-        name: "Opacity",
-        type: "number",
-        min: 0,
-        max: 1 ,
-        default: 0.5
-      }, {
-        name: "Color",
-        type: "Color",
-        colorPallete: true
-      },
-      {
-        name: "Render types",
-        type: "combo",
-        itens: ["item1", "item2", "item3"]
-
-      }]
-    };
 
     this.setTitle(new_property.tab_name);
     new_property.list.forEach(e => {
@@ -91,7 +71,7 @@ export class PropertiesManager extends UI_Component{
         const combo = new ComboBoxFactory(e.name, e.items);
         this.#renderController(e.name, [combo.root]);
       }else if(e.type == "color"){
-        const color = new ColorPickerFactory(e.name);
+        const color = new ColorPickerFactory(e.name, e.colorPallete);
         this.#renderController(e.name, [color.root]);
       }
       

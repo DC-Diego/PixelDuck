@@ -193,7 +193,7 @@ const teste =    {
   }, {
     name: "Color",
     type: "color",
-    colorPallete: true
+    colorPallete: false
   },
   {
     name: "Render types",

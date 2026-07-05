@@ -269,7 +269,7 @@ svg.rotate270{
 
 .tabContent{
   background-color: var(--gray);
-  width: 80%;
+  width: 85%;
   height: 80%;
   border-radius: 5px;
 }
@@ -284,12 +284,13 @@ svg.rotate270{
   gap: 5px;
 }
 .property-name-js{
-  width: 30%;
-  line-height: 15px;
-  font-size: 14px;
-  text-align: center;
   color: var(--text-color);
-
+  font-size: 14px;
+  line-height: 15px;
+  text-align: center;
+  width: 30%;
+  max-width: 30%;
+  margin: 0px 15px;
 }
 .colorPicker{
   width: 32px;
