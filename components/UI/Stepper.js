@@ -103,9 +103,11 @@ class Stepper extends UI_Component{
   #progressbar = (v)=>{
     let clampMax = this.#infos.max -this.#infos.min;
     let clampValue = v -this.#infos.min;
-    let percent = clampValue/clampMax;
+    
+    let percent = clampMax==0?0:clampValue/clampMax;
 
-    this.root.style.background = `linear-gradient(90deg, #2b21b6 ${Math.round(percent*100)}%, #3d3d3d ${Math.round(percent*100)}%)`
+    console.log(clampValue, clampMax)
+    this.root.style.background = `linear-gradient(90deg, #2b21b6 ${Math.round(percent*100)}%, var(--light-gray) ${Math.round(percent*100)}%)`
 
 
   }

@@ -182,7 +182,7 @@ const propertiesManager = new PropertiesManager(document.getElementById("propert
 const teste =    {
   tab_name: "Brush - Property",
   list: [{
-    name: "Brush property",
+    name: "Opacity",
     type: "number",
     min: 0,
     max: 1 ,
@@ -198,7 +198,7 @@ const teste =    {
   {
     name: "Render types",
     type: "combo",
-    itens: ["item1", "item2", "item3"]
+    items: ["item1", "item2", "item3"]
 
   }]
 };

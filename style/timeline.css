@@ -94,7 +94,7 @@
 }
 
 .group-label-input{
-  background-color: var(--gray);
+  background-color: var(--light-gray);
   height: 90% ;
   width: fit-content;
   display: flex;

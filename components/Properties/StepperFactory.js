@@ -5,7 +5,7 @@ function StepperFactory(name, min, max,default_value, step, sensitive,  displayB
   const element = document.createElement("div");
   element.classList.add("group-label-input");
   element.title = name;
-  element.style.height = "30px";
+  element.style.height = "25px";
 
 
   element.innerHTML = `
@@ -18,7 +18,7 @@ function StepperFactory(name, min, max,default_value, step, sensitive,  displayB
   </button>`;
   // console.log(name, min, max,default_value, step, sensitive,  displayBar, changeFunction)
 
-  const stepper = new Stepper(element, step, sensitive, displayBar, this.changeFunction);
+  const stepper = new Stepper(element, step, sensitive, displayBar, changeFunction);
 
   return stepper;
 }
