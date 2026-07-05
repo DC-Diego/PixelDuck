@@ -1,4 +1,5 @@
 .confirmDialog{
+  top: 40%;
   position: absolute;
   min-height: 130px;
   min-width: 300px;

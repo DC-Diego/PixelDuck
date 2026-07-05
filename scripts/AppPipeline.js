@@ -14,9 +14,9 @@ export class AppPipeline{
   #WIDTH = 32; // cols -> y
   #HEIGHT = 32; // rows -> x
   constructor(width, height){
-    this.#data = Array.from({ length: this.#WIDTH }, () => new Array(this.#HEIGHT).fill(null));
     this.#WIDTH = width;
     this.#HEIGHT = height;
+    this.#data = Array.from({ length: this.#WIDTH }, () => new Array(this.#HEIGHT).fill(null));
 
   }
 

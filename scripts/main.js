@@ -31,8 +31,9 @@ const timeline = new Timeline(document.getElementById("timeline-viewport") , doc
 
 const layer = new LayerManager(document.getElementById("layer-area") ,  { updateActiveLayer: orchestrator.updateActiveLayer, updateTotalLayers: orchestrator.updateTotalLayers  });
 
-
-const App = new AppPipeline();
+const WIDTH = 32;
+const HEIGHT = 32;
+const App = new AppPipeline(WIDTH, HEIGHT);
 
 function startApp(){
   App.setActionHistory(new ActionHistory());
@@ -67,8 +68,7 @@ function renderComponent(parent, child){
 /////////////////////////////////////////
 // Canvas
 
-const WIDTH = 32;
-const HEIGHT = 32;
+
 canvasArea.style.width = `${10*WIDTH}px`;
 canvasArea.style.height = `${10*HEIGHT}px`;
 
@@ -192,7 +192,7 @@ const teste =    {
 
   }, {
     name: "Color",
-    type: "Color",
+    type: "color",
     colorPallete: true
   },
   {

@@ -1,7 +1,6 @@
-import { ComboBox } from '../UI/ComboBox.js';
 import {UI_Component} from '../UI/UI_Component.js'
+import { ColorPickerFactory } from './ColorPickerFactory.js';
 import { ComboBoxFactory } from './ComboBoxFactory.js';
-
 import { StepperFactory } from './StepperFactory.js';
 
 
@@ -88,10 +87,12 @@ export class PropertiesManager extends UI_Component{
         const stepper = new StepperFactory(e.name, e.min, e.max, e.default, e.step, e.sensitive, true, ()=>{});
         // this.#content.appendChild(stepper.root);
         this.#renderController(e.name, [stepper.root]);
-      }
-      else if(e.type == "combo"){
+      }else if(e.type == "combo"){
         const combo = new ComboBoxFactory(e.name, e.items);
         this.#renderController(e.name, [combo.root]);
+      }else if(e.type == "color"){
+        const color = new ColorPickerFactory(e.name);
+        this.#renderController(e.name, [color.root]);
       }
       
     });

@@ -291,3 +291,17 @@ svg.rotate270{
   color: var(--text-color);
 
 }
+.colorPicker{
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+
+}
+.action-text-js{
+  text-decoration: underline;
+  cursor: pointer;
+  
+}
