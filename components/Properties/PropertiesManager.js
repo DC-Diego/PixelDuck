@@ -58,13 +58,12 @@ export class PropertiesManager extends UI_Component{
     this.setTitle(new_property.tab_name);
     new_property.list.forEach(e => {
       if(e.type=="number"){
-        const number = new StepperFactory(e.name, e.min, e.max, e.default, e.step, e.sensitive, true, ()=>{});
-        this.#content.appendChild(number.getElement());
-
+        const stepper = new StepperFactory(e.name, e.min, e.max, e.default, e.step, e.sensitive, true, ()=>{});
+        this.#content.appendChild(stepper.root);
 
       }
-
-
+      
+      
     });
 
 

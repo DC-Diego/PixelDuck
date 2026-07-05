@@ -182,7 +182,7 @@ const propertiesManager = new PropertiesManager(document.getElementById("propert
 const teste =    {
   tab_name: "Brush - Property",
   list: [{
-    name: "Opacity",
+    name: "Brush property",
     type: "number",
     min: 0,
     max: 1 ,
