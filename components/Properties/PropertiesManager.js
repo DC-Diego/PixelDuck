@@ -9,15 +9,17 @@ export class PropertiesManager extends UI_Component{
   #titleContainer;
   #title;
   #content;
+  #propertiesDictionary = {};
 
-  constructor(root){
+  #setPropertyService;
+
+  constructor(root, setPropertyService){
     super(root);
-    console.log(root)
     this.#titleContainer = root.querySelector(".property-title");
     this.#title = this.#titleContainer.querySelector("h1");
     this.#content = root.querySelector(".property-content");
 
-
+    this.#setPropertyService = setPropertyService;
     
   }
 
@@ -32,7 +34,6 @@ export class PropertiesManager extends UI_Component{
   }
 
   #renderController(name, elements){
-    console.log(elements)
     const div = document.createElement("div");
     div.classList.add("property-container-js");
     
@@ -58,32 +59,36 @@ export class PropertiesManager extends UI_Component{
   }
 
   setNewPropertyTab(new_property){
-    // props.
-    // this.#renderController("banana", ['1', !![]+ +!![]])
+    this.clearContent();
+    if(new_property==null)return;
+    this.#propertiesDictionary = {};
 
     this.setTitle(new_property.tab_name);
     new_property.list.forEach(e => {
+      this.#propertiesDictionary[e.name] = e.value;
       if(e.type=="number"){
-        const stepper = new StepperFactory(e.name, e.min, e.max, e.default, e.step, e.sensitive, true, ()=>{});
+        const stepper = new StepperFactory(e.name, e.min, e.max, e.value, e.step, e.sensitive, true, this.#changeProperties);
         // this.#content.appendChild(stepper.root);
         this.#renderController(e.name, [stepper.root]);
       }else if(e.type == "combo"){
-        const combo = new ComboBoxFactory(e.name, e.items);
+        const combo = new ComboBoxFactory(e.name, e.items, this.#changeProperties);
         this.#renderController(e.name, [combo.root]);
       }else if(e.type == "color"){
-        const color = new ColorPickerFactory(e.name, e.colorPallete);
+        const color = new ColorPickerFactory(e.name, e.value,e.colorPallete, this.#changeProperties);
         this.#renderController(e.name, [color.root]);
       }
       
     });
-
-
-
-
-
+    console.log(this.#propertiesDictionary)
 
   }
 
+  #changeProperties = (name, value)=>{
+    this.#propertiesDictionary[name] = value;
+    // console.log(this.#propertiesDictionary)
+    this.#setPropertyService(this.#propertiesDictionary);
+
+  }
 
 
 

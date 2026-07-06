@@ -1,5 +1,6 @@
-:root{
-  /* --dark-gray: #ffbcde; */
+/* --dark-gray: #ffbcde;  */
+
+/* :root{
   --dark: #171717;
   --light-darker: #202020;
   --dark-gray: #303030;
@@ -7,7 +8,19 @@
   --light-gray: #505050;
   --text-color: #dddddd;
 
+} */
+
+:root{
+  --dark: #050b20;
+  --light-darker: #252544;
+  --dark-gray: #272753;
+  --gray: #36365c;
+  --light-gray: #47477e;
+  
+  --text-color: #dddddd;
+
 }
+
 
 /*
   **dark-blue: 

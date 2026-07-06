@@ -45,12 +45,15 @@ export class ToolManager{
 
   #appToolService = ()=>{};
   #CommitToHistoryService = ()=>{};
+  #toolChangeService = ()=>{};
 
 
-  constructor(activeTool, appToolService, CommitToHistoryService){
+  constructor(activeTool, appToolService, CommitToHistoryService, toolChangeService){
     this.setActiveTool(activeTool);
     this.#appToolService = appToolService;
     this.#CommitToHistoryService = CommitToHistoryService;
+    this.#toolChangeService = toolChangeService;
+    this.#toolChangeService();
   }
 
   getToolGroup(){
@@ -61,10 +64,17 @@ export class ToolManager{
   setActiveTool = (activeTool)=>{
     this.#toolId = activeTool;
     this.#activeTool = this.#toolsList[activeTool];
+    console.log(this.#activeTool)
+    this.#toolChangeService(this.#activeTool.getProperties());
+
   }
 
   getActiveToolName = ()=>{
     return this.#toolId;
+  }
+
+  setProperties(props){
+    this.#activeTool.setProperties(props);
   }
 
   pointerDown = (x,y, options)=>{

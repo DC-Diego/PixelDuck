@@ -106,7 +106,6 @@ class Stepper extends UI_Component{
     
     let percent = clampMax==0?0:clampValue/clampMax;
 
-    console.log(clampValue, clampMax)
     this.root.style.background = `linear-gradient(90deg, #2b21b6 ${Math.round(percent*100)}%, var(--light-gray) ${Math.round(percent*100)}%)`
 
 

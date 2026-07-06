@@ -1,6 +1,6 @@
 import { ColorPicker } from "../UI/ColorPicker.js";
 
-function ColorPickerFactory(name, colorPallete, callback=()=>{}){
+function ColorPickerFactory(name, color_value, colorPallete, callback=()=>{}){
   const element = document.createElement("div");
   element.classList.add("group-label-input");
   element.title = name;
@@ -11,6 +11,7 @@ function ColorPickerFactory(name, colorPallete, callback=()=>{}){
   color.type = "color";
   color.classList.add("colorPicker");
   color.style.width="32px";
+  color.value = color_value;
   element.appendChild(color);
   
   if(colorPallete){
@@ -21,7 +22,7 @@ function ColorPickerFactory(name, colorPallete, callback=()=>{}){
     text.title="color pallete";
     element.appendChild(text);
   }
-  const colorPicker = new ColorPicker(element, colorPallete, callback);
+  const colorPicker = new ColorPicker(element, colorPallete, (v)=>callback(name, v));
   return colorPicker;
 
 }

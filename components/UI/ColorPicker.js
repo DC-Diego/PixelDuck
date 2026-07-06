@@ -5,16 +5,19 @@ export class ColorPicker extends UI_Component{
 
   #input;
   #colorPallete;
+  #callback;
+
   constructor(root, colorPallete,callback){
     super(root);
     this.#input = root.querySelector("input");
-    this.on(this.#input, "change", callback);
+    this.on(this.#input, "change", this.#change);
 
     if(colorPallete){
       this.#colorPallete = root.querySelector("h1");
       this.on(this.#colorPallete, "pointerdown", this.#openColorPallete);
     }
 
+    this.#callback = callback;
   }
 
   #openColorPallete=(e)=>{
@@ -25,6 +28,11 @@ export class ColorPicker extends UI_Component{
 
   setColor(v){
     this.#input.value = v;
+  }
+
+  #change = (e)=>{
+
+    this.#callback(this.#input.value);
   }
 
 }

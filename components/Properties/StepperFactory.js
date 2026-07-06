@@ -18,7 +18,7 @@ function StepperFactory(name, min, max,default_value, step, sensitive,  displayB
   </button>`;
   // console.log(name, min, max,default_value, step, sensitive,  displayBar, changeFunction)
 
-  const stepper = new Stepper(element, step, sensitive, displayBar, changeFunction);
+  const stepper = new Stepper(element, step, sensitive, displayBar,(v)=>{changeFunction(name, v)});
 
   return stepper;
 }

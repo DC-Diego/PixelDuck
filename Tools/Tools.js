@@ -11,6 +11,8 @@ export class Tools{
 
   }
 
+  getProperties(){}
+  setProperties(){}
   init(){}
   pointerDown(){}
   pointerMove(){}

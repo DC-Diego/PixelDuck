@@ -15,7 +15,7 @@ function ComboBoxFactory(name, items, changeFunction=()=>{}){
     </button>
   `;
 
-  const comboBox = new ComboBox(element, items, changeFunction);
+  const comboBox = new ComboBox(element, items, (v)=>changeFunction(name,v));
 
   return comboBox;
 }

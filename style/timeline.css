@@ -6,7 +6,7 @@
   height: 0%;
   max-height: 30%;
   min-height: 5px;
-  background-color: #252525;
+  background-color: var(--light-darker);
   position: relative;
 
 }
@@ -149,7 +149,7 @@
 
 }
 .timeline-viewport{
-  background-color: #aaa;
+  background-color: var(--light-gray);
   height: 120px;
   width: 100%;
   display: flex;

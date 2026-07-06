@@ -43,16 +43,29 @@ function startApp(){
   
 }
 
+
 const AppToolService=(actionList, options)=>{
   App.Tool(actionList, options); 
- 
+  
 }
 const CommitToHistoryService=()=>{
   App.Commit(); 
- 
+  
 }
 
-const toolManager = new ToolManager(ToolManager.Tools.GRAB, AppToolService, CommitToHistoryService);
+const toolChangeService=(props)=>{
+  propertiesManager.setNewPropertyTab(props);
+  
+}
+
+const setPropertyService = (props)=>{
+  console.log(props)
+  toolManager.setProperties(props)
+}
+
+const propertiesManager = new PropertiesManager(document.getElementById("property-display"), setPropertyService);
+
+const toolManager = new ToolManager(ToolManager.Tools.GRAB, AppToolService, CommitToHistoryService, toolChangeService);
 
 
 
@@ -177,32 +190,8 @@ document.getElementById("toggleToolbar").addEventListener('click', ()=>{
 
 
 
-const propertiesManager = new PropertiesManager(document.getElementById("property-display"));
 
-const teste =    {
-  tab_name: "Brush - Property",
-  list: [{
-    name: "Opacity",
-    type: "number",
-    min: 0,
-    max: 1 ,
-    default: 1/2,
-    step: 0.01,
-    sensitive: 1,
-
-  }, {
-    name: "Color",
-    type: "color",
-    colorPallete: false
-  },
-  {
-    name: "Render types",
-    type: "combo",
-    items: ["item1", "item2", "item3"]
-
-  }]
-};
-propertiesManager.setNewPropertyTab(teste)
+// propertiesManager.setNewPropertyTab(teste)
 
 const PropertiesTabView = new TabView (document.getElementById("properties"));
 
