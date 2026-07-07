@@ -24,11 +24,7 @@ export class ToolManager{
 
   #activeTool;
   #toolId;
-  #toolsList = [
-    new Grab(),
-    new Brush(),
-    new Eraser()
-  ];
+  #toolsList
 
   #action = {
     type: "tool",
@@ -48,12 +44,18 @@ export class ToolManager{
   #toolChangeService = ()=>{};
 
 
-  constructor(activeTool, appToolService, CommitToHistoryService, toolChangeService){
+  constructor(activeTool, appToolService, CommitToHistoryService, toolChangeService, grabService){
+    this.#toolsList = [
+      new Grab(grabService),
+      new Brush(),
+      new Eraser()
+    ];
     this.setActiveTool(activeTool);
     this.#appToolService = appToolService;
     this.#CommitToHistoryService = CommitToHistoryService;
     this.#toolChangeService = toolChangeService;
     this.#toolChangeService();
+   
   }
 
   getToolGroup(){

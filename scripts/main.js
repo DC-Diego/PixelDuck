@@ -63,9 +63,15 @@ const setPropertyService = (props)=>{
   toolManager.setProperties(props)
 }
 
+
+const grabService = (props)=>{
+  console.log(props)
+  transformCanvas(props);
+}
+
 const propertiesManager = new PropertiesManager(document.getElementById("property-display"), setPropertyService);
 
-const toolManager = new ToolManager(ToolManager.Tools.GRAB, AppToolService, CommitToHistoryService, toolChangeService);
+const toolManager = new ToolManager(ToolManager.Tools.GRAB, AppToolService, CommitToHistoryService, toolChangeService, grabService);
 
 
 

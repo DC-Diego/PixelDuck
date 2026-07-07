@@ -5,6 +5,34 @@ export class Grab extends Tools{
   isMoving = false;
   startMovement = {x: null, y: null}
   
+
+  #left = {
+    name: "left",
+    type: "number",
+    min: -32,
+    max: 32,
+    value: 1,
+    step: 0.5,
+    sensitive: 1,
+
+  };
+  #top = {
+    name: "top",
+    type: "number",
+    min: -32,
+    max: 32,
+    value: 1,
+    step: 0.5,
+    sensitive: 1,
+
+  };
+
+  #properties = {
+    tab_name: "Grab - Properties",
+    list: [this.#left, this.#top ]
+    
+  };
+
   canvasProperties = {
     x: 0,
     y: 0,
@@ -13,11 +41,35 @@ export class Grab extends Tools{
     aspectRatio: undefined,
     scale: 1 
   };
-  constructor(){
+
+  #grabService;
+
+  constructor(grabService){
     super(false, false, false)
+    this.#grabService = grabService;
+  }
+
+
+
+  getProperties(){
+    return this.#properties;
+
+  }
+  setProperties({left, top}){
+    this.#left.value = left;
+    this.#top.value = top;
+    // this.canvasProperties.x = left;
+    // this.canvasProperties.y = top;
+    const blabla = {
+      tx: this.canvasProperties.x+left,
+      ty: this.canvasProperties.y-top,
+      scale: this.canvasProperties.scale}
+
+    this.#grabService(blabla)
   }
 
   init=()=>{}//
+
   pointerDown=(x,y, {mainViewport, canvasProperties})=>{
     if(mainViewport == undefined) return
 
