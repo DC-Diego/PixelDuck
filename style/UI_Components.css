@@ -10,7 +10,7 @@
 .splitter{
 /* .splitter:hover{ */
 
-  background-color: #6959ff;
+  background-color: var(--active-color);
   /* background-color: #5b21b6; */
   
 }
@@ -305,4 +305,8 @@ svg.rotate270{
   text-decoration: underline;
   cursor: pointer;
   
+}
+
+.check-input-js{
+  accent-color: var(--active-color);
 }

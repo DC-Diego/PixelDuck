@@ -1,4 +1,5 @@
 import {UI_Component} from '../UI/UI_Component.js'
+import { CheckBoxFactory } from './CheckBoxFactory.js';
 import { ColorPickerFactory } from './ColorPickerFactory.js';
 import { ComboBoxFactory } from './ComboBoxFactory.js';
 import { StepperFactory } from './StepperFactory.js';
@@ -79,6 +80,10 @@ export class PropertiesManager extends UI_Component{
         const color = new ColorPickerFactory(e.name, e.value,e.colorPallete, this.#changeProperties);
         this.#elementsDictionary[e.name] = color;
         this.#renderController(e.name, [color.root]);
+      }else if(e.type == "checkbox"){
+        const checkBox = new CheckBoxFactory(e.name, e.value, this.#changeProperties);
+        this.#elementsDictionary[e.name] = checkBox;
+        this.#renderController(e.name, [checkBox.root]);
       }
       
     });

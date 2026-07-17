@@ -29,6 +29,12 @@ export class Brush extends BrushEraserToolBase{
     sensitive: 1,
 
   };
+  check  = {
+    name: "Merge Colors",
+    type: "checkbox",
+    value: true,
+
+  };
   
   #canvasCopy = null;
 
@@ -37,7 +43,7 @@ export class Brush extends BrushEraserToolBase{
 
   #properties = {
     tab_name: "Brush - Properties",
-    list: [this.opacity, this.size , this.color]
+    list: [this.opacity, this.size , this.color, this.check]
     
   };
 

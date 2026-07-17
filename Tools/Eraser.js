@@ -37,8 +37,6 @@ export class Eraser extends BrushEraserToolBase{
     super(true, true, true);
   }
 
-  #updatePropertiesValue(){}
-
   getProperties(){
     return this.#properties;
 
