@@ -42,18 +42,19 @@ export class ToolManager{
   #appToolService = ()=>{};
   #CommitToHistoryService = ()=>{};
   #toolChangeService = ()=>{};
+  #updatePropertiesService
 
-
-  constructor(activeTool, appToolService, CommitToHistoryService, toolChangeService, grabService){
+  constructor(activeTool, appToolService, CommitToHistoryService, toolChangeService, updatePropertiesService, grabService){
     this.#toolsList = [
-      new Grab(grabService),
-      new Brush(),
-      new Eraser()
+      new Grab(this.#updateProperties, grabService),
+      new Brush(this.#updateProperties),
+      new Eraser(this.#updateProperties)
     ];
     this.setActiveTool(activeTool);
     this.#appToolService = appToolService;
     this.#CommitToHistoryService = CommitToHistoryService;
     this.#toolChangeService = toolChangeService;
+    this.#updatePropertiesService = updatePropertiesService;
     this.#toolChangeService();
    
   }
@@ -123,7 +124,9 @@ export class ToolManager{
     }
   }
 
-
+  #updateProperties=(props)=>{
+    this.#updatePropertiesService(props);
+  }
 
 
 }

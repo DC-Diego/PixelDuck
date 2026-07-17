@@ -9,8 +9,8 @@ export class Grab extends Tools{
   #left = {
     name: "left",
     type: "number",
-    min: -32,
-    max: 32,
+    min: -600,
+    max: 600,
     value: 1,
     step: 0.5,
     sensitive: 1,
@@ -19,8 +19,8 @@ export class Grab extends Tools{
   #top = {
     name: "top",
     type: "number",
-    min: -32,
-    max: 32,
+    min: -400,
+    max: 400,
     value: 1,
     step: 0.5,
     sensitive: 1,
@@ -43,11 +43,14 @@ export class Grab extends Tools{
   };
 
   #grabService;
+  #updateProperties;
 
-  constructor(grabService){
+  constructor(updateProperties, grabService){
     super(false, false, false)
     this.#grabService = grabService;
+    this.#updateProperties = updateProperties;
   }
+
 
 
 
@@ -56,15 +59,13 @@ export class Grab extends Tools{
 
   }
   setProperties({left, top}){
-    this.#left.value = left;
-    this.#top.value = top;
-    // this.canvasProperties.x = left;
-    // this.canvasProperties.y = top;
     const blabla = {
-      tx: this.canvasProperties.x+left,
-      ty: this.canvasProperties.y-top,
+      tx: left,
+      ty: -top,
       scale: this.canvasProperties.scale}
-
+      
+    this.canvasProperties.x = left;
+    this.canvasProperties.y = -top;
     this.#grabService(blabla)
   }
 
@@ -80,14 +81,17 @@ export class Grab extends Tools{
 
   }
 
-
+  // Change TransformCanvas to this.#grabService, also sync left & top with canvas props x & y
   pointerMove=(x, y, {transformCanvas})=>{
     if(transformCanvas == undefined) return;
     if(this.isMoving){
-      transformCanvas({
-        tx: this.canvasProperties.x+x-this.startMovement.x,
-        ty: this.canvasProperties.y+y-this.startMovement.y,
-        scale: this.canvasProperties.scale});
+      const tx = this.canvasProperties.x+x-this.startMovement.x;
+      const ty = this.canvasProperties.y+y-this.startMovement.y
+      this.#grabService({
+        tx: Math.min(Math.max(tx, this.#left.min), this.#left.max),
+        ty: Math.min(Math.max(ty, this.#top.min), this.#top.max),
+        scale: this.canvasProperties.scale
+      })
     }  
   }
   pointerUp=(x,y, {mainViewport})=>{
@@ -97,6 +101,7 @@ export class Grab extends Tools{
       mainViewport.style.cursor="grab";
       this.canvasProperties.x = this.canvasProperties.x+x-this.startMovement.x;
       this.canvasProperties.y = this.canvasProperties.y+y-this.startMovement.y;
+      this.#updateProperties({left: this.canvasProperties.x, top: -this.canvasProperties.y});
     } 
   }
 

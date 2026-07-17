@@ -10,7 +10,7 @@ export class PropertiesManager extends UI_Component{
   #title;
   #content;
   #propertiesDictionary = {};
-
+  #elementsDictionary = {};
   #setPropertyService;
 
   constructor(root, setPropertyService){
@@ -62,19 +62,22 @@ export class PropertiesManager extends UI_Component{
     this.clearContent();
     if(new_property==null)return;
     this.#propertiesDictionary = {};
+    this.#elementsDictionary = {};
 
     this.setTitle(new_property.tab_name);
     new_property.list.forEach(e => {
       this.#propertiesDictionary[e.name] = e.value;
       if(e.type=="number"){
         const stepper = new StepperFactory(e.name, e.min, e.max, e.value, e.step, e.sensitive, true, this.#changeProperties);
-        // this.#content.appendChild(stepper.root);
+        this.#elementsDictionary[e.name] = stepper;
         this.#renderController(e.name, [stepper.root]);
       }else if(e.type == "combo"){
         const combo = new ComboBoxFactory(e.name, e.items, this.#changeProperties);
+        this.#elementsDictionary[e.name] = combo;
         this.#renderController(e.name, [combo.root]);
       }else if(e.type == "color"){
         const color = new ColorPickerFactory(e.name, e.value,e.colorPallete, this.#changeProperties);
+        this.#elementsDictionary[e.name] = color;
         this.#renderController(e.name, [color.root]);
       }
       
@@ -85,11 +88,17 @@ export class PropertiesManager extends UI_Component{
 
   #changeProperties = (name, value)=>{
     this.#propertiesDictionary[name] = value;
-    // console.log(this.#propertiesDictionary)
     this.#setPropertyService(this.#propertiesDictionary);
 
   }
 
+  updateProperties = (props)=>{
+    for (const [key, value] of Object.entries(props)) {
+      this.#elementsDictionary[key].setValue(value);
+      this.#propertiesDictionary[key] = value;
+    }
+
+  }
 
 
 }
