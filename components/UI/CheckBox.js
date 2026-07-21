@@ -22,7 +22,7 @@ export class CheckBox extends UI_Component{
 
   setValue(v){
     this.#value = v;
-    this.#checkInput.value = v;
+    this.#checkInput.checked = v;
   }
 
 
