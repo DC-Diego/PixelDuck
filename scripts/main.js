@@ -19,10 +19,18 @@ import { ActionHistory } from '../core/ActionHistory.js';
 import { Render } from '../core/Render.js';
 import { TabView } from '../components/UI/TabView.js';
 import { PropertiesManager } from '../components/Properties/PropertiesManager.js';
+import { PixelDocument } from '../core/PixelDocument.js';
+
 
 const stateManager = new StateManager();
 const orchestrator = new Orchestrator(stateManager);
 const data = new Data();
+
+const WIDTH = 32;
+const HEIGHT = 32;
+const pixelDocument = new PixelDocument(data, WIDTH, HEIGHT);
+
+
 const canvasArea = document.getElementById("canvasArea");
 
 
@@ -31,9 +39,7 @@ const timeline = new Timeline(document.getElementById("timeline-viewport") , doc
 
 const layer = new LayerManager(document.getElementById("layer-area") ,  { updateActiveLayer: orchestrator.updateActiveLayer, updateTotalLayers: orchestrator.updateTotalLayers  });
 
-const WIDTH = 32;
-const HEIGHT = 32;
-const App = new AppPipeline(WIDTH, HEIGHT);
+const App = new AppPipeline(pixelDocument);
 
 function startApp(){
   App.setActionHistory(new ActionHistory());
@@ -46,6 +52,8 @@ function startApp(){
 
 const AppToolService=(actionList, options)=>{
   App.Tool(actionList, options); 
+  // console.log(pixelDocument.getColor(0,0, App.getData()));
+  // Pixel eraserTool, +1 23-3
   
 }
 const CommitToHistoryService=()=>{
@@ -389,7 +397,8 @@ function TEMPORARY_SETCANVASOPACITY(op){
 stateManager.subscribe((s)=>{
   timeline.setFrameById(s.currentFrame);
   
-
+  pixelDocument.setActiveFrame(s.currentFrame);
+  // PROBLEM: maybe its useless, data only to render on canvas
   layer.setLayersData(data.getFrameData(s.currentFrame));
 
   // canvas.innerText = data.getFrameById(s.currentFrame).getContent();

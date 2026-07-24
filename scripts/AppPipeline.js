@@ -10,13 +10,12 @@ export class AppPipeline{
   #activeFrame = 0;
   #actionList = null;
 
-  #data = null;
-  #WIDTH = 32; // cols -> y
-  #HEIGHT = 32; // rows -> x
-  constructor(width, height){
-    this.#WIDTH = width;
-    this.#HEIGHT = height;
-    this.#data = Array.from({ length: this.#WIDTH }, () => new Array(this.#HEIGHT).fill(null));
+  #pixelDocument;
+
+  // #WIDTH = 32; // cols -> y
+  // #HEIGHT = 32; // rows -> x
+  constructor(pixelDocument){
+    this.#pixelDocument = pixelDocument;
 
   }
 
@@ -29,17 +28,15 @@ export class AppPipeline{
   }
 
   getData(){
-    return this.#data;
+    return this.#pixelDocument.getActiveLayer_ref();
   }
   setData(data){
-    this.#data = data;
+    console.log("Change Data by updating ActiveLayer or ActiveFrame")
   }
 
 
   getOldColor(x,y ){
-    // console.log(x,y )
-    // console.log(this.#data.length, this.#data[0].length )
-    return this.#data[x][y];
+    return this.#pixelDocument.getColor(x,y);
   }
 
   setActiveLayer(activeLayer){
@@ -51,7 +48,7 @@ export class AppPipeline{
 
 
 
-  newAction(actionList, options){
+  #newAction(actionList, options){
     const {type, toolGroup, toolName} = actionList;
     const {before, after} = options;
     this.#actionList = {
@@ -70,7 +67,7 @@ export class AppPipeline{
   }
 
   #modifyData = (x,y,c)=>{
-    this.#data[x][y] = c;
+    this.#pixelDocument.drawPixel(x,y,c);
   }
 
   Tool(actionList, options){
@@ -79,7 +76,7 @@ export class AppPipeline{
       if(actionList.toolGroup == "canvasDraw" && options.before == undefined){
         options.before = this.getOldColor(actionList.pixels[0].x,actionList.pixels[0].y);
       }
-      this.newAction(actionList, options);
+      this.#newAction(actionList, options);
     }
     
     this.#Render.renderPixelList(actionList.pixels, this.#actionList.after, this.#Render.canvasListEnum.CURRENT, this.#modifyData);

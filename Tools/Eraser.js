@@ -7,8 +7,8 @@ export class Eraser extends BrushEraserToolBase{
   #canvasCopy = null;
 
 
-  opacity = {
-    name: "opacity",
+  strength = {
+    name: "strength",
     type: "number",
     min: 0,
     max: 1 ,
@@ -29,7 +29,7 @@ export class Eraser extends BrushEraserToolBase{
 
   #properties = {
     tab_name: "Eraser - Properties",
-    list: [this.opacity, this.size ]
+    list: [this.strength, this.size ]
     
   };
 
@@ -41,8 +41,8 @@ export class Eraser extends BrushEraserToolBase{
     return this.#properties;
 
   }
-  setProperties({size, opacity}){
-    this.opacity.value = opacity;
+  setProperties({size, strength}){
+    this.strength.value = strength;
     this.size.value = size;
 
   }
@@ -54,8 +54,8 @@ export class Eraser extends BrushEraserToolBase{
 
   
   pointerDown=(x,y, canvas)=>{
-   
-    return super.pointerDown(x,y,null);
+   const eraserColor = "#000000"+(Math.floor(255*(1-this.strength.value))).toString(16).padStart(2,'0')
+    return super.pointerDown(x,y, null );
 
   }
   pointerMove=(x,y, canvas)=>{
