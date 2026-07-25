@@ -1,3 +1,5 @@
+import { toHex, toRGBA } from "../Utils/Conversions.js";
+
 export class PixelDocument {
 
   #data;
@@ -21,21 +23,13 @@ export class PixelDocument {
   }
 
 
-  #toRGBA(s){
-    const p = [0,0,0,0];
-    if(s==null)return p;
-    p[0] = parseInt(s.substring(1,3), 16);
-    p[1] = parseInt(s.substring(3,5), 16);
-    p[2] = parseInt(s.substring(5,7), 16);
-    p[3] = parseInt(s.substring(7,9), 16);
-    return p;
-  }
+  
 
   #toLinear(m){
     const p = [];
     for(let i = 0 ; i < m.length;i++){
       for(let j = 0 ; j < m[0].length;j++){
-        p.push(...this.#toRGBA(m[i][j]));
+        p.push(...toRGBA(m[i][j]));
       }
 
     }
@@ -54,13 +48,13 @@ export class PixelDocument {
   }
 
   drawPixel = (x,y,c)=>{
-    const rgba = this.#toRGBA(c);
+    const rgba = toRGBA(c);
     const id = this.getId(x,y);
     this.#PixelMatrix[id] = rgba[0];
     this.#PixelMatrix[id+1] = rgba[1];
     this.#PixelMatrix[id+2] = rgba[2];
     this.#PixelMatrix[id+3] = rgba[3];
-
+    console.log(this.#PixelMatrix)
   }
 
 
@@ -69,12 +63,10 @@ export class PixelDocument {
     // this.#reloadRefs();
     const id = this.getId(x,y);
     // console.log(this.#PixelMatrix)
-
-    return  (this.#PixelMatrix[id]).toString(16).padStart(2,'0')+ // RR
-            (this.#PixelMatrix[id+1]).toString(16).padStart(2, '0')+ // GG
-            (this.#PixelMatrix[id+2]).toString(16).padStart(2, '0')+ // BB
-            (this.#PixelMatrix[id+3]).toString(16).padStart(2, '0') // AA
-  
+    return  toHex(this.#PixelMatrix[id])+ // RR
+            toHex(this.#PixelMatrix[id+1])+ // GG
+            toHex(this.#PixelMatrix[id+2])+ // BB
+            toHex(this.#PixelMatrix[id+3]) // AA
   }
 
 
