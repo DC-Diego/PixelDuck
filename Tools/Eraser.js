@@ -54,12 +54,13 @@ export class Eraser extends BrushEraserToolBase{
 
   
   pointerDown=(x,y, canvas)=>{
-   const eraserColor = "#000000"+(Math.floor(255*(1-this.strength.value))).toString(16).padStart(2,'0')
-    return super.pointerDown(x,y, null );
+  //  const eraserColor = "#000000"+(Math.floor(255*(1-this.strength.value))).toString(16).padStart(2,'0')
+   const eraserColor = this.strength.value
+    return super.pointerDown(x,y, eraserColor, true );
 
   }
   pointerMove=(x,y, canvas)=>{
-    return super.pointerMove(x,y,null);
+    return super.pointerMove(x,y);
   }
 
   pointerUp=()=>{

@@ -57,8 +57,6 @@ export class AppPipeline{
       type: type,
       toolGroup: toolGroup,
       toolName: toolName,
-      before: before,
-      after: after,
       actions: []
 
     }
@@ -78,8 +76,10 @@ export class AppPipeline{
       }
       this.#newAction(actionList, options);
     }
-    
-    this.#Render.renderPixelList(actionList.pixels, this.#actionList.after, this.#Render.canvasListEnum.CURRENT, this.#modifyData);
+    this.#pixelDocument.drawPixelList(actionList.pixels, options, actionList.toolName);
+    this.#Render.renderData(this.#pixelDocument.getImageData(), this.#Render.canvasListEnum.CURRENT)
+
+    // this.#Render.renderPixelList(actionList.pixels, this.#actionList.after, this.#Render.canvasListEnum.CURRENT, this.#modifyData);
     
     this.#actionList.actions.push(actionList.pixels)
 

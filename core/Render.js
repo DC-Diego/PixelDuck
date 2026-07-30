@@ -22,13 +22,18 @@ export class Render{
   renderPixelList=(pixelList, color, canvasId, modifyData = ()=>{})=>{
     for (let i = 0; i < pixelList.length; i++) {
       const e = pixelList[i];
-      modifyData(e.x, e.y, color);
+      // modifyData(e.x, e.y, color);
       if(color==null){
         this.#canvasList[canvasId].erase(e.x, e.y);
       }else{
         this.#canvasList[canvasId].draw(e.x, e.y, color);
       }
     }
+
+  }
+
+  renderData(data, canvasId){
+    this.#canvasList[canvasId].putImage(data);
 
   }
 

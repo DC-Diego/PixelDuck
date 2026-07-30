@@ -1,8 +1,14 @@
 import { toRGBA } from "./Conversions.js";
 
+/**
+ * 
+ * @param {number[]} rgba_old 
+ * @param {number[]} rgba_new 
+ * @returns {number[]}
+ */
 export function alphaBlend(rgba_old, rgba_new) {
-  const COLOR_1 = toRGBA(rgba_old); // Foreground (Top layer)
-  const COLOR_2 = toRGBA(rgba_new); // Background (Bottom layer)
+  const COLOR_1 = rgba_new; // Background (Bottom layer)
+  const COLOR_2 = rgba_old; // Foreground (Top layer)
 
   const a1 = COLOR_1[3] / 255;
   const a2 = COLOR_2[3] / 255;

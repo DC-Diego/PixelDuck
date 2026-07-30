@@ -5,14 +5,15 @@ export class CheckBox extends UI_Component{
 
   #checkInput;
   #value;
-  constructor(root){
+  #callback;
+  constructor(root, callback=()=>{}){
     super(root);
     this.#checkInput = root.querySelector(".check-input-js");
-
-
+    this.#callback = callback;
+    this.on(this.#checkInput, 'change',this.flipFlop);
   }
 
-  flipFlop(){
+  flipFlop=()=>{
     this.setValue(!this.getValue());
   }
 
@@ -23,6 +24,7 @@ export class CheckBox extends UI_Component{
   setValue(v){
     this.#value = v;
     this.#checkInput.checked = v;
+    this.#callback(v);
   }
 
 

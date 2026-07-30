@@ -85,6 +85,10 @@ export class Canvas extends UI_Component{
     return this.#isLocked;
   }
 
+  putImage = (data)=>{
+    this.#context.putImageData(data,0,0);
+  }
+
   draw = (x, y, c = "#000000")=>{
     if(x < 0 || y < 0){
       throw console.error("Error, X and Y must be higher than zero: x: "+x+" y: "+y);

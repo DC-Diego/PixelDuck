@@ -22,7 +22,6 @@ function CheckBoxFactory(name, value, callback){
 
   element.appendChild(input);
   element.appendChild(h1);
-
   const checkBox = new CheckBox(element, (v)=>callback(name, v));
   checkBox.setValue(value);
   return checkBox; 

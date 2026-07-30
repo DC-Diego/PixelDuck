@@ -22,6 +22,10 @@ export function toRGBA(s){
   return p;
 }
 
+export function RGBAtoHex(arr){
+  return toHex(arr[0])+toHex(arr[1])+toHex(arr[2])+toHex(arr[3]);
+}
+
 
 /*
  

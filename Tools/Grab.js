@@ -82,8 +82,7 @@ export class Grab extends Tools{
   }
 
   // Change TransformCanvas to this.#grabService, also sync left & top with canvas props x & y
-  pointerMove=(x, y, {transformCanvas})=>{
-    if(transformCanvas == undefined) return;
+  pointerMove=(x, y)=>{
     if(this.isMoving){
       const tx = this.canvasProperties.x+x-this.startMovement.x;
       const ty = this.canvasProperties.y+y-this.startMovement.y

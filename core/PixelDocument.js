@@ -1,3 +1,4 @@
+import { alphaBlend, mix } from "../Utils/BlendModes.js";
 import { toHex, toRGBA } from "../Utils/Conversions.js";
 
 export class PixelDocument {
@@ -47,28 +48,50 @@ export class PixelDocument {
 
   }
 
-  drawPixel = (x,y,c)=>{
-    const rgba = toRGBA(c);
+  drawPixel = (x,y,c, isHex = false)=>{
+    const rgba = isHex?toRGBA(c):c;
     const id = this.getId(x,y);
     this.#PixelMatrix[id] = rgba[0];
     this.#PixelMatrix[id+1] = rgba[1];
     this.#PixelMatrix[id+2] = rgba[2];
     this.#PixelMatrix[id+3] = rgba[3];
-    console.log(this.#PixelMatrix)
+  }
+
+  drawPixelList = (pixels, options)=>{
+    for(let i =0; i < pixels.length;i++){
+      const x = pixels[i].x;
+      const y = pixels[i].y;
+      pixels[i].before = this.getColor(x,y);
+      
+      let result; 
+      if(typeof options.color == 'number'){
+        result = mix(pixels[i].before, [0,0,0,0], options.color);
+      }else{
+        result = toRGBA(options.color);
+        if(options.merge){
+          result = alphaBlend(pixels[i].before, result);
+        }
+      }
+      pixels[i].after = result;
+      this.drawPixel(x,y,result, false);
+    }
   }
 
 
   getColor(x,y){
    
-    // this.#reloadRefs();
     const id = this.getId(x,y);
-    // console.log(this.#PixelMatrix)
-    return  toHex(this.#PixelMatrix[id])+ // RR
-            toHex(this.#PixelMatrix[id+1])+ // GG
-            toHex(this.#PixelMatrix[id+2])+ // BB
-            toHex(this.#PixelMatrix[id+3]) // AA
+    return [this.#PixelMatrix[id],// RR
+            this.#PixelMatrix[id+1], // GG
+            this.#PixelMatrix[id+2], // BB
+            this.#PixelMatrix[id+3]] // AA
   }
 
+
+  getImageData(){
+    return new ImageData(this.#PixelMatrix, this.#WIDTH, this.#HEIGHT)
+
+  }
 
   setActiveFrame(id){
     this.#activeFrame = id;

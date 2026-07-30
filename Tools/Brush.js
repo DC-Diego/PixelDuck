@@ -29,8 +29,8 @@ export class Brush extends BrushEraserToolBase{
     sensitive: 1,
 
   };
-  check  = {
-    name: "Merge Colors",
+  merge  = {
+    name: "merge",
     type: "checkbox",
     value: true,
 
@@ -43,7 +43,7 @@ export class Brush extends BrushEraserToolBase{
 
   #properties = {
     tab_name: "Brush - Properties",
-    list: [this.opacity, this.size , this.color, this.check]
+    list: [this.opacity, this.size , this.color, this.merge]
     
   };
 
@@ -67,10 +67,11 @@ export class Brush extends BrushEraserToolBase{
 
   }
   
-  setProperties({size, opacity, color}){
+  setProperties({size, opacity, color, merge}){
     this.color.value = color;
     this.opacity.value = opacity;
     this.size.value = size;
+    this.merge.value = merge;
 
   }
 
@@ -80,7 +81,7 @@ export class Brush extends BrushEraserToolBase{
   }
 
   pointerDown=(x,y,canvas)=>{
-    return super.pointerDown(x,y, this.getColor());
+    return super.pointerDown(x,y, this.getColor(), this.merge.value);
 
 
   }
