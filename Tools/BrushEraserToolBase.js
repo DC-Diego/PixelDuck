@@ -49,7 +49,7 @@ export class BrushEraserToolBase extends Tools{
     const n = Math.max(Math.abs(dx), Math.abs(dy));
     if(n == 0) return null;
     const pixels = [];
-    for(let i  =0; i <= n;i++){
+    for(let i  =1; i <= n;i++){
       let tx = Math.round(sx+dx*i/n); 
       let ty = Math.round(sy+dy*i/n);
  
