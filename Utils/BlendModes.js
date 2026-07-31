@@ -32,6 +32,32 @@ export function alphaBlend(rgba_old, rgba_new) {
 }
 
 
+/** 
+* @param {number []} rgba1
+* @param {number []} rgba2
+* @param {bool} useAlpha
+* @return {number} 
+**/
+export function colorSimilarity(rgba1,rgba2,useAlpha){
+  const channel = useAlpha?4:3; 
+  let result = 0;
+  for(let i = 0;i< channel;i++){
+    result += Math.abs(rgba1[i]-rgba2[i]); 
+
+  }
+  return 1-result/(channel*255);
+}
+
+/*
+const r = 1-Math.abs(R1-R2)/255
+const g = 1-Math.abs(G1-G2)/255
+const b = 1-Math.abs(B1-B2)/255
+if(alpha) return (1-Math.abs(A1-A2)/255)+r+g+b)/4
+
+return (r+g+b)/3
+*/
+
+
 export function mix(a, b, t) {
   return [
       Math.round(a[0] * (1 - t) + b[0] * t),
