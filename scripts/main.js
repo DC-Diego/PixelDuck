@@ -53,7 +53,6 @@ function startApp(){
 
 const AppToolService=(actionList, options)=>{
   App.Tool(actionList, options); 
-  // console.log(pixelDocument.getColor(0,0, App.getData()));
   // Pixel eraserTool, +1 23-3
   
 }
@@ -125,6 +124,7 @@ const mainViewport = document.getElementById("mainViewport");
 const moveHandTool = document.getElementById("moveHandTool");
 const brushTool = document.getElementById("brushTool");
 const eraserTool = document.getElementById("eraserTool");
+const bucketFillTool = document.getElementById("bucketFillTool");
 
 eraserTool.addEventListener("pointerdown", ()=>{
   toolManager.setActiveTool(ToolManager.Tools.ERASER);
@@ -138,6 +138,12 @@ brushTool.addEventListener("pointerdown", ()=>{
 moveHandTool.addEventListener("pointerdown", ()=>{
   toolManager.setActiveTool(ToolManager.Tools.GRAB);
   mainViewport.style.cursor="grab";
+});
+bucketFillTool.addEventListener("pointerdown", ()=>{
+  toolManager.setActiveTool(ToolManager.Tools.BUCKET_FILL);
+  mainViewport.style.cursor="default";  
+  console.log("CHAMOu")
+  
 });
 ////////////////// TEMPORARY, UNTIL TOOLS CLASS/DOCUMENT!!!
 

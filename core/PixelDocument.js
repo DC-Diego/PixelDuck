@@ -23,6 +23,15 @@ export class PixelDocument {
     // this.#reloadRefs();
   }
 
+  getWidth(){
+    return this.#WIDTH;
+  }
+  
+  getHeight(){
+    return this.#HEIGHT;
+  }
+
+
 
   
 

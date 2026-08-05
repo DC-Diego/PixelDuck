@@ -1,4 +1,5 @@
 import { Brush } from "./Brush.js";
+import { BucketFill } from "./BucketFill.js";
 import { Eraser } from "./Eraser.js";
 import { Grab } from "./Grab.js";
 import { Tools } from "./tools.js";
@@ -48,7 +49,8 @@ export class ToolManager{
     this.#toolsList = [
       new Grab(this.#updateProperties, grabService),
       new Brush(this.#updateProperties),
-      new Eraser(this.#updateProperties)
+      new Eraser(this.#updateProperties),
+      new BucketFill(this.#updateProperties),
     ];
     this.setActiveTool(activeTool);
     this.#appToolService = appToolService;

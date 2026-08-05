@@ -18,7 +18,8 @@ export function toRGBA(s){
   p[0] = parseInt(s.substring(1,3), 16);
   p[1] = parseInt(s.substring(3,5), 16);
   p[2] = parseInt(s.substring(5,7), 16);
-  p[3] = parseInt(s.substring(7,9), 16);
+  p[3] = s.length == 9? parseInt(s.substring(7,9), 16):255;
+
   return p;
 }
 

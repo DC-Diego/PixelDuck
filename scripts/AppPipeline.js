@@ -68,7 +68,6 @@ export class AppPipeline{
   }
 
   Tool(actionList){
-    // console.log(actionList)
     if(this.#actionList == null){
       this.#newAction(actionList);
     }
@@ -76,8 +75,6 @@ export class AppPipeline{
     this.#Render.renderData(this.#pixelDocument.getImageData(), this.#Render.canvasListEnum.CURRENT)
 
     // this.#Render.renderPixelList(actionList.pixels, this.#actionList.after, this.#Render.canvasListEnum.CURRENT, this.#modifyData);
-    
-    console.log(actionList);
     this.#actionList.actions.push(actionList.pixels)
 
   }
