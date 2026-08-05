@@ -1,4 +1,5 @@
 import { BrushEraserToolBase } from "./BrushEraserToolBase.js";
+import { ToolsService } from "./ToolsService.js";
 
 
 export class Brush extends BrushEraserToolBase{
@@ -80,14 +81,18 @@ export class Brush extends BrushEraserToolBase{
 
   }
 
-  pointerDown=(x,y,canvas)=>{
-    return super.pointerDown(x,y, this.getColor(), this.merge.value);
+  pointerDown=(x,y)=>{
+    const result = super.pointerDown(x,y);
+    if(result != null) ToolsService.brushService(result, {color: this.getColor(), merge: this.merge.value})
 
+    return result;
 
   }
 
-  pointerMove=(x,y, canvas)=>{
-    return super.pointerMove(x,y);
+  pointerMove=(x,y)=>{
+    const result =super.pointerMove(x,y); 
+    if(result != null)    ToolsService.brushService(result, {color: this.getColor(), merge: this.merge.value})
+    return result 
 
   }
   

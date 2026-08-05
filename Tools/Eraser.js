@@ -1,5 +1,6 @@
 import { BrushEraserToolBase } from "./BrushEraserToolBase.js";
 import { Tools } from "./tools.js";
+import { ToolsService } from "./ToolsService.js";
 
 export class Eraser extends BrushEraserToolBase{
 
@@ -53,14 +54,18 @@ export class Eraser extends BrushEraserToolBase{
 
 
   
-  pointerDown=(x,y, canvas)=>{
+  pointerDown=(x,y)=>{
   //  const eraserColor = "#000000"+(Math.floor(255*(1-this.strength.value))).toString(16).padStart(2,'0')
-   const eraserColor = this.strength.value
-    return super.pointerDown(x,y, eraserColor, true );
+    const eraserColor = this.strength.value
+    const result = super.pointerDown(x,y); 
+    if(result != null) ToolsService.eraserService(result, {strength: this.strength.value});
+    return result
 
   }
-  pointerMove=(x,y, canvas)=>{
-    return super.pointerMove(x,y);
+  pointerMove=(x,y)=>{
+    const result = super.pointerMove(x,y); 
+    if(result != null) ToolsService.eraserService(result, {strength: this.strength.value});
+    return result
   }
 
   pointerUp=()=>{

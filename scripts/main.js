@@ -20,7 +20,7 @@ import { Render } from '../core/Render.js';
 import { TabView } from '../components/UI/TabView.js';
 import { PropertiesManager } from '../components/Properties/PropertiesManager.js';
 import { PixelDocument } from '../core/PixelDocument.js';
-
+import { ToolsService } from '../Tools/ToolsService.js';
 
 const stateManager = new StateManager();
 const orchestrator = new Orchestrator(stateManager);
@@ -30,6 +30,7 @@ const WIDTH = 32;
 const HEIGHT = 32;
 const pixelDocument = new PixelDocument(data, WIDTH, HEIGHT);
 
+ToolsService.pixelDocument = pixelDocument;
 
 const canvasArea = document.getElementById("canvasArea");
 

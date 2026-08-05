@@ -48,9 +48,8 @@ export class AppPipeline{
 
 
 
-  #newAction(actionList, options){
+  #newAction(actionList){
     const {type, toolGroup, toolName} = actionList;
-    const {before, after} = options;
     this.#actionList = {
       activeFrame: this.#activeFrame,
       activeLayer: this.#activeLayer,
@@ -68,21 +67,18 @@ export class AppPipeline{
     this.#pixelDocument.drawPixel(x,y,c);
   }
 
-  Tool(actionList, options){
+  Tool(actionList){
     // console.log(actionList)
     if(this.#actionList == null){
-      if(actionList.toolGroup == "canvasDraw" && options.before == undefined){
-        options.before = this.getOldColor(actionList.pixels[0].x,actionList.pixels[0].y);
-      }
-      this.#newAction(actionList, options);
+      this.#newAction(actionList);
     }
-    this.#pixelDocument.drawPixelList(actionList.pixels, options, actionList.toolName);
+    this.#pixelDocument.drawPixelList(actionList.pixels);
     this.#Render.renderData(this.#pixelDocument.getImageData(), this.#Render.canvasListEnum.CURRENT)
 
     // this.#Render.renderPixelList(actionList.pixels, this.#actionList.after, this.#Render.canvasListEnum.CURRENT, this.#modifyData);
     
+    console.log(actionList);
     this.#actionList.actions.push(actionList.pixels)
-
 
   }
 

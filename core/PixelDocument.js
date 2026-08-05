@@ -57,22 +57,13 @@ export class PixelDocument {
     this.#PixelMatrix[id+3] = rgba[3];
   }
 
-  drawPixelList = (pixels, options)=>{
+  drawPixelList = (pixels)=>{
     for(let i =0; i < pixels.length;i++){
       const x = pixels[i].x;
       const y = pixels[i].y;
-      pixels[i].before = this.getColor(x,y);
+      // pixels[i].before = this.getColor(x,y);
       
-      let result; 
-      if(typeof options.color == 'number'){
-        result = mix(pixels[i].before, [0,0,0,0], options.color);
-      }else{
-        result = toRGBA(options.color);
-        if(options.merge){
-          result = alphaBlend(pixels[i].before, result);
-        }
-      }
-      pixels[i].after = result;
+      const result = pixels[i].after; 
       this.drawPixel(x,y,result, false);
     }
   }

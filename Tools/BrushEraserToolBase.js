@@ -10,21 +10,9 @@ export class BrushEraserToolBase extends Tools{
     super(true, true, true);
   }
 
-  #passOptions = {
-    color: null, 
-    merge: true
-  }
   
-
-  
-  
-  pointerDown(x,y, color, merge = null){
+  pointerDown(x,y){
     this.#lastPixel = {x:x,y:y};
-    if(merge == null) throw console.error("MERGE NOT DEFINED");
-    this.#passOptions = {
-      color: color,
-      merge: merge
-    };
     return {
       actionList:{
         type: undefined,
@@ -36,8 +24,7 @@ export class BrushEraserToolBase extends Tools{
           before: undefined,
           after: undefined
         }]
-      },
-      options: this.#passOptions
+      }
     }
   }
 
@@ -66,8 +53,7 @@ export class BrushEraserToolBase extends Tools{
     return {
       actionList:{
         pixels: pixels
-      },
-      options: this.#passOptions
+      }
     }
   }
 

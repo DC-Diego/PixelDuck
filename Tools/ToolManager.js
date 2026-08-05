@@ -85,11 +85,11 @@ export class ToolManager{
       this.#activeTool.pointerDown(x,y, options);
     }else{
       // this.#action.actionName = this.#toolId;
-      const returnedAction = this.#activeTool.pointerDown(x,y, options);
+      const returnedAction = this.#activeTool.pointerDown(x,y);
       returnedAction.actionList.type = "tool";
       returnedAction.actionList.toolGroup = this.getToolGroup();
       returnedAction.actionList.toolName = this.#toolId;
-      this.#appToolService(returnedAction.actionList, returnedAction.options );
+      this.#appToolService(returnedAction.actionList);
       // this.#action.changes.modifiedPixels.push(returnedAction);
       if(this.#activeTool.isContinuous == false){
         console.log("Commit to history")
@@ -104,9 +104,9 @@ export class ToolManager{
       this.#activeTool.pointerMove(x,y, options); 
     }else{     
       this.#action.actionName = this.#toolId;
-      const returnedAction = this.#activeTool.pointerMove(x,y, options);
+      const returnedAction = this.#activeTool.pointerMove(x,y);
       if(returnedAction != null){
-        this.#appToolService(returnedAction.actionList, returnedAction.options );
+        this.#appToolService(returnedAction.actionList );
       }
     }
   }
