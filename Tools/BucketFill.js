@@ -31,12 +31,21 @@ export class BucketFill extends Tools{
     sensitive: 1,
 
   };
-  
+  colorSensitivity = {
+    name: "colorSensitivity",
+    type: "number",
+    min: 0,
+    max: 1,
+    value: 0.5,
+    step: 0.01,
+    sensitive: 1,
+
+  };
   #canvasCopy = null;
 
   #properties = {
     tab_name: "Bucket fill - Properties",
-    list: [this.color, this.precision , this.mix]
+    list: [this.color, this.precision , this.mix, this.colorSensitivity]
     
   };
 
@@ -60,10 +69,11 @@ export class BucketFill extends Tools{
 
   }
   
-  setProperties({precision, color, mix}){
+  setProperties({precision, color, mix, colorSensitivity}){
     this.color.value = color;
     this.precision.value = precision;
     this.mix.value = mix;
+    this.colorSensitivity.value = colorSensitivity;
 
   }
 
@@ -86,7 +96,7 @@ export class BucketFill extends Tools{
         type: undefined,
         toolGroup: undefined,
         toolName: undefined,
-        pixels: ToolsService.bucketFillService(x,y, {precision: this.precision.value, mix: this.mix.value, color: toRGBA(this.color.value)})
+        pixels: ToolsService.bucketFillService(x,y, {precision: this.precision.value, mix: this.mix.value, color: toRGBA(this.color.value), colorSensitivity: this.colorSensitivity.value})
       }
     }
 

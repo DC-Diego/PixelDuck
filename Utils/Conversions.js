@@ -27,6 +27,17 @@ export function RGBAtoHex(arr){
   return toHex(arr[0])+toHex(arr[1])+toHex(arr[2])+toHex(arr[3]);
 }
 
+export function toColorVector(c) {
+  const r = c[0]/255;
+  const g = c[1]/255;
+  const b = c[2]/255;
+
+  return [
+    -Math.sqrt(3)/2*g + Math.sqrt(3)/2*b,
+    -r + g/2 + b/2
+  ];
+}
+
 
 /*
  

@@ -1,4 +1,4 @@
-import { toRGBA } from "./Conversions.js";
+import { toRGBA, toColorVector } from "./Conversions.js";
 
 /**
  * 
@@ -32,30 +32,41 @@ export function alphaBlend(rgba_old, rgba_new) {
 }
 
 
+
+export function getColorBrightness(c) {
+  return Math.max(c[0], c[1], c[2]) / 255;
+}
+
 /** 
 * @param {number []} rgba1
 * @param {number []} rgba2
 * @param {bool} useAlpha
 * @return {number} 
 **/
-export function colorSimilarity(rgba1,rgba2,useAlpha){
-  const channel = useAlpha?4:3; 
-  let result = 0;
-  for(let i = 0;i< channel;i++){
-    result += Math.abs(rgba1[i]-rgba2[i]); 
+export function colorSimilarity(rgba1,rgba2,useAlpha, colorSensitive = 0.5){
+  const c1 = toColorVector(rgba1);
+  const c2 = toColorVector(rgba2);
 
-  }
-  return 1-result/(channel*255);
+  const v1 = getColorBrightness(rgba1);
+  const v2 = getColorBrightness(rgba2);
+  
+  const dx = c2[0]-c1[0];
+  const dy = c2[1]-c1[1];
+  const dv = v2-v1;
+
+  const chromaDistance = Math.sqrt(dx*dx + dy*dy)/2;
+  const brightnessDistance = Math.abs(dv);
+  
+  const WC = colorSensitive;
+  const difference = WC*chromaDistance+(1-WC)*brightnessDistance;
+  
+  if(!useAlpha)  return 1-difference;
+  
+  const alphaDist = Math.abs(rgba2[3]-rgba1[3])/255;	
+  return (1-difference)*(1-alphaDist);
+
+
 }
-
-/*
-const r = 1-Math.abs(R1-R2)/255
-const g = 1-Math.abs(G1-G2)/255
-const b = 1-Math.abs(B1-B2)/255
-if(alpha) return (1-Math.abs(A1-A2)/255)+r+g+b)/4
-
-return (r+g+b)/3
-*/
 
 
 export function mix(a, b, t) {

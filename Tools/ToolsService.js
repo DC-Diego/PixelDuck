@@ -43,7 +43,7 @@ export class ToolsService{
     const precision = prop.precision;
     const mix_val = prop.mix;
     const color = prop.color;
-
+    const colorSensitive = prop.colorSensitivity;
     const MINX = 0;
     const MINY = 0;
     const WIDTH = ToolsService.pixelDocument.getWidth();
@@ -66,7 +66,7 @@ export class ToolsService{
       if(visited[index]){ continue }
 
       const color_in = ToolsService.pixelDocument.getColor(px,py);
-      const similarity = colorSimilarity(first_color, color_in, true)
+      const similarity = colorSimilarity(first_color, color_in, true, colorSensitive)
 
       if(similarity < precision){
         continue;
