@@ -17,6 +17,7 @@ export class PixelDocument {
 
   constructor(data, width, height){
     this.#data = data;
+    console.log(data)
     this.#WIDTH = width;
     this.#HEIGHT = height;
     this.#PixelMatrix = new Uint8ClampedArray(this.#WIDTH*this.#HEIGHT*4);
@@ -48,6 +49,12 @@ export class PixelDocument {
 
 
   #setPixelMatrix(layerData){
+    console.log(layerData);
+    console.log(new Error().stack);
+
+    alert("AGAGAG")
+    // this.#PixelMatrix
+
     // console.log(layerData);
     // this.#PixelMatrix = new Uint8ClampedArray(this.#toLinear(layerData));
   }
@@ -99,6 +106,7 @@ export class PixelDocument {
   }
 
   setActiveLayer(id){
+    console.log(id)
     this.#activeLayer = id;
     this.#reloadRefs();
   }

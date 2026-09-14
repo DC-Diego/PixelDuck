@@ -14,8 +14,14 @@ class Orchestrator {
   }
   updateTotalLayers = (v)=>{
     this.stateManager.setState({totalLayers: v});
-    console.log(v)
+    console.log(v, "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
   }
+
+  updateActiveAndTotal = (id, total)=>{
+    console.log(total)
+    this.stateManager.setState({activeLayer: id, totalLayers: total});
+  }
+
   updateActiveLayer = (v)=>{
     this.stateManager.setState({activeLayer: v});
     console.log(v)

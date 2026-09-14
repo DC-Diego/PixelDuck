@@ -38,7 +38,7 @@ const canvasArea = document.getElementById("canvasArea");
 const timeline = new Timeline(document.getElementById("timeline-viewport") , document.getElementById("frameArea"), { updateCurrentFrame: orchestrator.updateCurrentFrame, reorderFrames: data.reorder });
 
 
-const layer = new LayerManager(document.getElementById("layer-area") ,  { updateActiveLayer: orchestrator.updateActiveLayer, updateTotalLayers: orchestrator.updateTotalLayers  });
+const layer = new LayerManager(document.getElementById("layer-area") ,  { updateActiveLayer: orchestrator.updateActiveLayer, updateTotalLayers: orchestrator.updateTotalLayers, updateActiveAndTotal: orchestrator.updateActiveAndTotal  });
 
 const App = new AppPipeline(pixelDocument);
 
@@ -255,26 +255,26 @@ const btnGroupLayers = document.getElementById("btn-group-layers");
 
 const createLayer = (position, totalLayers)=>{
   if(totalLayers == 0) position = 0
-  layer.createLayer(position);
+  layer.createLayer(position, totalLayers+1);
   data.newLayer();
-  orchestrator.updateTotalLayers(totalLayers+1);
+  // orchestrator.updateTotalLayers(totalLayers+1);
   
 }
 const duplicateLayer = (position, totalLayers)=>{
-  const qtd = layer.duplicateLayer(position+1, data.duplicateLayer);
-  orchestrator.updateTotalLayers(totalLayers+qtd);
+  const qtd = layer.duplicateLayer(position+1, data.duplicateLayer, totalLayers);
+  // orchestrator.updateTotalLayers(totalLayers+qtd);
   
 }
 
 const removeLayer = (totalLayers)=>{
   layer.removeLayer();
-  orchestrator.updateTotalLayers(totalLayers-1);
+  // orchestrator.updateTotalLayers(totalLayers-1);
 
 }
 
 btnGroupLayers.addEventListener("pointerdown", ()=>{
-  layer.groupLayers();
-
+  const group = layer.groupLayers();
+  orchestrator.updateActiveLayer(group.getRepresentative().renderableOrder);
 });
 
 btnDuplicateLayer.addEventListener("pointerdown", ()=>{

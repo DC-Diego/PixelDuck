@@ -179,7 +179,7 @@ export class LayerManager extends UI_Component{
         if(tempActive > 0)tempActive--;
       }
     }
-    this.#orchestratorFuncs.updateActiveLayer(tempActive);
+    this.#orchestratorFuncs.updateActiveAndTotal(tempActive, LayerManager.#totalLayers-this.#inactiveLayers);
     this.#renderLayers();
   }
 
@@ -194,7 +194,7 @@ export class LayerManager extends UI_Component{
   }
 
 
-  duplicateLayer = (position, duplicateFunc)=>{
+  duplicateLayer = (position, duplicateFunc, total)=>{
     if(this.#groupClicked != 0){
       const group = this.#Groups[this.#groupClicked];
       this.selectFromRange(group.getBottomLayer().renderableOrder, group.getRepresentative().renderableOrder)
@@ -221,10 +221,11 @@ export class LayerManager extends UI_Component{
         const name = this.#Groups[this.#groupClicked].name;
         const gr_duplicate = this.groupLayers();
         gr_duplicate.setName(name+" (copy)");
+        this.#orchestratorFuncs.updateActiveAndTotal(gr_duplicate.getRepresentative().renderableOrder,total+qtd);
         return qtd;
       }
 
-      this.#orchestratorFuncs.updateActiveLayer(active+qtd);
+      this.#orchestratorFuncs.updateActiveAndTotal(active+qtd, total+qtd);
       this.#renderLayers();
     }
     return qtd;
@@ -333,7 +334,7 @@ export class LayerManager extends UI_Component{
     this.deSelectAllLayers();
     this.#Selected_Group = group.getId();
     this.#selectGroup(group);
-    this.#orchestratorFuncs.updateActiveLayer(group.getRepresentative().renderableOrder);
+    // this.#orchestratorFuncs.updateActiveLayer(group.getRepresentative().renderableOrder);
     this.#renderLayers();
     return group;
   }
@@ -390,9 +391,9 @@ export class LayerManager extends UI_Component{
   }
 
 
-  createLayer=(position)=>{
+  createLayer=(position, total = null)=>{
     const layer = this.#crLayer(position); 
-    this.#orchestratorFuncs.updateActiveLayer(position);
+    this.#orchestratorFuncs.updateActiveAndTotal(position, total); // HERE
     this.#renderLayers();
     return layer;
   }
