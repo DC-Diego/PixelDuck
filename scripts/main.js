@@ -38,7 +38,7 @@ const canvasArea = document.getElementById("canvasArea");
 const timeline = new Timeline(document.getElementById("timeline-viewport") , document.getElementById("frameArea"), { updateCurrentFrame: orchestrator.updateCurrentFrame, reorderFrames: data.reorder });
 
 
-const layer = new LayerManager(document.getElementById("layer-area") ,  { updateActiveLayer: orchestrator.updateActiveLayer, updateTotalLayers: orchestrator.updateTotalLayers, updateActiveAndTotal: orchestrator.updateActiveAndTotal  });
+const layerManager = new LayerManager(document.getElementById("layer-area") ,  { updateActiveLayer: orchestrator.updateActiveLayer, updateTotalLayers: orchestrator.updateTotalLayers, updateActiveAndTotal: orchestrator.updateActiveAndTotal  });
 
 const App = new AppPipeline(pixelDocument);
 
@@ -178,23 +178,7 @@ mainViewport.addEventListener('pointerup', (e)=>{
 });
 
 
-// stateManager.subscribe((s)=>{
-//   canvasProperties = s.canvasProperties;
-//   canvasArea.style.transform = `translateX(${canvasProperties.x}px)
-//     translateY(${canvasProperties.y}px)
-//     scale(${canvasProperties.scale})`;
-
-
-// })
-
-
-
 ////////////////// TEMPORARY, UNTIL TOOLS CLASS/DOCUMENT!!!
-
-
-
-
-
 
 document.querySelectorAll(".tool").forEach((e)=>{
   e.addEventListener('click',()=>{
@@ -209,8 +193,6 @@ document.getElementById("toggleToolbar").addEventListener('click', ()=>{
   toggleIcon.classList.toggle("rotate");
   toolbar.classList.toggle("hidden");
 });
-
-
 
 
 // propertiesManager.setNewPropertyTab(teste)
@@ -228,7 +210,7 @@ const currentFrame = new Stepper(document.getElementById("currentFrame"),1 ,1, t
 
 const startingFrame = new Stepper(document.getElementById("starterFrame"), 1,1, false, orchestrator.updateStartFrame );
 const layerOpacity = new Stepper(document.getElementById("opacity"), 1,0.5, true, (e)=>{ 
-  layer.setOpacity(e);
+  layerManager.setOpacity(e);
   TEMPORARY_SETCANVASOPACITY(e);
 
 });
@@ -255,25 +237,26 @@ const btnGroupLayers = document.getElementById("btn-group-layers");
 
 const createLayer = (position, totalLayers)=>{
   if(totalLayers == 0) position = 0
-  layer.createLayer(position, totalLayers+1);
+  layerManager.createLayer(position, totalLayers+1);
+  // console.log("AHA")
   data.newLayer();
-  // orchestrator.updateTotalLayers(totalLayers+1);
+  orchestrator.updateActiveAndTotal(position, totalLayers+1)
   
 }
 const duplicateLayer = (position, totalLayers)=>{
-  const qtd = layer.duplicateLayer(position+1, data.duplicateLayer, totalLayers);
+  const qtd = layerManager.duplicateLayer(position+1, data.duplicateLayer, totalLayers);
   // orchestrator.updateTotalLayers(totalLayers+qtd);
   
 }
 
 const removeLayer = (totalLayers)=>{
-  layer.removeLayer();
+  layerManager.removeLayer();
   // orchestrator.updateTotalLayers(totalLayers-1);
 
 }
 
 btnGroupLayers.addEventListener("pointerdown", ()=>{
-  const group = layer.groupLayers();
+  const group = layerManager.groupLayers();
   orchestrator.updateActiveLayer(group.getRepresentative().renderableOrder);
 });
 
@@ -348,78 +331,59 @@ btnFrameAfter.addEventListener("pointerdown", ()=>{
   orchestrator.updateEndFrame(endingFrame.getValue()+1);
 });
 
-// TotalFrames
+
+
 stateManager.subscribe((s)=>{
+  //TotalFrames
   timeline.setFrameContainerWidth(s.totalFrames);
-
-
-});
-
-//updateMaxFrameControllers
-stateManager.subscribe((s)=>{
+  
+  //updateMaxFrameControllers
   currentFrame.setMaxInput(s.totalFrames-1);
   startingFrame.setMaxInput(s.totalFrames-1);
   endingFrame.setMaxInput(s.totalFrames-1);
 
-});
-
-//updateFrameControllers
-stateManager.subscribe((s)=>{
+  //updateFrameControllers
   currentFrame.setValue(s.currentFrame);
   startingFrame.setValue(s.startFrame);
   endingFrame.setValue(s.endFrame);
   timeline.setStartFrame(s.startFrame);
   timeline.setEndFrame(s.endFrame);
 
-});
-
-//loopingType
-stateManager.subscribe((s)=>{
+  //loopingType
   timeline.setLoopingType(s.loopingType);
   playSpeed.setValue(s.speed)
-
-});
-
-
-
-
-
-// layer update 
-stateManager.subscribe((s)=>{
-  layer.setActiveLayer(s.activeLayer);
-  layerOpacity.setValue(layer.getOpacity());
-  // TEMPORARY_SETCANVASOPACITY(layer.getOpacity());
-
-  // layer.setTotalLayers(s.totalLayers);
-
-
-});
-
-function TEMPORARY_SETCANVASOPACITY(op){
-  canvasArea.style.opacity = op+"%";
-
-}
-
-// Render + infos
-stateManager.subscribe((s)=>{
-  timeline.setFrameById(s.currentFrame);
   
+  // layer update 
+  console.log(data)
+  layerManager.setActiveLayer(s.activeLayer);
+  pixelDocument.setActiveLayer(s.activeLayer);
+  layerOpacity.setValue(layerManager.getOpacity());
+  
+  // Render + infos
+  timeline.setFrameById(s.currentFrame);
   pixelDocument.setActiveFrame(s.currentFrame);
+  
   // PROBLEM: maybe its useless, data only to render on canvas
-  layer.setLayersData(data.getFrameData(s.currentFrame));
-
-  // canvas.innerText = data.getFrameById(s.currentFrame).getContent();
-  // canvasArea.innerText = layer.getData();
-  currentCanvas.innerText = layer.getData();
-  // canvas.style.opacity = layer.getOpacity()+"%";
-  TEMPORARY_SETCANVASOPACITY(layer.getOpacity());
-
-
+  layerManager.setLayersData(data.getFrameData(s.currentFrame));
+  
+  // canvasArea.innerText = layerManager.getData().data;
+  currentCanvas.innerText = layerManager.getData();
+  TEMPORARY_SETCANVASOPACITY(layerManager.getOpacity());
+  
+  
   document.getElementById("info-qtdFrames-js").innerText=`Quantidade de frames: ${s.totalFrames}`;
   document.getElementById("info-duracao-js").innerText=`Duração: ${Math.floor(s.totalFrames/s.fps*100)/100}s`;
 
 
-});
+});  
+
+
+
+function TEMPORARY_SETCANVASOPACITY(op){
+  canvasArea.style.opacity = op+"%";
+
+}  
+
 
 stateManager.notify();
 

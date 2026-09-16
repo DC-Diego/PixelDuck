@@ -4,6 +4,8 @@ import { GroupLayer } from "./UI/GroupLayer.js";
 import { Layer } from "../core/Layer.js";
 
 
+console.log(new Error().stack)
+
 export class LayerManager extends UI_Component{
 
   static #totalLayers = 0;
@@ -393,7 +395,7 @@ export class LayerManager extends UI_Component{
 
   createLayer=(position, total = null)=>{
     const layer = this.#crLayer(position); 
-    this.#orchestratorFuncs.updateActiveAndTotal(position, total); // HERE
+    // this.#orchestratorFuncs.updateActiveAndTotal(position, total); // HERE
     this.#renderLayers();
     return layer;
   }

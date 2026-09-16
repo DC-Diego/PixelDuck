@@ -52,7 +52,7 @@ export class PixelDocument {
     console.log(layerData);
     console.log(new Error().stack);
 
-    alert("AGAGAG")
+    // alert("AGAGAG")
     // this.#PixelMatrix
 
     // console.log(layerData);
@@ -106,7 +106,8 @@ export class PixelDocument {
   }
 
   setActiveLayer(id){
-    console.log(id)
+    console.log("AAAAAAAAAAA   "+id)
+    console.log(this.#data)
     this.#activeLayer = id;
     this.#reloadRefs();
   }
